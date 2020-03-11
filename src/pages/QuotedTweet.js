@@ -11,9 +11,9 @@ import TweetText from './TweetText';
 import TweetImage from './TweetImage';
 import TweetGif from './TweetGif';
 
-function QuotedTweet() {
+function QuotedTweet(props) {
 
-    var tweet = tweetObject.quoted_status;
+    var tweet = props.tweet;
 
     const [fontOfDisplayName, setFontOfDisplayName] = useState('');
     const [fontOfUsername, setFontOfUsername] = useState('');

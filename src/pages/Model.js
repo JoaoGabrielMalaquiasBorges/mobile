@@ -14,6 +14,27 @@ const tweetObject = {
       url: "https:\/\/dev.twitter.com\/",
       description: "Your official source for Twitter Platform news, updates & events. Need technical help? Visit https:\/\/twittercommunity.com\/ \u2328\ufe0f #TapIntoTwitter"
     },
+    "retweeted_status": {
+      created_at: "Thu Apr 06 15:24:15 +0000 2017",
+      "text": "original message",
+      "user": {
+        "name": "Mini",
+        "screen_name": "OriginalTweeter",
+        "profile_image_url_https": "https:\/\/pbs.twimg.com\/profile_images\/942858479592554497\/BbazLO9L_normal.jpg"
+      },
+      "place": {          
+      },
+      "entities": {
+        "hashtags": [
+        ],
+        "urls": [
+        ],
+        "user_mentions": [
+        ],
+        "symbols": [
+        ]
+      }
+    },
     place: {   
     },
     "quoted_status": {
@@ -25,7 +46,7 @@ const tweetObject = {
         "location": "Internet",
         "url": "https:\/\/dev.twitter.com\/",
         "description": "Your official source for Twitter Platform news, updates & events. Need technical help? Visit https:\/\/twittercommunity.com\/ \u2328\ufe0f #TapIntoTwitter",
-        "profile_image_url_https": "https:\/\/pbs.twimg.com\/profile_images\/942858479592554497\/BbazLO9L_normal.jpg"    
+        "profile_image_url_https": "https:\/\/pbs.twimg.com\/profile_images\/942858479592554497\/BbazLO9L_normal.jpg"
       },
       "place": {      
       },
