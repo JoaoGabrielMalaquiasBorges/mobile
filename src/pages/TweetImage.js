@@ -11,7 +11,7 @@ function TweetImage(props) {
                     <Image
                         resizeMode="cover"
                         source={{uri: images[0].media_url}}
-                        style={{height: 180, borderRadius: 5}}
+                        style={{height: props.width/2, borderRadius: 5}}
                     />
                 </View>
             );
@@ -23,13 +23,13 @@ function TweetImage(props) {
                         key='photo_1'
                         resizeMode="cover"
                         source={{uri: images[0].media_url}}
-                        style={{height: 180,  width: props.width/2-1, borderTopLeftRadius: 5, borderBottomLeftRadius: 5}}
+                        style={{height: props.width/2,  width: props.width/2-1, borderTopLeftRadius: 5, borderBottomLeftRadius: 5}}
                     />
                     <Image
                         key='photo_2'
                         resizeMode="cover"
                         source={{uri: images[1].media_url}}
-                        style={{height: 180,  width: props.width/2-1, borderTopRightRadius: 5, borderBottomRightRadius: 5}}
+                        style={{height: props.width/2,  width: props.width/2-1, borderTopRightRadius: 5, borderBottomRightRadius: 5}}
                     />
                 </View>
             );
@@ -42,7 +42,7 @@ function TweetImage(props) {
                             key='photo_1'
                             resizeMode="cover"
                             source={{uri: images[0].media_url}}
-                            style={{height: 180, width: props.width/2-1, borderTopLeftRadius: 5, borderBottomLeftRadius: 5}}
+                            style={{height: props.width/2, width: props.width/2-1, borderTopLeftRadius: 5, borderBottomLeftRadius: 5}}
                         />
                     </View>
                     <View key='column_2' style={{flexDirection: 'column', justifyContent: 'space-between'}}>
@@ -50,13 +50,13 @@ function TweetImage(props) {
                             key='photo_2'
                             resizeMode="cover"
                             source={{uri: images[1].media_url}}
-                            style={{height: 89, width: props.width/2-1, borderTopRightRadius: 5}}
+                            style={{height: props.width/4-1, width: props.width/2-1, borderTopRightRadius: 5}}
                         />
                         <Image
                             key='photo_3'
                             resizeMode="cover"
                             source={{uri: images[2].media_url}}
-                            style={{height: 89, width: props.width/2-1, borderBottomRightRadius: 5}}
+                            style={{height: props.width/4-1, width: props.width/2-1, borderBottomRightRadius: 5}}
                         />
                     </View>
                 </View>
