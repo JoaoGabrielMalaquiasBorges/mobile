@@ -6,7 +6,7 @@ const tweetObject = {
     in_reply_to_screen_name: "cobradomilorde",
     user: {
       id: 2244994945,
-      name: "Twitter Devvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv",
+      name: "Twitter Dev",
       screen_name: "TwitterDev",
       verified: true,
       profile_image_url_https: 'https://abs.twimg.com/sticky/default_profile_images/default_profile_normal.png',
@@ -373,7 +373,7 @@ const tweetObject = {
     },
      "extended_entities": {
       "media": [
-         {
+         /* {
           "id": 861627472244162561,
           "id_str": "861627472244162561",
           "indices": [
@@ -408,8 +408,8 @@ const tweetObject = {
               "resize": "fit"
             }
           }
-        },
-        {
+        }, */
+        /* {
           "id": 861627472244203520,
           "id_str": "861627472244203520",
           "indices": [
@@ -444,8 +444,8 @@ const tweetObject = {
               "resize": "fit"
             }
           }
-        },
-        {
+        }, */
+        /* {
           "id": 861627474144149504,
           "id_str": "861627474144149504",
           "indices": [
@@ -480,7 +480,7 @@ const tweetObject = {
               "resize": "fit"
             }
           }
-        },
+        }, */
         /* {
           "id": 861627474760708096,
           "id_str": "861627474760708096",
@@ -566,7 +566,7 @@ const tweetObject = {
             ]
           }
         }, */
-        /* {
+        {
           "id": 869317980307415040,
           "id_str": "869317980307415040",
           "indices": [
@@ -629,7 +629,7 @@ const tweetObject = {
               }
             ]
           }
-        } */
+        }
       ]
     }
 }

@@ -44,9 +44,6 @@ function Main() {
     }); */
     const [usernameLineWidth, updateUsernameLineWidth] = useState('80%');
     
-
-    const [fontOfDisplayName, setFontOfDisplayName] = useState('');
-    const [fontOfUsername, setFontOfUsername] = useState('');
     const [fontOfTweetText, setfontOfTweetText] = useState('');
     
 
@@ -56,50 +53,24 @@ function Main() {
             'Helvetica-Neue-Regular': require('../../assets/fonts/HelveticaNeueRegular.ttf'),
             'Helvetica-Neue-Bold': require('../../assets/fonts/HelveticaNeueBold.ttf'),
             'Helvetica-Neue-Light': require('../../assets/fonts/HelveticaNeueLight.ttf')
-        });/* 
-        setFontOfDisplayName('Helvetica-Neue-Bold');
-        setFontOfUsername('Helvetica-Neue-Regular');
-        setfontOfTweetText('Helvetica-Neue-Light'); */
+        });
+        /*
+        setfontOfTweetText('Helvetica-Neue-Light');*/
         setReadyForDisplay(true);
     }
-    loadFont();
 
-    if ( !tweet.retweeted_status ) {
-        tweet = tweetObject.retweeted_status;
-        retweetInfo.push(
-            <View key='retweetInfo' style={{width: Dimensions.get('window').width-42, marginLeft: 24, marginBottom: 10}}>
-                <Text style={{fontFamily: fontOfTweetText, fontSize: 11, color: 'gray'}}>
-                    <Icon name="tw_and_fb_icons-02" size={9} color="gray"/>
-                    <Text> Retweeted by </Text><Text style={{color: '#1DA1F2'}}>{tweet.user.name}</Text>
-                </Text>
-            </View>
-        );
+    if ( !readyForDisplay ) {
+        loadFont();
     }
-    else {
-        if ( !tweet.quoted_status ) {
-            quotedTweet.push(
-                <View key='quotedTweetFrame' style={{marginBottom: 10}}>
-                    <QuotedTweet tweet={tweet.quoted_status}/>
-                </View>
-            );
-        }
-        else if ( tweet.in_reply_to_screen_name ) {
-            replayInfo.push(
-                <View key='replayInfo' style={{width: Dimensions.get('window').width-42, marginBottom: 10}}>
-                    <Text style={{fontFamily: fontOfTweetText, fontSize: 11, color: 'gray'}}>
-                        <Text>Replying to </Text><Text style={{color: '#1DA1F2'}}>{'@' + tweet.in_reply_to_screen_name}</Text>
-                    </Text>
-                </View>
-            );
-        }
-    }
+
+    
 
     
 
     function haveText () {
         if ( tweet.text ) {
             return (
-                <Text style={{fontFamily: fontOfTweetText, marginBottom: 10}}>
+                <Text style={{fontFamily: 'Helvetica-Neue-Light', marginBottom: 10}}>
                     <TweetText tweet={tweet}/>
                 </Text>
             );
@@ -138,9 +109,38 @@ function Main() {
         }
         else return null;
     }
-
+    //alert('hi');
     if ( readyForDisplay ) {
-        alert('hi');
+        //alert('hi');
+        if ( !tweet.retweeted_status ) {
+            tweet = tweetObject.retweeted_status;
+            retweetInfo.push(
+                <View key='retweetInfo' style={{width: Dimensions.get('window').width-42, marginLeft: 24, marginBottom: 10}}>
+                    <Text style={{fontFamily: 'Helvetica-Neue-Light', fontSize: 11, color: 'gray'}}>
+                        <Icon name="tw_and_fb_icons-02" size={9} color="gray"/>
+                        <Text> Retweeted by </Text><Text style={{color: '#1DA1F2'}}>{tweet.user.name}</Text>
+                    </Text>
+                </View>
+            );
+        }
+        else {
+            if ( !tweet.quoted_status ) {
+                quotedTweet.push(
+                    <View key='quotedTweetFrame' style={{marginBottom: 10}}>
+                        <QuotedTweet tweet={tweet.quoted_status}/>
+                    </View>
+                );
+            }
+            else if ( tweet.in_reply_to_screen_name ) {
+                replayInfo.push(
+                    <View key='replayInfo' style={{width: Dimensions.get('window').width-42, marginBottom: 10}}>
+                        <Text style={{fontFamily: 'Helvetica-Neue-Light', fontSize: 11, color: 'gray'}}>
+                            <Text>Replying to </Text><Text style={{color: '#1DA1F2'}}>{'@' + tweet.in_reply_to_screen_name}</Text>
+                        </Text>
+                    </View>
+                );
+            }
+        }
         return (
             <ScrollView style={{backgroundColor: '#fff'}}>
                 <View style={styles.container}>
@@ -152,13 +152,15 @@ function Main() {
                                     source={{uri:  tweet.user.profile_image_url_https}}
                                     style={{width: 34, height: 34, borderRadius: 20, marginRight: 5}}
                                 />
-                                <TweetHeader tweet={tweet} />
+                                {/* <TweetHeader
+                                tweet={tweet}
+                                fonts={{fontOfDisplayName: 'Helvetica-Neue-Bold', fontOfUsername: 'Helvetica-Neue-Regular'}}
+                                /> */}
                             </View>
                             <MaterialCommunityIcons
                                 name="twitter"
-                                size={20}
+                                size={18}
                                 color="#1DA1F2"
-                                style={{marginLeft: 5}}
                                 onPress={()=>{Linking.openURL('twitter://intent/retweet?tweet_id=20');}} 
                             />
                         </View>
@@ -175,7 +177,7 @@ function Main() {
                                 <Icon name="tw_and_fb_icons-03" size={15} color="gray" />
                             </View>
                             <View>
-                                <Text style={{fontFamily: fontOfDisplayName}}>
+                                <Text style={{fontFamily: 'Helvetica-Neue-Bold'}}>
                                     {
                                         tweet.created_at.substring(8, 11) +
                                         tweet.created_at.substring(4, 8) +
@@ -201,6 +203,7 @@ function Main() {
 
 const styles = StyleSheet.create({
     container: {
+        flex: 1,
         alignItems: 'center',
         marginTop: 10,
         backgroundColor: '#fff'

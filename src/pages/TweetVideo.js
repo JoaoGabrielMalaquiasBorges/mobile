@@ -70,8 +70,14 @@ export default class TweetVideo extends React.Component {
         } );
     }
 
-    setVideoProgress = (e) => {
-        var newVideoProgress = e.nativeEvent.locationX/(this.progressBarWidth-10);
+    setVideoProgress = e => {
+        if ( Dimensions.get('window').width > 360) {
+            var width = 360-10;
+        }
+        else {
+            var width = Dimensions.get('window').width*0.95-22;
+        }
+        var newVideoProgress = e.nativeEvent.locationX/width;
         this.myRef.current.setPositionAsync(this.videoDuration*newVideoProgress);
         if ( this.state.name == 'play-arrow' ) {
             this.setState(() => {
@@ -86,8 +92,6 @@ export default class TweetVideo extends React.Component {
     }
 
     render() {
-        const {width} = Dimensions.get('window');
-        
         return (
             <View>
                 <Video
@@ -96,7 +100,13 @@ export default class TweetVideo extends React.Component {
                     source={{uri: this.video.video_info.variants[0].url}}
                     shouldPlay={false}
                     isMuted={true}
-                    style={{height: 300, backgroundColor: 'black', borderRadius: 5}}
+                    style={{
+                        width: '100%',
+                        maxWidth: 360,
+                        aspectRatio: 1.78,
+                        backgroundColor: 'black',
+                        borderRadius: 5
+                    }}
                     onPlaybackStatusUpdate={playbackStatus => {
                         this.videoDuration = playbackStatus.durationMillis;
                         if ( playbackStatus.isPlaying ) {
@@ -123,13 +133,13 @@ export default class TweetVideo extends React.Component {
                     <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
                         <MaterialIcons
                             name={this.state.name}
-                            size={35}
+                            size={30}
                             color="#f5f5f5"
                             onPress={this.handleClick}
                         />
                         <MaterialCommunityIcons
                             name={this.state.volumeIcon}
-                            size={35}
+                            size={30}
                             color="#f5f5f5"
                             onPress={this.setVolume}
                         />
@@ -144,10 +154,11 @@ export default class TweetVideo extends React.Component {
 const styles = StyleSheet.create({
     controlBar: {
         position: 'absolute',
-        bottom: 15,
+        bottom: 2,
         left: 0,
         right: 0,
-        height: 48,
+        height: 40,
+        maxWidth: 360,
         paddingLeft: 5,
         paddingRight: 5,
         paddingBottom: 15,

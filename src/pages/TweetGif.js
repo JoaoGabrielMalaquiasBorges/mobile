@@ -17,10 +17,10 @@ function TweetGif(props) {
                     ref={myRef}
                     source={{uri: gif.video_info.variants[0].url}}
                     isMuted={true}
-                    style={{height: gif.sizes.small.h, backgroundColor: 'black', borderRadius: 5}}
+                    style={{width: gif.sizes.large.w, maxWidth: '100%', aspectRatio: gif.video_info.aspect_ratio[0]/gif.video_info.aspect_ratio[1], backgroundColor: 'black', borderRadius: 5}}
                 />
-                <View style={{height: 18, width: 28, position: 'absolute', justifyContent: 'center', alignItems: 'center', backgroundColor: 'black', bottom: 5, marginLeft: 5, borderRadius: 5}}>
-                    <Text style={{position: 'relative', color: 'white', fontSize: 12, fontWeight: "bold"}}>
+                <View style={{position: 'absolute', bottom: 10, height: 18, width: 30, marginLeft: 10, borderRadius: 5, backgroundColor: 'rgba(0, 0, 0, 0.3)', alignItems: 'center'}}>
+                    <Text style={{position: 'relative', color: 'white', fontSize: 12, fontWeight: "bold", letterSpacing: 0.5}}>
                         GIF
                     </Text>
                 </View>
