@@ -93,59 +93,83 @@ export default class TweetVideo extends React.Component {
 
     render() {
         return (
-            <View>
-                <Video
-                    resizeMode="contain"
-                    ref={this.myRef}
-                    source={{uri: this.video.video_info.variants[0].url}}
-                    shouldPlay={false}
-                    isMuted={true}
-                    style={{
-                        width: '100%',
-                        maxWidth: 360,
-                        aspectRatio: 1.78,
-                        backgroundColor: 'black',
-                        borderRadius: 5
-                    }}
-                    onPlaybackStatusUpdate={playbackStatus => {
-                        this.videoDuration = playbackStatus.durationMillis;
-                        if ( playbackStatus.isPlaying ) {
-                            this.setState(() => {
-                                return {width: playbackStatus.positionMillis/playbackStatus.durationMillis};
-                            });
+            <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+                <View style={{
+                    width: 444.45,
+                    maxWidth: '100%',
+                    overflow: 'hidden',
+                    backgroundColor: 'black',
+                    borderRadius: 5
+                }}>
+                    <Video
+                        resizeMode="cover"
+                        ref={this.myRef}
+                        source={{uri: this.video.video_info.variants[0].url}}
+                        shouldPlay={false}
+                        isMuted={true}
+                        style={{
+                            maxHeight: 250,
+                            maxWidth: '100%',
+                            aspectRatio: 9/16,
+                            marginLeft: 'auto',
+                            marginRight: 'auto'
+                        }}
+                        onPlaybackStatusUpdate={
+                            playbackStatus => {
+                                this.videoDuration = playbackStatus.durationMillis;
+                                if ( playbackStatus.isPlaying ) {
+                                    this.setState(() => {
+                                        return {
+                                            width: playbackStatus.positionMillis/playbackStatus.durationMillis
+                                        };
+                                    });
+                                }
+                                if ( playbackStatus.didJustFinish ) {
+                                    this.setState((prevState) => {
+                                        return {name: "refresh", width: 1};
+                                    });
+                                }
+                            }
                         }
-                        if ( playbackStatus.didJustFinish ) {
-                            this.setState((prevState) => {
-                                return {name: "refresh", width: 1};
-                            });
-                        }
-                    }}
-                />
-                <View style={styles.controlBar} >
-                    <TouchableNativeFeedback onPressIn={this.setVideoProgress}>
-                            <ProgressBarAndroid
-                                styleAttr="Horizontal"
-                                indeterminate={false}
+                    />
+                    <View style={styles.controlBar}>
+                        {/* <TouchableNativeFeedback onPressIn={this.setVideoProgress}>
+                                <ProgressBarAndroid
+                                    styleAttr="Horizontal"
+                                    indeterminate={false}
+                                    color="#f5f5f5"
+                                    progress={this.state.width}
+                                />
+                        </TouchableNativeFeedback> */}
+                        <View style={{
+                            height: 2,
+                            backgroundColor: 'rgba(0, 0, 0, 0.2)',
+                            borderRadius: 5
+                        }}>
+                            <View style={{
+                                height: 2,
+                                width: this.state.width*100 + '%',
+                                backgroundColor: 'white',
+                                borderRadius: 5
+                            }}/>
+                        </View>
+                        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+                            <MaterialIcons
+                                name={this.state.name}
+                                size={30}
                                 color="#f5f5f5"
-                                progress={this.state.width}
+                                onPress={this.handleClick}
                             />
-                    </TouchableNativeFeedback>
-                    <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-                        <MaterialIcons
-                            name={this.state.name}
-                            size={30}
-                            color="#f5f5f5"
-                            onPress={this.handleClick}
-                        />
-                        <MaterialCommunityIcons
-                            name={this.state.volumeIcon}
-                            size={30}
-                            color="#f5f5f5"
-                            onPress={this.setVolume}
-                        />
+                            <MaterialCommunityIcons
+                                name={this.state.volumeIcon}
+                                size={30}
+                                color="#f5f5f5"
+                                onPress={this.setVolume}
+                            />
+                        </View>
                     </View>
-                    
                 </View>
+                
             </View>
         );
     }
@@ -153,18 +177,14 @@ export default class TweetVideo extends React.Component {
 
 const styles = StyleSheet.create({
     controlBar: {
+        justifyContent: 'center',
         position: 'absolute',
-        bottom: 2,
+        bottom: 0,
         left: 0,
         right: 0,
-        height: 40,
-        maxWidth: 360,
+        width: '100%',
         paddingLeft: 5,
         paddingRight: 5,
-        paddingBottom: 15,
-        borderBottomLeftRadius: 5,
-        borderBottomRightRadius: 5,
         backgroundColor: "rgba(0, 0, 0, 0)",
-        justifyContent: 'center',
     }
 });
