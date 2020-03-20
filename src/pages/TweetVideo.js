@@ -8,7 +8,8 @@ export default class TweetVideo extends React.Component {
     state = {
         volumeIcon: "volume-off",
         name: "play-arrow",
-        width: 0
+        width: 0,
+        controlButtonPosition: 0 
     }
 
     constructor(props) {
@@ -16,9 +17,11 @@ export default class TweetVideo extends React.Component {
         this.video = props.video;
         this.progressBarWidth = props.width;
         this.myRef = React.createRef();
+        this.myRef2 = React.createRef();
     }
 
     videoDuration
+    test = 0
 
     play() {
         this.myRef.current.playAsync();
@@ -91,6 +94,10 @@ export default class TweetVideo extends React.Component {
         }
     }
 
+    stopRadioButton() {
+        alert(this.myRef2.current.props.style.width);
+    }
+
     render() {
         return (
             <View style={{flexDirection: 'row', justifyContent: 'center'}}>
@@ -118,9 +125,10 @@ export default class TweetVideo extends React.Component {
                             playbackStatus => {
                                 this.videoDuration = playbackStatus.durationMillis;
                                 if ( playbackStatus.isPlaying ) {
+                                    //alert(playbackStatus.positionMillis/playbackStatus.durationMillis)
                                     this.setState(() => {
                                         return {
-                                            width: playbackStatus.positionMillis/playbackStatus.durationMillis
+                                            width: (playbackStatus.positionMillis/playbackStatus.durationMillis).toFixed(2)
                                         };
                                     });
                                 }
@@ -142,16 +150,49 @@ export default class TweetVideo extends React.Component {
                                 />
                         </TouchableNativeFeedback> */}
                         <View style={{
-                            height: 2,
-                            backgroundColor: 'rgba(0, 0, 0, 0.2)',
-                            borderRadius: 5
+                            height: 15,
+                            justifyContent: 'center',
                         }}>
                             <View style={{
                                 height: 2,
-                                width: this.state.width*100 + '%',
-                                backgroundColor: 'white',
-                                borderRadius: 5
-                            }}/>
+                                backgroundColor: 'rgba(0, 0, 0, 0.2)',
+                                borderRadius: 5,
+                                marginHorizontal: 1 //This is to prevent progress bar to exceed radio button once that he don't start/end at min/max of horizontal position of your parent container as result of shadow addition by elevation property use
+                            }}>
+                                <View style={{
+                                    height: 2,
+                                    width: this.state.width*100 + '%',
+                                    backgroundColor: 'white',
+                                    borderRadius: 5
+                                }}/>
+                            </View>
+                            <View //view for shadow box
+                                ref={this.myRef2}
+                                style={{
+                                    width: 13,
+                                    position: 'absolute',
+                                    left: this.state.width == 1 ? null : this.state.width*100-1 + '%',
+                                    end: -1,
+                                    elevation: 4,
+                                    //setting border props for that elevation prop works
+                                    borderWidth: 1,
+                                    borderColor: 'transparent',
+                                }}
+                                onMoveShouldSetResponder={
+                                    e => {
+                                        //alert('hi')
+                                    }
+                                }
+                            >
+                                <View
+                                    style={{
+                                        height: 10,
+                                        width: 10,
+                                        backgroundColor: 'white',
+                                        borderRadius: 10,
+                                    }}
+                                />
+                            </View>
                         </View>
                         <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
                             <MaterialIcons
@@ -183,8 +224,7 @@ const styles = StyleSheet.create({
         left: 0,
         right: 0,
         width: '100%',
-        paddingLeft: 5,
-        paddingRight: 5,
+        paddingHorizontal: 10,
         backgroundColor: "rgba(0, 0, 0, 0)",
     }
 });
