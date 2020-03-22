@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Dimensions, ProgressBarAndroid,  TouchableNativeFeedback  } from 'react-native';
+import { StyleSheet, View, Dimensions, ProgressBarAndroid,  TouchableWithoutFeedback  } from 'react-native';
 import { Video } from 'expo-av';
 import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { throwIfAudioIsDisabled } from 'expo-av/build/Audio/AudioAvailability';
@@ -8,20 +8,22 @@ export default class TweetVideo extends React.Component {
     state = {
         volumeIcon: "volume-off",
         name: "play-arrow",
-        width: 0,
-        controlButtonPosition: 0 
+        width: 0
     }
 
     constructor(props) {
         super(props);
         this.video = props.video;
-        this.progressBarWidth = props.width;
         this.myRef = React.createRef();
         this.myRef2 = React.createRef();
+        this.myRef3 = React.createRef();
+    }
+
+    componentDidMount() {
+        //alert(this.myRef2.current.props.style)
     }
 
     videoDuration
-    test = 0
 
     play() {
         this.myRef.current.playAsync();
@@ -72,17 +74,38 @@ export default class TweetVideo extends React.Component {
             }
         } );
     }
-
+    distance = 0;
+    newVideoProgress = 0;
+    test = true;
     setVideoProgress = e => {
-        if ( Dimensions.get('window').width > 360) {
-            var width = 360-10;
+        /* if(this.width == 0) {
+            alert(this.width)
+        } */
+        if ( Dimensions.get('window').width > 444.45) {
+            this.distance = Dimensions.get('window').width;
+            this.test = ((Dimensions.get('window').width*0.95-42)-444.45);
         }
         else {
-            var width = Dimensions.get('window').width*0.95-22;
+            this.distance = Dimensions.get('window').width;
         }
-        var newVideoProgress = e.nativeEvent.locationX/width;
-        this.myRef.current.setPositionAsync(this.videoDuration*newVideoProgress);
-        if ( this.state.name == 'play-arrow' ) {
+        
+        
+        this.newVideoProgress = (e.nativeEvent.pageX*0.975-21-12.5-this.test/2)/(this.distance*0.95-42-this.test);
+        //alert(this.newVideoProgress+"\n"+e.nativeEvent.pageX+"\n"+this.distance)
+        this.myRef2.current.setNativeProps({
+            style: {
+                left: this.newVideoProgress*100-1 + '%'
+            }
+        })
+
+        this.myRef3.current.setNativeProps({
+            style: {
+                width: this.newVideoProgress*100 + '%'
+            }
+        })
+
+
+        /* if ( this.state.name == 'play-arrow' ) {
             this.setState(() => {
                 return {width: newVideoProgress};
             })
@@ -91,11 +114,11 @@ export default class TweetVideo extends React.Component {
             this.setState(() => {
                 return {name: 'pause'};
             })
-        }
+        } */
     }
 
-    stopRadioButton() {
-        alert(this.myRef2.current.props.style.width);
+    stopRadioButton = () => {
+        alert('');
     }
 
     render() {
@@ -123,19 +146,19 @@ export default class TweetVideo extends React.Component {
                         }}
                         onPlaybackStatusUpdate={
                             playbackStatus => {
+                                //alert(this.state.width)
                                 this.videoDuration = playbackStatus.durationMillis;
                                 if ( playbackStatus.isPlaying ) {
-                                    //alert(playbackStatus.positionMillis/playbackStatus.durationMillis)
                                     this.setState(() => {
                                         return {
-                                            width: (playbackStatus.positionMillis/playbackStatus.durationMillis).toFixed(2)
+                                            width: playbackStatus.positionMillis/playbackStatus.durationMillis
                                         };
                                     });
                                 }
                                 if ( playbackStatus.didJustFinish ) {
-                                    this.setState((prevState) => {
+                                    /* this.setState((prevState) => {
                                         return {name: "refresh", width: 1};
-                                    });
+                                    }); */
                                 }
                             }
                         }
@@ -157,32 +180,33 @@ export default class TweetVideo extends React.Component {
                                 height: 2,
                                 backgroundColor: 'rgba(0, 0, 0, 0.2)',
                                 borderRadius: 5,
-                                marginHorizontal: 1 //This is to prevent progress bar to exceed radio button once that he don't start/end at min/max of horizontal position of your parent container as result of shadow addition by elevation property use
+                                //This is to prevent progress bar to exceed radio button once that he don't start/end at min/max of horizontal position of your parent container as result of shadow addition by elevation property use
+                                marginHorizontal: 1
                             }}>
-                                <View style={{
-                                    height: 2,
-                                    width: this.state.width*100 + '%',
-                                    backgroundColor: 'white',
-                                    borderRadius: 5
-                                }}/>
+                                <View
+                                    ref={this.myRef3}
+                                    style={{
+                                        height: 2,
+                                        width: 0,//this.state.width*100 + '%',
+                                        backgroundColor: 'white',
+                                        borderRadius: 5
+                                    }}
+                                />
                             </View>
                             <View //view for shadow box
+                                hitSlop={{top: 22.5, bottom: 22.5, left: 12.5, right: 12.5}}
                                 ref={this.myRef2}
                                 style={{
                                     width: 13,
                                     position: 'absolute',
-                                    left: this.state.width == 1 ? null : this.state.width*100-1 + '%',
-                                    end: -1,
+                                    //left: 0,//this.state.width == 1 ? null : this.state.width*100-1 + '%',
+                                    //end: -1,
                                     elevation: 4,
                                     //setting border props for that elevation prop works
                                     borderWidth: 1,
                                     borderColor: 'transparent',
                                 }}
-                                onMoveShouldSetResponder={
-                                    e => {
-                                        //alert('hi')
-                                    }
-                                }
+                                onMoveShouldSetResponder={this.setVideoProgress}
                             >
                                 <View
                                     style={{
