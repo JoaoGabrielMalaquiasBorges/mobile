@@ -17,6 +17,8 @@ export default class TweetVideo extends React.Component {
         this.myRef = React.createRef();
         this.myRef2 = React.createRef();
         this.myRef3 = React.createRef();
+        this.myRef4 = React.createRef();
+        this.myRef5 = React.createRef();
     }
 
     componentDidMount() {
@@ -81,28 +83,41 @@ export default class TweetVideo extends React.Component {
         /* if(this.width == 0) {
             alert(this.width)
         } */
-        if ( Dimensions.get('window').width > 444.45) {
+        if ( Dimensions.get('window').width > Dimensions.get('window').height) { //when true then orientation is landscape
             this.distance = Dimensions.get('window').width;
-            this.test = ((Dimensions.get('window').width*0.95-42)-444.45);
+            this.test = ((Dimensions.get('window').width*0.95-22)-444.45);
         }
         else {
             this.distance = Dimensions.get('window').width;
+            this.test = 0;
         }
         
         
-        this.newVideoProgress = (e.nativeEvent.pageX*0.975-21-12.5-this.test/2)/(this.distance*0.95-42-this.test);
-        //alert(this.newVideoProgress+"\n"+e.nativeEvent.pageX+"\n"+this.distance)
-        this.myRef2.current.setNativeProps({
-            style: {
-                left: this.newVideoProgress*100-1 + '%'
-            }
-        })
-
-        this.myRef3.current.setNativeProps({
-            style: {
-                width: this.newVideoProgress*100 + '%'
-            }
-        })
+        this.newVideoProgress = (e.nativeEvent.pageX-this.distance*0.025-21-this.test/2-16/2)/(this.distance*0.95-42-this.test);
+        //alert(this.newVideoProgress)
+        if ( this.newVideoProgress >= 0 && this.newVideoProgress <= 1) {
+            this.myRef2.current.setNativeProps({
+                style: {
+                    height: 16,
+                    width: 16,
+                    left: this.newVideoProgress >= 0.97 ? null : this.newVideoProgress*100-2 + '%',
+                    end: this.newVideoProgress >= 0.97 ? 0 : null
+                }
+            });
+    
+            this.myRef4.current.setNativeProps({
+                style: {
+                    height: 13,
+                    width: 13
+                }
+            });
+    
+            this.myRef3.current.setNativeProps({
+                style: {
+                    width: this.newVideoProgress*100 + '%'
+                }
+            });
+        }
 
 
         /* if ( this.state.name == 'play-arrow' ) {
@@ -163,7 +178,7 @@ export default class TweetVideo extends React.Component {
                             }
                         }
                     />
-                    <View style={styles.controlBar}>
+                    <View ref={this.myRef5} style={styles.controlBar}>
                         {/* <TouchableNativeFeedback onPressIn={this.setVideoProgress}>
                                 <ProgressBarAndroid
                                     styleAttr="Horizontal"
@@ -175,10 +190,11 @@ export default class TweetVideo extends React.Component {
                         <View style={{
                             height: 15,
                             justifyContent: 'center',
+                            marginTop: 5
                         }}>
                             <View style={{
-                                height: 2,
-                                backgroundColor: 'rgba(0, 0, 0, 0.2)',
+                                height: 1.5,
+                                backgroundColor: "rgba(162, 158, 158, 0.5)",
                                 borderRadius: 5,
                                 //This is to prevent progress bar to exceed radio button once that he don't start/end at min/max of horizontal position of your parent container as result of shadow addition by elevation property use
                                 marginHorizontal: 1
@@ -189,16 +205,18 @@ export default class TweetVideo extends React.Component {
                                         height: 2,
                                         width: 0,//this.state.width*100 + '%',
                                         backgroundColor: 'white',
-                                        borderRadius: 5
+                                        borderRadius: 5,
                                     }}
                                 />
                             </View>
                             <View //view for shadow box
-                                hitSlop={{top: 22.5, bottom: 22.5, left: 12.5, right: 12.5}}
+                                hitSlop={{top: 22.5, bottom: 22.5, left: 13.5, right: 13.5}}
                                 ref={this.myRef2}
                                 style={{
                                     width: 13,
                                     position: 'absolute',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
                                     //left: 0,//this.state.width == 1 ? null : this.state.width*100-1 + '%',
                                     //end: -1,
                                     elevation: 4,
@@ -206,9 +224,40 @@ export default class TweetVideo extends React.Component {
                                     borderWidth: 1,
                                     borderColor: 'transparent',
                                 }}
-                                onMoveShouldSetResponder={this.setVideoProgress}
+                                onMoveShouldSetResponder={e => true}
+                                onResponderMove={this.setVideoProgress}
+                                onResponderRelease={
+                                    e => {
+                                        this.myRef2.current.setNativeProps({
+                                            style: {
+                                                height: 13,
+                                                width: 13
+                                            }
+                                        })
+                                        this.myRef4.current.setNativeProps({
+                                            style: {
+                                                height: 10,
+                                                width: 10
+                                            }
+                                        })
+                                        //setTimeout(() => {
+                                            for (let index = 0.4; index >= 0; index-=0.1) {
+                                                setTimeout(() => {
+                                                    this.myRef5.current.setNativeProps({
+                                                        style:{
+                                                            opacity: index
+                                                        }
+                                                    }) 
+                                                }, 1000);
+                                            }
+                                            
+                                        //}, 5000);
+                                        
+                                    }
+                                }
                             >
                                 <View
+                                    ref={this.myRef4}
                                     style={{
                                         height: 10,
                                         width: 10,
@@ -249,6 +298,6 @@ const styles = StyleSheet.create({
         right: 0,
         width: '100%',
         paddingHorizontal: 10,
-        backgroundColor: "rgba(0, 0, 0, 0)",
+        backgroundColor: "rgba(0, 0, 0, 0.5)",
     }
 });
