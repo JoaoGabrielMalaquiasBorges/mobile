@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Dimensions, ProgressBarAndroid,  TouchableWithoutFeedback  } from 'react-native';
+import { StyleSheet, View, Dimensions, Animated,  TouchableWithoutFeedback, TouchableOpacity  } from 'react-native';
 import { Video } from 'expo-av';
 import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { throwIfAudioIsDisabled } from 'expo-av/build/Audio/AudioAvailability';
@@ -19,6 +19,7 @@ export default class TweetVideo extends React.Component {
         this.myRef3 = React.createRef();
         this.myRef4 = React.createRef();
         this.myRef5 = React.createRef();
+        this.animatedView = React.createRef();
     }
 
     componentDidMount() {
@@ -26,6 +27,7 @@ export default class TweetVideo extends React.Component {
     }
 
     videoDuration
+    controlBarVisibility = new Animated.Value(1);
 
     play() {
         this.myRef.current.playAsync();
@@ -80,6 +82,24 @@ export default class TweetVideo extends React.Component {
     newVideoProgress = 0;
     test = true;
     setVideoProgress = e => {
+        /* for(var property in this.controlBarVisibility) {
+            alert(property + "=" + this.controlBarVisibility[property]);
+        } */
+        /* if ( this.controlBarVisibility._value < 1) {
+            alert(this.controlBarVisibility._value)
+
+        } */
+        /* this.controlBarVisibility.stopAnimation(
+            value => {
+                if ( value < 1) {
+                    this.controlBarVisibility.current.setNativeProps({
+                        style: {
+                            opacity: 1
+                        }
+                    });
+                }
+            }
+        ); */
         /* if(this.width == 0) {
             alert(this.width)
         } */
@@ -102,13 +122,6 @@ export default class TweetVideo extends React.Component {
                     width: 16,
                     left: this.newVideoProgress >= 0.97 ? null : this.newVideoProgress*100-2 + '%',
                     end: this.newVideoProgress >= 0.97 ? 0 : null
-                }
-            });
-    
-            this.myRef4.current.setNativeProps({
-                style: {
-                    height: 13,
-                    width: 13
                 }
             });
     
@@ -178,17 +191,58 @@ export default class TweetVideo extends React.Component {
                             }
                         }
                     />
-                    <View ref={this.myRef5} style={styles.controlBar}>
-                        {/* <TouchableNativeFeedback onPressIn={this.setVideoProgress}>
-                                <ProgressBarAndroid
-                                    styleAttr="Horizontal"
-                                    indeterminate={false}
-                                    color="#f5f5f5"
-                                    progress={this.state.width}
-                                />
-                        </TouchableNativeFeedback> */}
+                    <TouchableWithoutFeedback onPress={
+                        () => {
+                            //this.controlBarVisibility.stopAnimation()
+                            //alert(this.controlBarVisibility._value)
+                            /* Animated.timing(
+                                this.controlBarVisibility,
+                                {
+                                    toValue: 1,
+                                    duration: 2000
+                                }
+                            ).start() */
+                            //this.controlBarVisibility.stopAnimation()
+                            //this.controlBarVisibility = 0.5;
+                            /* Animated.timing(
+                                this.controlBarVisibility,
+                                {
+                                    toValue: 1,
+                                    useNativeDriver: true
+                                }
+                            ).start() */
+                            /* this.animatedView.current.setNativeProps({
+                                style: {
+                                    opacity: 1
+                                }
+                            }); */
+                            Animated.timing(
+                                this.controlBarVisibility,
+                                {
+                                    toValue: 1,
+                                    duration: 0,
+                                }
+                            ).start()
+                            /* this.myRef2.current.setNativeProps({
+                                onResponderMove: this.setVideoProgress
+                            }); */
+                        }
+                    }>
+                        <View
+                            style={{
+                                height: '100%',
+                                width: '100%',
+                                position: 'absolute',
+                                //backgroundColor: 'green'
+                            }}
+                        />
+                    </TouchableWithoutFeedback>
+                    <Animated.View
+                        ref={ this.animatedView }
+                        style={{ ...styles.controlBar, opacity: this.controlBarVisibility }}
+                    >
                         <View style={{
-                            height: 15,
+                            height: 12,
                             justifyContent: 'center',
                             marginTop: 5
                         }}>
@@ -210,10 +264,11 @@ export default class TweetVideo extends React.Component {
                                 />
                             </View>
                             <View //view for shadow box
-                                hitSlop={{top: 22.5, bottom: 22.5, left: 13.5, right: 13.5}}
+                                hitSlop={{ left: 14, top: 22.5, right: 14, bottom: 22.5 }}
                                 ref={this.myRef2}
                                 style={{
-                                    width: 13,
+                                    height: 12,
+                                    width: 12,
                                     position: 'absolute',
                                     alignItems: 'center',
                                     justifyContent: 'center',
@@ -223,25 +278,30 @@ export default class TweetVideo extends React.Component {
                                     //setting border props for that elevation prop works
                                     borderWidth: 1,
                                     borderColor: 'transparent',
+                                    backgroundColor: 'white',
+                                    borderRadius: 10,
                                 }}
                                 onMoveShouldSetResponder={e => true}
                                 onResponderMove={this.setVideoProgress}
                                 onResponderRelease={
                                     e => {
-                                        this.myRef2.current.setNativeProps({
-                                            style: {
-                                                height: 13,
-                                                width: 13
+                                        setTimeout(() => {
+                                            this.myRef2.current.setNativeProps({
+                                                style: {
+                                                    height: 12,
+                                                    width: 12
+                                                }
+                                            })
+                                        }, 50);
+                                        Animated.timing(
+                                            this.controlBarVisibility,
+                                            {
+                                                toValue: 0,
+                                                duration: 2000,
                                             }
-                                        })
-                                        this.myRef4.current.setNativeProps({
-                                            style: {
-                                                height: 10,
-                                                width: 10
-                                            }
-                                        })
+                                        ).start()
                                         //setTimeout(() => {
-                                            for (let index = 0.4; index >= 0; index-=0.1) {
+                                            /* for (let index = 0.4; index >= 0; index-=0.1) {
                                                 setTimeout(() => {
                                                     this.myRef5.current.setNativeProps({
                                                         style:{
@@ -249,23 +309,13 @@ export default class TweetVideo extends React.Component {
                                                         }
                                                     }) 
                                                 }, 1000);
-                                            }
+                                            } */
                                             
                                         //}, 5000);
                                         
                                     }
                                 }
-                            >
-                                <View
-                                    ref={this.myRef4}
-                                    style={{
-                                        height: 10,
-                                        width: 10,
-                                        backgroundColor: 'white',
-                                        borderRadius: 10,
-                                    }}
-                                />
-                            </View>
+                            />
                         </View>
                         <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
                             <MaterialIcons
@@ -281,7 +331,7 @@ export default class TweetVideo extends React.Component {
                                 onPress={this.setVolume}
                             />
                         </View>
-                    </View>
+                    </Animated.View>
                 </View>
                 
             </View>
@@ -292,6 +342,7 @@ export default class TweetVideo extends React.Component {
 const styles = StyleSheet.create({
     controlBar: {
         justifyContent: 'center',
+        height: 51,
         position: 'absolute',
         bottom: 0,
         left: 0,
