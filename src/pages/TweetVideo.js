@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Dimensions, Animated,  TouchableWithoutFeedback, TouchableOpacity  } from 'react-native';
+import { StyleSheet, View, Dimensions, Animated,  TouchableWithoutFeedback, Image  } from 'react-native';
 import { Video } from 'expo-av';
 import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { throwIfAudioIsDisabled } from 'expo-av/build/Audio/AudioAvailability';
@@ -54,76 +54,49 @@ export default class TweetVideo extends React.Component {
         this.setState((prevState) => {
             if ( prevState.volumeIcon == "volume-off" ) {
                 this.unmute(); 
-                return { volumeIcon: "volume-high" }
+                return { volumeIcon: "volume-high", videoProgress:  this.lastVideoProgress }
             }
             else {
                 this.mute(); 
-                return { volumeIcon: "volume-off" }
+                return { volumeIcon: "volume-off", videoProgress:  this.lastVideoProgress }
             }
         })
     }
     
     handleClick = () => {
-        /* if ( this.state.name == 'play-arrow' ) { 
-            this.play();
-            //alert(this.myRef.current.props.style)
-            //this.streamButton.current.setNativeProps({name: ''});
-            for(var property in this.streamButton.current._icon.root.setNativeProps) {
-                alert(property + "=" + this.streamButton.current._icon.root.setNativeProps[property]);
-            }
-            this.streamButton.current._icon.root.setNativeProps({name: 'pause'})
-        } */
-        alert(this.progress)
         this.setState(
-            prevState => {
-                if ( prevState.iconName == "play-arrow" ) { 
+            () => {
+                if ( this.state.iconName == 'play-arrow' ) { 
                     this.play();
-                    return { iconName: "pause", videoProgress:  this.progress }
+                    return { iconName: 'pause', videoProgress:  this.lastVideoProgress }
+                }
+                else {
+                    //alert(this.state.iconName)
+                    if ( this.state.iconName == 'pause' ) {
+                        //alert('hi')
+                        this.pause(); 
+                        return { iconName: 'play-arrow', videoProgress:  this.lastVideoProgress }
+                    }
+                    else {
+                        //alert('ho')
+                        this.replay();
+                        return { iconName: 'pause', videoProgress:  this.lastVideoProgress }
+                    }
                 }
             }
-        )
-        //alert('')
-        /* this.setState((prevState) => {
-            if ( prevState.name == "play-arrow" ) { 
-                this.play();
-                return { name: "pause" }
-            }
-            else if ( prevState.name == "pause" ) {
-                this.pause(); 
-                return { name: "play-arrow" }
-            }
-            else {
-                this.replay();
-                return { name: "pause", width: 0 }
-            }
-        } ); */
+        );
     }
-    progress = 0;
+
+    lastVideoProgress = 0;
+    shouldProgress = true;
     distance = 0;
     newVideoProgress = 0;
     test = true;
-    setVideoProgress = e => {
-        /* for(var property in this.controlBarVisibility) {
-            alert(property + "=" + this.controlBarVisibility[property]);
-        } */
-        /* if ( this.controlBarVisibility._value < 1) {
-            alert(this.controlBarVisibility._value)
 
-        } */
-        /* this.controlBarVisibility.stopAnimation(
-            value => {
-                if ( value < 1) {
-                    this.controlBarVisibility.current.setNativeProps({
-                        style: {
-                            opacity: 1
-                        }
-                    });
-                }
-            }
-        ); */
-        /* if(this.width == 0) {
-            alert(this.width)
-        } */
+    setVideoProgress = e => {
+
+        this.shouldProgress = false;
+
         if ( Dimensions.get('window').width > Dimensions.get('window').height) { //when true then orientation is landscape
             this.distance = Dimensions.get('window').width;
             this.test = ((Dimensions.get('window').width*0.95-22)-444.45);
@@ -145,31 +118,18 @@ export default class TweetVideo extends React.Component {
                     end: this.newVideoProgress >= 0.97 ? 0 : null
                 }
             });
-            this.progress = this.newVideoProgress*100-1;
             this.alreadyPlayed.current.setNativeProps({
                 style: {
                     width: this.newVideoProgress*100 + '%'
                 }
             });
-            //alert(this.animatedView.current.props)
-            
         }
-
-
-        /* if ( this.state.name == 'play-arrow' ) {
-            this.setState(() => {
-                return {width: newVideoProgress};
-            })
+        if ( this.newVideoProgress <= 0.97 ) {
+            this.lastVideoProgress = this.newVideoProgress;
         }
-        else if ( this.state.name == 'refresh' ) {
-            this.setState(() => {
-                return {name: 'pause'};
-            })
-        } */
-    }
-
-    stopRadioButton = () => {
-        alert('');
+        else {
+            this.lastVideoProgress = 0.97;
+        }
     }
 
     render() {
@@ -197,81 +157,43 @@ export default class TweetVideo extends React.Component {
                         }}
                         onPlaybackStatusUpdate={
                             playbackStatus => {
-                                //alert(this.state.width)
                                 this.videoDuration = playbackStatus.durationMillis;
                                 if ( playbackStatus.isPlaying ) {
-                                    /* this.setState(() => {
-                                        return {
-                                            width: playbackStatus.positionMillis/playbackStatus.durationMillis
-                                        };
-                                    }); */
-                                    /* alert(playbackStatus.positionMillis/playbackStatus.durationMillis + '\n' + 
-                                    playbackStatus.positionMillis + '\n' +
-                                    playbackStatus.isPlaying) */
-                                    //alert(this.state.videoProgress)
-                                    //alert(playbackStatus.positionMillis/playbackStatus.durationMillis)
-                                    var r = this.state.videoProgress/100 + playbackStatus.positionMillis/playbackStatus.durationMillis;
-                                    this.alreadyPlayed.current.setNativeProps({
-                                        style: {
-                                            width: r*(Dimensions.get('window').width*0.95-22-20)+5.5
-                                        }
-                                    });
-                                    var df = Dimensions.get('window').width*0.95-22-20;
-                                    if ( r <= 0.97) {
-                                        this.myRef2.current.setNativeProps({
-                                            style: {
-                                                left: r*df,
-                                                //end: this.newVideoProgress >= 0.97 ? 0 : null
+                                    if ( this.shouldProgress ) {
+                                        var currentVideoPosition = playbackStatus.positionMillis/playbackStatus.durationMillis;
+                                        this.lastVideoProgress = currentVideoPosition;
+                                        if ( currentVideoPosition <= 0.97) {
+                                            if ( Dimensions.get('window').width > Dimensions.get('window').height) {
+                                                var progressBarWidth = 444.45-20;
                                             }
-                                        });
+                                            else {
+                                                var progressBarWidth = Dimensions.get('window').width*0.95-22-20;
+                                            }
+                                            this.alreadyPlayed.current.setNativeProps({
+                                                style: {
+                                                    width: currentVideoPosition*progressBarWidth+5.5
+                                                }
+                                            });
+                                            this.myRef2.current.setNativeProps({
+                                                style: {
+                                                    left: currentVideoPosition*progressBarWidth
+                                                }
+                                            });
+                                        }
                                     }
                                 }
                                 if ( playbackStatus.didJustFinish ) {
-                                    this.alreadyPlayed.current.setNativeProps({
-                                        style: {
-                                            width: '100%'
+                                    this.setState(
+                                        () => {
+                                            return { iconName: 'refresh', videoProgress:  1 }
                                         }
-                                    });
-                                    this.myRef2.current.setNativeProps({
-                                        style: {
-                                            left: null,
-                                            end: 0
-                                        }
-                                    });
-                                    //alert(playbackStatus.positionMillis/playbackStatus.durationMillis)
-                                    //alert(playbackStatus.positionMillis/playbackStatus.durationMillis)
-                                    /* this.setState((prevState) => {
-                                        return {name: "refresh", width: 1};
-                                    }); */
+                                    );
                                 }
                             }
                         }
                     />
                     <TouchableWithoutFeedback onPress={
                         () => {
-                            //this.controlBarVisibility.stopAnimation()
-                            //alert(this.controlBarVisibility._value)
-                            /* Animated.timing(
-                                this.controlBarVisibility,
-                                {
-                                    toValue: 1,
-                                    duration: 2000
-                                }
-                            ).start() */
-                            //this.controlBarVisibility.stopAnimation()
-                            //this.controlBarVisibility = 0.5;
-                            /* Animated.timing(
-                                this.controlBarVisibility,
-                                {
-                                    toValue: 1,
-                                    useNativeDriver: true
-                                }
-                            ).start() */
-                            /* this.animatedView.current.setNativeProps({
-                                style: {
-                                    opacity: 1
-                                }
-                            }); */
                             Animated.timing(
                                 this.controlBarVisibility,
                                 {
@@ -279,17 +201,13 @@ export default class TweetVideo extends React.Component {
                                     duration: 0,
                                 }
                             ).start()
-                            /* this.myRef2.current.setNativeProps({
-                                onResponderMove: this.setVideoProgress
-                            }); */
                         }
                     }>
                         <View
                             style={{
                                 height: '100%',
                                 width: '100%',
-                                position: 'absolute',
-                                //backgroundColor: 'green'
+                                position: 'absolute'
                             }}
                         />
                     </TouchableWithoutFeedback>
@@ -313,7 +231,7 @@ export default class TweetVideo extends React.Component {
                                     ref={this.alreadyPlayed}
                                     style={{
                                         height: 2,
-                                        width: this.state.videoProgress,//this.state.width*100 + '%',
+                                        width: this.state.videoProgress*100 + '%',
                                         backgroundColor: 'white',
                                         borderRadius: 5,
                                     }}
@@ -326,13 +244,12 @@ export default class TweetVideo extends React.Component {
                                     height: 12,
                                     width: 12,
                                     position: 'absolute',
+                                    left: this.state.videoProgress == 1 ? null : this.state.videoProgress*100-1 + '%',
+                                    end: this.state.videoProgress == 1 ? 0 : null,
                                     alignItems: 'center',
                                     justifyContent: 'center',
-                                    //left: 0,//this.state.width == 1 ? null : this.state.width*100-1 + '%',
-                                    //end: -1,
                                     elevation: 4,
-                                    //setting border props for that elevation prop works
-                                    borderWidth: 1,
+                                    borderWidth: 1, // setting border props for that elevation prop works
                                     borderColor: 'transparent',
                                     backgroundColor: 'white',
                                     borderRadius: 10,
@@ -341,34 +258,39 @@ export default class TweetVideo extends React.Component {
                                 onResponderMove={this.setVideoProgress}
                                 onResponderRelease={
                                     e => {
-                                        setTimeout(() => {
-                                            this.myRef2.current.setNativeProps({
-                                                style: {
-                                                    height: 12,
-                                                    width: 12
-                                                }
-                                            })
-                                        }, 50);
+
+                                        this.myRef2.current.setNativeProps({
+                                            style: {
+                                                height: 12,
+                                                width: 12
+                                            }
+                                        });
+
                                         Animated.timing(
                                             this.controlBarVisibility,
                                             {
                                                 toValue: 0.5,
                                                 duration: 2000,
                                             }
-                                        ).start()
-                                        //setTimeout(() => {
-                                            /* for (let index = 0.4; index >= 0; index-=0.1) {
-                                                setTimeout(() => {
-                                                    this.myRef5.current.setNativeProps({
-                                                        style:{
-                                                            opacity: index
-                                                        }
-                                                    }) 
-                                                }, 1000);
-                                            } */
-                                            
-                                        //}, 5000);
-                                        
+                                        ).start();
+
+                                        this.pause(); // prevent that progress bar still growing after move event has ended
+                                        this.shouldProgress = true;
+                                        this.myRef.current.setPositionAsync(this.videoDuration*this.newVideoProgress);
+
+                                        // Verify if video started by clicking on button or setting position on progress bar...
+                                        // For last case play the video and update button type on state
+                                        if ( this.state.iconName == 'play-arrow' || this.state.iconName == 'refresh' ) {
+                                            this.play();
+                                            this.setState(
+                                                () => {
+                                                    return { iconName: 'pause', videoProgress:  this.lastVideoProgress }
+                                                }
+                                            );
+                                        }
+                                        else {
+                                            this.play();
+                                        }
                                     }
                                 }
                             />
@@ -380,6 +302,10 @@ export default class TweetVideo extends React.Component {
                                 size={30}
                                 color="#f5f5f5"
                                 onPress={this.handleClick}
+                            />
+                            <Image
+                                source={require('../../assets/images/replay.png')}
+                                style={{ width: 24, height: 24}}
                             />
                             <MaterialCommunityIcons
                                 name={this.state.volumeIcon}
