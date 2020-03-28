@@ -3,11 +3,13 @@ import { StyleSheet, View, Dimensions, Animated,  TouchableWithoutFeedback, Imag
 import { Video } from 'expo-av';
 import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { throwIfAudioIsDisabled } from 'expo-av/build/Audio/AudioAvailability';
+import * as Font from 'expo-font';
+import Icon from './CustomIcon';
 
 export default class TweetVideo extends React.Component {
     state = {
         volumeIcon: "volume-off",
-        iconName: 'play-arrow',
+        iconName: 'play',
         videoProgress: 0,
         width: 0
     }
@@ -22,6 +24,10 @@ export default class TweetVideo extends React.Component {
         this.streamButton = React.createRef();
         this.animatedView = React.createRef();
     }
+
+    font = Font.loadAsync({
+        'FontName': require("../../assets/fonts/icomoon.ttf")
+    });
 
     componentDidMount() {
         //alert(this.myRef2.current.props.style)
@@ -66,7 +72,7 @@ export default class TweetVideo extends React.Component {
     handleClick = () => {
         this.setState(
             () => {
-                if ( this.state.iconName == 'play-arrow' ) { 
+                if ( this.state.iconName == 'play' ) { 
                     this.play();
                     return { iconName: 'pause', videoProgress:  this.lastVideoProgress }
                 }
@@ -75,7 +81,7 @@ export default class TweetVideo extends React.Component {
                     if ( this.state.iconName == 'pause' ) {
                         //alert('hi')
                         this.pause(); 
-                        return { iconName: 'play-arrow', videoProgress:  this.lastVideoProgress }
+                        return { iconName: 'play', videoProgress:  this.lastVideoProgress }
                     }
                     else {
                         //alert('ho')
@@ -185,7 +191,7 @@ export default class TweetVideo extends React.Component {
                                 if ( playbackStatus.didJustFinish ) {
                                     this.setState(
                                         () => {
-                                            return { iconName: 'refresh', videoProgress:  1 }
+                                            return { iconName: 'replay', videoProgress:  1 }
                                         }
                                     );
                                 }
@@ -217,8 +223,8 @@ export default class TweetVideo extends React.Component {
                     >
                         <View style={{
                             height: 12,
-                            justifyContent: 'center',
-                            marginTop: 5
+                            marginBottom: 5,
+                            justifyContent: 'center'
                         }}>
                             <View style={{
                                 height: 1.5,
@@ -238,7 +244,7 @@ export default class TweetVideo extends React.Component {
                                 />
                             </View>
                             <View //view for shadow box
-                                hitSlop={{ left: 14, top: 22.5, right: 14, bottom: 22.5 }}
+                                hitSlop={{ left: 14, right: 14 }}
                                 ref={this.myRef2}
                                 style={{
                                     height: 12,
@@ -280,7 +286,7 @@ export default class TweetVideo extends React.Component {
 
                                         // Verify if video started by clicking on button or setting position on progress bar...
                                         // For last case play the video and update button type on state
-                                        if ( this.state.iconName == 'play-arrow' || this.state.iconName == 'refresh' ) {
+                                        if ( this.state.iconName == 'play' || this.state.iconName == 'replay' ) {
                                             this.play();
                                             this.setState(
                                                 () => {
@@ -295,24 +301,35 @@ export default class TweetVideo extends React.Component {
                                 }
                             />
                         </View>
-                        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-                            <MaterialIcons
+                        <View style={{height: 20, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+                            <Icon
+                                ref={this.streamButton}
+                                name={this.state.iconName}
+                                size={18}
+                                color="white"
+                                style={{ height: 18 }}
+                                onPress={this.handleClick}
+                            />
+                            {/* <MaterialIcons
                                 ref={ this.streamButton }
                                 name={this.state.iconName}
                                 size={30}
                                 color="#f5f5f5"
                                 onPress={this.handleClick}
+                            /> */}
+                            <Icon
+                                name={this.state.volumeIcon}
+                                size={20}
+                                color="white"
+                                style={{height: 20}}
+                                onPress={this.setVolume}
                             />
-                            <Image
-                                source={require('../../assets/images/replay.png')}
-                                style={{ width: 24, height: 24}}
-                            />
-                            <MaterialCommunityIcons
+                            {/* <MaterialCommunityIcons
                                 name={this.state.volumeIcon}
                                 size={30}
                                 color="#f5f5f5"
                                 onPress={this.setVolume}
-                            />
+                            /> */}
                         </View>
                     </Animated.View>
                 </View>
@@ -325,12 +342,14 @@ export default class TweetVideo extends React.Component {
 const styles = StyleSheet.create({
     controlBar: {
         justifyContent: 'center',
-        height: 51,
+        height: 52,
         position: 'absolute',
         bottom: 0,
         left: 0,
         right: 0,
         width: '100%',
+        paddingTop: 5,
+        paddingBottom: 10,
         paddingHorizontal: 10,
         backgroundColor: "rgba(0, 0, 0, 0.5)",
     }
