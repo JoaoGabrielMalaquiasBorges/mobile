@@ -1,10 +1,11 @@
 import React from 'react';
-import { StyleSheet, View, Dimensions, Animated,  TouchableWithoutFeedback, Image  } from 'react-native';
+import { View, Dimensions, Animated,  TouchableWithoutFeedback, Image  } from 'react-native';
 import { Video } from 'expo-av';
 import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { throwIfAudioIsDisabled } from 'expo-av/build/Audio/AudioAvailability';
 import * as Font from 'expo-font';
 import Icon from './CustomIcon';
+import videoStyles from '../style/index';
 
 export default class TweetVideo extends React.Component {
     state = {
@@ -35,6 +36,20 @@ export default class TweetVideo extends React.Component {
 
     videoDuration
     controlBarVisibility = new Animated.Value(1);
+    lastVideoProgress = 0;
+    shouldProgress = true;
+    distance = 0;
+    newVideoProgress = 0;
+    test = true;
+
+    isPortrait() {
+        if ( Dimensions.get('window').height > Dimensions.get('window').width ) {
+            return true;
+        }
+        else { return false }
+    }
+    
+    progressBarOffset = this.isPortrait() ? 6.5/(Dimensions.get('window').width*0.95-42) : 6.5/424.45;
 
     play() {
         this.myRef.current.playAsync();
@@ -54,6 +69,16 @@ export default class TweetVideo extends React.Component {
 
     unmute() {
         this.myRef.current.setIsMutedAsync(false);
+    }
+
+    fadeInOut = () => {
+        Animated.timing(
+            this.controlBarVisibility,
+            {
+                toValue: 1,
+                duration: 0,
+            }
+        ).start();
     }
 
     setVolume = () => {
@@ -77,14 +102,11 @@ export default class TweetVideo extends React.Component {
                     return { iconName: 'pause', videoProgress:  this.lastVideoProgress }
                 }
                 else {
-                    //alert(this.state.iconName)
                     if ( this.state.iconName == 'pause' ) {
-                        //alert('hi')
                         this.pause(); 
                         return { iconName: 'play', videoProgress:  this.lastVideoProgress }
                     }
                     else {
-                        //alert('ho')
                         this.replay();
                         return { iconName: 'pause', videoProgress:  this.lastVideoProgress }
                     }
@@ -93,12 +115,35 @@ export default class TweetVideo extends React.Component {
         );
     }
 
-    lastVideoProgress = 0;
-    shouldProgress = true;
-    distance = 0;
-    newVideoProgress = 0;
-    test = true;
-
+    updateProgressBar = playbackStatus => {
+        if ( playbackStatus.isPlaying ) {
+            if ( this.shouldProgress ) {
+                this.videoDuration = playbackStatus.durationMillis;
+                var currentVideoPosition = playbackStatus.positionMillis/playbackStatus.durationMillis;
+                if ( currentVideoPosition <= 0.97) {
+                    this.lastVideoProgress = currentVideoPosition;
+                    this.alreadyPlayed.current.setNativeProps({
+                        style: {
+                            width: (currentVideoPosition+this.progressBarOffset)*100 + '%'
+                        }
+                    });
+                    this.myRef2.current.setNativeProps({
+                        style: {
+                            left: currentVideoPosition*100 + '%'
+                        }
+                    });
+                }
+            }
+        }
+        if ( playbackStatus.didJustFinish ) {
+            this.setState(
+                () => {
+                    return { iconName: 'replay', videoProgress:  1 }
+                }
+            );
+        }
+    }
+    
     setVideoProgress = e => {
 
         this.shouldProgress = false;
@@ -113,23 +158,21 @@ export default class TweetVideo extends React.Component {
         }
         
         
-        this.newVideoProgress = (e.nativeEvent.pageX-this.distance*0.025-21-this.test/2-16/2)/(this.distance*0.95-42-this.test);
+        this.newVideoProgress = (e.nativeEvent.pageX-this.distance*0.025-21-this.test/2)/(this.distance*0.95-42-this.test);
         //alert(this.newVideoProgress)
-        if ( this.newVideoProgress >= 0 && this.newVideoProgress <= 1) {
-            this.myRef2.current.setNativeProps({
-                style: {
-                    height: 16,
-                    width: 16,
-                    left: this.newVideoProgress >= 0.97 ? null : this.newVideoProgress*100-1 + '%',
-                    end: this.newVideoProgress >= 0.97 ? 0 : null
-                }
-            });
-            this.alreadyPlayed.current.setNativeProps({
-                style: {
-                    width: this.newVideoProgress*100 + '%'
-                }
-            });
-        }
+        this.myRef2.current.setNativeProps({
+            style: {
+                height: 16,
+                width: 16,
+                left: this.newVideoProgress >= 0.97 ? null : this.newVideoProgress*100 + '%',
+                end: this.newVideoProgress >= 0.97 ? 0 : null
+            }
+        });
+        this.alreadyPlayed.current.setNativeProps({
+            style: {
+                width: (this.newVideoProgress+this.progressBarOffset)*100 + '%'
+            }
+        });
         if ( this.newVideoProgress <= 0.97 ) {
             this.lastVideoProgress = this.newVideoProgress;
         }
@@ -138,170 +181,89 @@ export default class TweetVideo extends React.Component {
         }
     }
 
+    afterSetNewVideoProgress = e => {
+
+        this.myRef2.current.setNativeProps({
+            style: {
+                height: 12,
+                width: 12
+            }
+        });
+
+        Animated.timing(
+            this.controlBarVisibility,
+            {
+                toValue: 0.5,
+                duration: 2000,
+            }
+        ).start();
+
+        this.pause(); // prevent that progress bar still growing after move event has ended
+        this.myRef.current.setPositionAsync(this.videoDuration*this.newVideoProgress);
+
+        // Verify if video started by clicking on button or setting position on progress bar...
+        // For last case play the video and update button type on state
+        if ( this.state.iconName == 'play' || this.state.iconName == 'replay' ) {
+            this.setState(
+                () => {
+                    return { iconName: 'pause', videoProgress:  this.lastVideoProgress }
+                }
+            );
+            this.play();
+            this.shouldProgress = true;
+        }
+        else {
+            this.play();
+            this.shouldProgress = true;
+        }
+    }
+
     render() {
         return (
-            <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-                <View style={{
-                    width: 444.45,
-                    maxWidth: '100%',
-                    overflow: 'hidden',
-                    backgroundColor: 'black',
-                    borderRadius: 5
-                }}>
+            <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
+                <View style={videoStyles.videoBox}>
                     <Video
                         resizeMode="cover"
                         ref={this.myRef}
-                        source={{uri: this.video.video_info.variants[0].url}}
+                        source={{ uri: this.video.video_info.variants[0].url }}
                         shouldPlay={false}
                         isMuted={true}
-                        style={{
-                            maxHeight: 250,
-                            maxWidth: '100%',
-                            aspectRatio: 9/16,
-                            marginLeft: 'auto',
-                            marginRight: 'auto'
-                        }}
-                        onPlaybackStatusUpdate={
-                            playbackStatus => {
-                                this.videoDuration = playbackStatus.durationMillis;
-                                if ( playbackStatus.isPlaying ) {
-                                    if ( this.shouldProgress ) {
-                                        var currentVideoPosition = playbackStatus.positionMillis/playbackStatus.durationMillis;
-                                        this.lastVideoProgress = currentVideoPosition;
-                                        if ( currentVideoPosition <= 0.97) {
-                                            if ( Dimensions.get('window').width > Dimensions.get('window').height) {
-                                                var progressBarWidth = 444.45-20;
-                                            }
-                                            else {
-                                                var progressBarWidth = Dimensions.get('window').width*0.95-22-20;
-                                            }
-                                            this.alreadyPlayed.current.setNativeProps({
-                                                style: {
-                                                    width: currentVideoPosition*progressBarWidth+5.5
-                                                }
-                                            });
-                                            this.myRef2.current.setNativeProps({
-                                                style: {
-                                                    left: currentVideoPosition*progressBarWidth
-                                                }
-                                            });
-                                        }
-                                    }
-                                }
-                                if ( playbackStatus.didJustFinish ) {
-                                    this.setState(
-                                        () => {
-                                            return { iconName: 'replay', videoProgress:  1 }
-                                        }
-                                    );
-                                }
-                            }
-                        }
+                        style={videoStyles.video}
+                        onPlaybackStatusUpdate={this.updateProgressBar}
                     />
-                    <TouchableWithoutFeedback onPress={
-                        () => {
-                            Animated.timing(
-                                this.controlBarVisibility,
-                                {
-                                    toValue: 1,
-                                    duration: 0,
-                                }
-                            ).start()
-                        }
-                    }>
-                        <View
-                            style={{
-                                height: '100%',
-                                width: '100%',
-                                position: 'absolute'
-                            }}
-                        />
+                    <TouchableWithoutFeedback onPress={this.fadeInOut}>
+                        <View style={videoStyles.touchableArea} />
                     </TouchableWithoutFeedback>
                     <Animated.View
                         ref={ this.animatedView }
-                        style={{ ...styles.controlBar, opacity: this.controlBarVisibility }}
+                        style={{ ...videoStyles.controlBar, opacity: 0.5 }}
                     >
-                        <View style={{
-                            height: 12,
-                            marginBottom: 5,
-                            justifyContent: 'center'
-                        }}>
-                            <View style={{
-                                height: 1.5,
-                                backgroundColor: "rgba(162, 158, 158, 0.5)",
-                                borderRadius: 5,
-                                //This is to prevent progress bar to exceed radio button once that he don't start/end at min/max of horizontal position of your parent container as result of border width has been setted to 1 for use of elevation property
-                                marginHorizontal: 1
-                            }}>
+                        <View style={videoStyles.progressBar}>
+                            <View style={videoStyles.fillBar}>
                                 <View
                                     ref={this.alreadyPlayed}
                                     style={{
-                                        height: 2,
-                                        width: this.state.videoProgress*100 + '%',
-                                        backgroundColor: 'white',
-                                        borderRadius: 5,
+                                        ...videoStyles.alreadyFilledBar,
+                                        width: this.state.videoProgress == 1 ?
+                                        this.state.videoProgress*100 + '%' :
+                                        (this.state.videoProgress+this.progressBarOffset)*100 + '%'
                                     }}
                                 />
                             </View>
-                            <View //view for shadow box
+                            <View
                                 hitSlop={{ left: 14, right: 14 }}
                                 ref={this.myRef2}
                                 style={{
-                                    height: 12,
-                                    width: 12,
-                                    position: 'absolute',
-                                    left: this.state.videoProgress == 1 ? null : this.state.videoProgress*100-1 + '%',
-                                    end: this.state.videoProgress == 1 ? 0 : null,
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    elevation: 4,
-                                    borderWidth: 1, // setting border props for that elevation prop works
-                                    borderColor: 'transparent',
-                                    backgroundColor: 'white',
-                                    borderRadius: 10,
+                                    ...videoStyles.progressControlButton,
+                                    left: this.state.videoProgress == 1 ? null : this.state.videoProgress*100 + '%',
+                                    end: this.state.videoProgress == 1 ? 0 : null
                                 }}
                                 onMoveShouldSetResponder={e => true}
                                 onResponderMove={this.setVideoProgress}
-                                onResponderRelease={
-                                    e => {
-
-                                        this.myRef2.current.setNativeProps({
-                                            style: {
-                                                height: 12,
-                                                width: 12
-                                            }
-                                        });
-
-                                        Animated.timing(
-                                            this.controlBarVisibility,
-                                            {
-                                                toValue: 0.5,
-                                                duration: 2000,
-                                            }
-                                        ).start();
-
-                                        this.pause(); // prevent that progress bar still growing after move event has ended
-                                        this.shouldProgress = true;
-                                        this.myRef.current.setPositionAsync(this.videoDuration*this.newVideoProgress);
-
-                                        // Verify if video started by clicking on button or setting position on progress bar...
-                                        // For last case play the video and update button type on state
-                                        if ( this.state.iconName == 'play' || this.state.iconName == 'replay' ) {
-                                            this.play();
-                                            this.setState(
-                                                () => {
-                                                    return { iconName: 'pause', videoProgress:  this.lastVideoProgress }
-                                                }
-                                            );
-                                        }
-                                        else {
-                                            this.play();
-                                        }
-                                    }
-                                }
+                                onResponderRelease={this.afterSetNewVideoProgress}
                             />
                         </View>
-                        <View style={{height: 20, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+                        <View style={videoStyles.controlBarFooter}>
                             <Icon
                                 ref={this.streamButton}
                                 name={this.state.iconName}
@@ -310,13 +272,6 @@ export default class TweetVideo extends React.Component {
                                 style={{ height: 18 }}
                                 onPress={this.handleClick}
                             />
-                            {/* <MaterialIcons
-                                ref={ this.streamButton }
-                                name={this.state.iconName}
-                                size={30}
-                                color="#f5f5f5"
-                                onPress={this.handleClick}
-                            /> */}
                             <Icon
                                 name={this.state.volumeIcon}
                                 size={20}
@@ -324,12 +279,6 @@ export default class TweetVideo extends React.Component {
                                 style={{height: 20}}
                                 onPress={this.setVolume}
                             />
-                            {/* <MaterialCommunityIcons
-                                name={this.state.volumeIcon}
-                                size={30}
-                                color="#f5f5f5"
-                                onPress={this.setVolume}
-                            /> */}
                         </View>
                     </Animated.View>
                 </View>
@@ -339,18 +288,3 @@ export default class TweetVideo extends React.Component {
     }
 }
 
-const styles = StyleSheet.create({
-    controlBar: {
-        justifyContent: 'center',
-        height: 52,
-        position: 'absolute',
-        bottom: 0,
-        left: 0,
-        right: 0,
-        width: '100%',
-        paddingTop: 5,
-        paddingBottom: 10,
-        paddingHorizontal: 10,
-        backgroundColor: "rgba(0, 0, 0, 0.5)",
-    }
-});
