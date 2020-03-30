@@ -10,9 +10,7 @@ import videoStyles from '../style/index';
 export default class TweetVideo extends React.Component {
     state = {
         volumeIcon: "volume-off",
-        iconName: 'play',
-        videoProgress: 0,
-        width: 0
+        iconName: 'play'
     }
 
     constructor(props) {
@@ -21,7 +19,6 @@ export default class TweetVideo extends React.Component {
         this.myRef = React.createRef();
         this.myRef2 = React.createRef();
         this.alreadyPlayed = React.createRef();
-        this.myRef4 = React.createRef();
         this.streamButton = React.createRef();
         this.animatedView = React.createRef();
     }
@@ -36,10 +33,10 @@ export default class TweetVideo extends React.Component {
 
     videoDuration
     controlBarVisibility = new Animated.Value(1);
-    lastVideoProgress = 0;
     shouldProgress = true;
+    progressBarOffset;
     distance = 0;
-    newVideoProgress = 0;
+    newVideoProgress;
     test = true;
 
     isPortrait() {
@@ -48,8 +45,6 @@ export default class TweetVideo extends React.Component {
         }
         else { return false }
     }
-    
-    progressBarOffset = this.isPortrait() ? 6.5/(Dimensions.get('window').width*0.95-42) : 6.5/424.45;
 
     play() {
         this.myRef.current.playAsync();
@@ -71,57 +66,89 @@ export default class TweetVideo extends React.Component {
         this.myRef.current.setIsMutedAsync(false);
     }
 
-    fadeInOut = () => {
-        Animated.timing(
-            this.controlBarVisibility,
-            {
-                toValue: 1,
-                duration: 0,
-            }
-        ).start();
+    fadeInOut() {
+        if ( this.controlBarVisibility._value == 1) {
+            Animated.timing(
+                this.controlBarVisibility,
+                {
+                    toValue: 0,
+                    duration: 0
+                }
+            ).start();
+        }
+        else {
+            Animated.timing(
+                this.controlBarVisibility,
+                {
+                    toValue: 1,
+                    duration: 0,
+                }
+            ).start();
+        }
     }
 
     setVolume = () => {
-        this.setState((prevState) => {
-            if ( prevState.volumeIcon == "volume-off" ) {
-                this.unmute(); 
-                return { volumeIcon: "volume-high", videoProgress:  this.lastVideoProgress }
-            }
-            else {
-                this.mute(); 
-                return { volumeIcon: "volume-off", videoProgress:  this.lastVideoProgress }
-            }
-        })
+        if ( this.state.volumeIcon == "volume-off" ) {
+            this.setState(
+                () => {
+                    return { volumeIcon: "volume-high" }
+                }
+            );
+            this.unmute();
+        }
+        else {
+            this.setState(
+                () => {
+                    return { volumeIcon: "volume-off" }
+                }
+            );
+            this.mute(); 
+        }
     }
     
     handleClick = () => {
-        this.setState(
-            () => {
-                if ( this.state.iconName == 'play' ) { 
-                    this.play();
-                    return { iconName: 'pause', videoProgress:  this.lastVideoProgress }
+        if ( this.state.iconName == 'play' ) {
+            this.setState(
+                () => {
+                    return { iconName: 'pause' }
                 }
-                else {
-                    if ( this.state.iconName == 'pause' ) {
-                        this.pause(); 
-                        return { iconName: 'play', videoProgress:  this.lastVideoProgress }
-                    }
-                    else {
-                        this.replay();
-                        return { iconName: 'pause', videoProgress:  this.lastVideoProgress }
-                    }
+            );
+            this.play();
+            Animated.timing(
+                this.controlBarVisibility,
+                {
+                    toValue: 0,
+                    duration: 5000
                 }
+            ).start();
+        }
+        else {
+            if ( this.state.iconName == 'pause' ) {
+                this.pause();
+                this.setState(
+                    () => {
+                        return { iconName: 'play' }
+                    }
+                );
             }
-        );
+            else {
+                this.setState(
+                    () => {
+                        return { iconName: 'pause' }
+                    }
+                );
+                this.replay();
+            }
+        }
     }
 
     updateProgressBar = playbackStatus => {
+        this.videoDuration = playbackStatus.durationMillis;
         if ( playbackStatus.isPlaying ) {
             if ( this.shouldProgress ) {
-                this.videoDuration = playbackStatus.durationMillis;
                 var currentVideoPosition = playbackStatus.positionMillis/playbackStatus.durationMillis;
                 if ( currentVideoPosition <= 0.97) {
-                    this.lastVideoProgress = currentVideoPosition;
+                    this.progressBarOffset = this.isPortrait() ? 6.5/(Dimensions.get('window').width*0.95-42) : 6.5/424.45;
                     this.alreadyPlayed.current.setNativeProps({
                         style: {
                             width: (currentVideoPosition+this.progressBarOffset)*100 + '%'
@@ -136,11 +163,23 @@ export default class TweetVideo extends React.Component {
             }
         }
         if ( playbackStatus.didJustFinish ) {
+            this.alreadyPlayed.current.setNativeProps({
+                style: {
+                    width: '100%'
+                }
+            });
+            this.myRef2.current.setNativeProps({
+                style: {
+                    left: null,
+                    end: 0
+                }
+            });
             this.setState(
                 () => {
-                    return { iconName: 'replay', videoProgress:  1 }
+                    return { iconName: 'replay' }
                 }
             );
+            this.fadeInOut();
         }
     }
     
@@ -158,63 +197,45 @@ export default class TweetVideo extends React.Component {
         }
         
         
-        this.newVideoProgress = (e.nativeEvent.pageX-this.distance*0.025-21-this.test/2)/(this.distance*0.95-42-this.test);
-        //alert(this.newVideoProgress)
-        this.myRef2.current.setNativeProps({
-            style: {
-                height: 16,
-                width: 16,
-                left: this.newVideoProgress >= 0.97 ? null : this.newVideoProgress*100 + '%',
-                end: this.newVideoProgress >= 0.97 ? 0 : null
-            }
-        });
-        this.alreadyPlayed.current.setNativeProps({
-            style: {
-                width: (this.newVideoProgress+this.progressBarOffset)*100 + '%'
-            }
-        });
-        if ( this.newVideoProgress <= 0.97 ) {
-            this.lastVideoProgress = this.newVideoProgress;
-        }
-        else {
-            this.lastVideoProgress = 0.97;
+        this.newVideoProgress = (e.nativeEvent.pageX-this.distance*0.025-21-this.test/2-8)/(this.distance*0.95-42-this.test);
+        if ( this.newVideoProgress >= 0 && this.newVideoProgress <= 0.97) {
+            this.myRef2.current.setNativeProps({
+                style: {
+                    height: 16,
+                    width: 16,
+                    left: this.newVideoProgress == 0.97 ? null : this.newVideoProgress*100 + '%',
+                    end: this.newVideoProgress == 0.97 ? 0 : null
+                }
+            });
+            this.progressBarOffset = this.isPortrait() ? 6.5/(Dimensions.get('window').width*0.95-42) : 6.5/424.45;
+            this.alreadyPlayed.current.setNativeProps({
+                style: {
+                    width: (this.newVideoProgress+this.progressBarOffset)*100 + '%'
+                }
+            });
         }
     }
 
     afterSetNewVideoProgress = e => {
-
         this.myRef2.current.setNativeProps({
             style: {
                 height: 12,
                 width: 12
             }
         });
-
-        Animated.timing(
-            this.controlBarVisibility,
-            {
-                toValue: 0.5,
-                duration: 2000,
+        this.pause(); //for better adjust video behavior
+        this.myRef.current.setPositionAsync(this.videoDuration*this.newVideoProgress).then(
+            () => {
+                this.shouldProgress = true;
+                this.play();
             }
-        ).start();
-
-        this.pause(); // prevent that progress bar still growing after move event has ended
-        this.myRef.current.setPositionAsync(this.videoDuration*this.newVideoProgress);
-
-        // Verify if video started by clicking on button or setting position on progress bar...
-        // For last case play the video and update button type on state
+        );
         if ( this.state.iconName == 'play' || this.state.iconName == 'replay' ) {
             this.setState(
                 () => {
-                    return { iconName: 'pause', videoProgress:  this.lastVideoProgress }
+                    return { iconName: 'pause' }
                 }
             );
-            this.play();
-            this.shouldProgress = true;
-        }
-        else {
-            this.play();
-            this.shouldProgress = true;
         }
     }
 
@@ -231,12 +252,16 @@ export default class TweetVideo extends React.Component {
                         style={videoStyles.video}
                         onPlaybackStatusUpdate={this.updateProgressBar}
                     />
-                    <TouchableWithoutFeedback onPress={this.fadeInOut}>
+                    <TouchableWithoutFeedback onPress={
+                        () => {
+                            this.fadeInOut();
+                        }
+                    }>
                         <View style={videoStyles.touchableArea} />
                     </TouchableWithoutFeedback>
                     <Animated.View
                         ref={ this.animatedView }
-                        style={{ ...videoStyles.controlBar, opacity: 0.5 }}
+                        style={{ ...videoStyles.controlBar, opacity: this.controlBarVisibility }}
                     >
                         <View style={videoStyles.progressBar}>
                             <View style={videoStyles.fillBar}>
@@ -244,9 +269,7 @@ export default class TweetVideo extends React.Component {
                                     ref={this.alreadyPlayed}
                                     style={{
                                         ...videoStyles.alreadyFilledBar,
-                                        width: this.state.videoProgress == 1 ?
-                                        this.state.videoProgress*100 + '%' :
-                                        (this.state.videoProgress+this.progressBarOffset)*100 + '%'
+                                        width: 0
                                     }}
                                 />
                             </View>
@@ -255,8 +278,8 @@ export default class TweetVideo extends React.Component {
                                 ref={this.myRef2}
                                 style={{
                                     ...videoStyles.progressControlButton,
-                                    left: this.state.videoProgress == 1 ? null : this.state.videoProgress*100 + '%',
-                                    end: this.state.videoProgress == 1 ? 0 : null
+                                    left: 0,
+                                    end: 0
                                 }}
                                 onMoveShouldSetResponder={e => true}
                                 onResponderMove={this.setVideoProgress}
