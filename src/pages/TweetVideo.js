@@ -163,6 +163,7 @@ export default class TweetVideo extends React.Component {
             }
         }
         if ( playbackStatus.didJustFinish ) {
+            this.myRef.current.stopAsync();
             this.alreadyPlayed.current.setNativeProps({
                 style: {
                     width: '100%'
