@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Dimensions, Animated,  TouchableWithoutFeedback, Image  } from 'react-native';
+import { View, Dimensions, Animated,  TouchableWithoutFeedback, Image, Text  } from 'react-native';
 import { Video } from 'expo-av';
 import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { throwIfAudioIsDisabled } from 'expo-av/build/Audio/AudioAvailability';
@@ -117,10 +117,9 @@ function TweetVideoFunction(props) {
     function getPosition(e) {
         shouldProgress = false;
         var videoBoxOffset = isPortrait() ? 0 : (Dimensions.get('window').width*0.95-22)-444.45;
-        alert(videoBoxOffset)
         var newProgressBarButtonOffset = 16/progressBarWidth;
-        position = (e.nativeEvent.pageX-Dimensions.get('window').width*0.025-11-videoBoxOffset-10-8)/progressBarWidth;
-        if ( position >= 0 && position <= 1-newProgressBarButtonOffset/2 ) {
+        position = (e.nativeEvent.pageX-Dimensions.get('window').width*0.025-11-videoBoxOffset/2-10-8)/progressBarWidth;
+        if ( position >= 0 && position <= 1-newProgressBarButtonOffset ) {
             progressBarButtonRef.current.setNativeProps({
                 style: {
                     height: 16,
@@ -134,18 +133,19 @@ function TweetVideoFunction(props) {
                 }
             });
         } else {
-            position = 1-newProgressBarButtonOffset/2;
+            position = 1-newProgressBarButtonOffset;
         }
     }
     
     function setPlaybackPosition() {
+        alert(progressBarButtonRef.current.props.style.left)
         progressBarButtonRef.current.setNativeProps({
             style: {
                 height: 12,
                 width: 12
             }
         });
-        videoRef.current.pauseAsync().then(
+        /* videoRef.current.pauseAsync().then(
             () => {
                 videoRef.current.setPositionAsync(position*videDuration).then(
                     () => {
@@ -157,7 +157,7 @@ function TweetVideoFunction(props) {
                     }
                 );
             }
-        );  
+        ); */
         if ( playerControlButtonIcon == 'play' || playerControlButtonIcon == 'replay' ) {
             setPlayerControlButtonIcon('pause');
         }      
@@ -179,9 +179,10 @@ function TweetVideoFunction(props) {
                     <View style={videoStyles.touchableArea} />
                 </TouchableWithoutFeedback>
                 <Animated.View
-                    ref={controlBarRef}
-                    style={{ ...videoStyles.controlBar, opacity: controlBarVisibility }}
+                    
+                    style={{ ...videoStyles.controlBar, opacity: 0.5 }}
                 >
+                    <Image ref={controlBarRef} resizeMode='center'></Image>
                     <View style={videoStyles.progressBar}>
                         <View style={videoStyles.fillBar}>
                             <View
