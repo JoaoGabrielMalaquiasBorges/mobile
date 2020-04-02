@@ -47,6 +47,7 @@ function TweetVideoFunction(props) {
     
     var progressBarWidth = isPortrait() ? Dimensions.get('window').width*0.95-42 : 424.45;
     var progressBarButtonOffset = videoStyles.progressControlButton.width/progressBarWidth;
+    var newProgressBarButtonOffset = 16/progressBarWidth;
 
     const videoRef = React.createRef();
     const controlBarRef = React.createRef();
@@ -97,7 +98,7 @@ function TweetVideoFunction(props) {
                             left: currentVideoPosition*100 + '%'
                         }
                     });
-                } else {
+                } /* else {
                     filledBarRef.current.setNativeProps({
                         style: {
                             width: '100%'
@@ -109,7 +110,7 @@ function TweetVideoFunction(props) {
                             end: 0
                         }
                     });
-                }
+                } */
             }
         }
     }
@@ -117,7 +118,6 @@ function TweetVideoFunction(props) {
     function getPosition(e) {
         shouldProgress = false;
         var videoBoxOffset = isPortrait() ? 0 : (Dimensions.get('window').width*0.95-22)-444.45;
-        var newProgressBarButtonOffset = 16/progressBarWidth;
         position = (e.nativeEvent.pageX-Dimensions.get('window').width*0.025-11-videoBoxOffset/2-10-8)/progressBarWidth;
         if ( position >= 0 && position <= 1-newProgressBarButtonOffset ) {
             progressBarButtonRef.current.setNativeProps({
@@ -138,25 +138,26 @@ function TweetVideoFunction(props) {
     }
     
     function setPlaybackPosition() {
-        alert(progressBarButtonRef.current.props.style.left)
         progressBarButtonRef.current.setNativeProps({
             style: {
                 height: 12,
-                width: 12
+                width: 12,/* 
+                left: (position+newProgressBarButtonOffset-progressBarButtonOffset)*100 + '%' */
             }
         });
+        /* filledBarRef.current.setNativeProps({
+            style: {
+                width: (position+newProgressBarButtonOffset/2+newProgressBarButtonOffset-progressBarButtonOffset)*100 + '%'
+            }
+        }); */
         /* videoRef.current.pauseAsync().then(
-            () => {
-                videoRef.current.setPositionAsync(position*videDuration).then(
+            () => { */
+                videoRef.current.playFromPositionAsync(position*videDuration).then(
                     () => {
-                        videoRef.current.playAsync().then(
-                            () => {
-                                shouldProgress = true;
-                            }
-                        );
+                        shouldProgress = true;
                     }
                 );
-            }
+            /* }
         ); */
         if ( playerControlButtonIcon == 'play' || playerControlButtonIcon == 'replay' ) {
             setPlayerControlButtonIcon('pause');
@@ -179,10 +180,9 @@ function TweetVideoFunction(props) {
                     <View style={videoStyles.touchableArea} />
                 </TouchableWithoutFeedback>
                 <Animated.View
-                    
+                    ref={controlBarRef}
                     style={{ ...videoStyles.controlBar, opacity: 0.5 }}
                 >
-                    <Image ref={controlBarRef} resizeMode='center'></Image>
                     <View style={videoStyles.progressBar}>
                         <View style={videoStyles.fillBar}>
                             <View

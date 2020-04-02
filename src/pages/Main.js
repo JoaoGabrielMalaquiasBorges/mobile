@@ -191,8 +191,7 @@ function Main() {
                 </View>
             </ScrollView>
         );
-    }
-    else {
+    } else {
         return (
             <Text>
                 Waiting...
