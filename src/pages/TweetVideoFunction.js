@@ -17,9 +17,11 @@ function TweetVideoFunction(props) {
                 if ( isPortrait() ) {
                     progressBarWidth = Dimensions.get('window').width*0.95-42;
                     progressBarButtonOffset = videoStyles.progressControlButton.width/progressBarWidth;
+                    newProgressBarButtonOffset = 16/progressBarWidth;
                 } else {
                     progressBarWidth = 424.45;
                     progressBarButtonOffset = videoStyles.progressControlButton.width/progressBarWidth;
+                    newProgressBarButtonOffset = 16/progressBarWidth;
                 }
         });
         return () => {
@@ -34,8 +36,9 @@ function TweetVideoFunction(props) {
     var video = props.video;
     var controlBarVisibility = new Animated.Value(1);
     var shouldProgress = true;
-    var videDuration;
+    var videoDuration = 10704;
     var position;
+    var currentVideoPosition;
 
     function isPortrait() {
         if ( Dimensions.get('window').height > Dimensions.get('window').width ) {
@@ -83,10 +86,9 @@ function TweetVideoFunction(props) {
     }
 
     function updateProgressBar(playbackStatus) {
-        videDuration = playbackStatus.durationMillis;
         if (playbackStatus.isPlaying) {
             if (shouldProgress) {
-                var currentVideoPosition = playbackStatus.positionMillis/playbackStatus.durationMillis;
+                currentVideoPosition = playbackStatus.positionMillis/videoDuration;
                 if (currentVideoPosition <= 1-progressBarButtonOffset) {
                     filledBarRef.current.setNativeProps({
                         style: {
@@ -98,7 +100,7 @@ function TweetVideoFunction(props) {
                             left: currentVideoPosition*100 + '%'
                         }
                     });
-                } /* else {
+                } else {
                     filledBarRef.current.setNativeProps({
                         style: {
                             width: '100%'
@@ -110,7 +112,7 @@ function TweetVideoFunction(props) {
                             end: 0
                         }
                     });
-                } */
+                }
             }
         }
     }
@@ -133,16 +135,21 @@ function TweetVideoFunction(props) {
                 }
             });
         } else {
-            position = 1-newProgressBarButtonOffset;
+            if (position < 0) {
+                position = 0;
+            }
         }
     }
     
     function setPlaybackPosition() {
+        if (position > 1-newProgressBarButtonOffset) {
+            position = 1-progressBarButtonOffset;
+        }
         progressBarButtonRef.current.setNativeProps({
             style: {
                 height: 12,
-                width: 12,/* 
-                left: (position+newProgressBarButtonOffset-progressBarButtonOffset)*100 + '%' */
+                width: 12,
+                /* left: position*100 + '%' */
             }
         });
         /* filledBarRef.current.setNativeProps({
@@ -150,15 +157,15 @@ function TweetVideoFunction(props) {
                 width: (position+newProgressBarButtonOffset/2+newProgressBarButtonOffset-progressBarButtonOffset)*100 + '%'
             }
         }); */
-        /* videoRef.current.pauseAsync().then(
-            () => { */
-                videoRef.current.playFromPositionAsync(position*videDuration).then(
+        videoRef.current.pauseAsync().then(
+            () => {
+                videoRef.current.playFromPositionAsync(position*videoDuration).then(
                     () => {
                         shouldProgress = true;
                     }
                 );
-            /* }
-        ); */
+            }
+        );
         if ( playerControlButtonIcon == 'play' || playerControlButtonIcon == 'replay' ) {
             setPlayerControlButtonIcon('pause');
         }      
@@ -170,7 +177,7 @@ function TweetVideoFunction(props) {
                 <Video
                     resizeMode="cover"
                     ref={videoRef}
-                    source={{ uri: video.video_info.variants[0].url }}
+                    source={/* require('../../assets/theCoralSong.mp4') */{ uri: video.video_info.variants[0].url }}
                     shouldPlay={false}
                     isMuted={true}
                     style={videoStyles.video}
