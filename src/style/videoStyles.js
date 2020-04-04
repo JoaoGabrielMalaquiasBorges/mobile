@@ -46,13 +46,13 @@ const videoStyles = StyleSheet.create({
         marginHorizontal: 1
     },
     alreadyFilledBar: {
-        height: 2,
+        height: 3,
         backgroundColor: 'white',
         borderRadius: 5,
     },
     progressControlButton: {
-        height: 12,
-        width: 12,
+        height: 13,
+        width: 13,
         position: 'absolute',
         alignItems: 'center',
         justifyContent: 'center',

@@ -7,9 +7,8 @@ import * as Font from 'expo-font';
 import { ScreenOrientation  } from 'expo';
 import Icon from './CustomIcon';
 import videoStyles from '../style/index';
-import TweetVideoControlBar from './TweetVideoControlBar';
 
-function TweetVideoFunction(props) {
+function TweetVideoControlBar(props) {
     const [volumeControlButtonIcon, setVolumeControlButtonIcon] = useState('volume-off');
     const [playerControlButtonIcon, setPlayerControlButtonIcon] = useState('play');
 
@@ -41,7 +40,7 @@ function TweetVideoFunction(props) {
     var shouldProgress = true;
     var videoDuration = 10704;
     var position;
-    var currentVideoPosition;
+    var currentVideoPosition
 
     function isPortrait() {
         if ( Dimensions.get('window').height > Dimensions.get('window').width ) {
@@ -56,11 +55,10 @@ function TweetVideoFunction(props) {
     var newProgressBarButtonOffset = 16/progressBarWidth;
     var videoBoxOffset = isPortrait() ? 0 : (Dimensions.get('window').width*0.95-22)-444.45;
 
-    const videoRef = React.createRef();
     const controlBarRef = React.createRef();
     const filledBarRef = React.createRef();
     const progressBarButtonRef = React.createRef();
-
+    
     function updateVolume() {
         if (volumeControlButtonIcon == 'volume-off') {
             videoRef.current.setIsMutedAsync(false);
@@ -75,8 +73,8 @@ function TweetVideoFunction(props) {
     function updatePlaybackStatus() {
         switch (playerControlButtonIcon) {
             case 'play':
-                videoRef.current.playAsync();
-                setPlayerControlButtonIcon('pause');
+                props.video.playAsync();
+                //setPlayerControlButtonIcon('pause');
                 break;
             case 'pause':
                 videoRef.current.pauseAsync();
@@ -171,75 +169,51 @@ function TweetVideoFunction(props) {
         }      
     }
 
-    /* const ControlBar = React.forwardRef(
-        (props, ref) => (
-            <TweetVideoControlBar ref={ref}/>
-        )
-    ); */
-
     return(
-        <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
-            <View style={videoStyles.videoBox}>
-                <Video
-                    resizeMode="cover"
-                    ref={videoRef}
-                    source={/* require('../../assets/theCoralSong.mp4') */{ uri: video.video_info.variants[0].url }}
-                    shouldPlay={false}
-                    isMuted={true}
-                    style={videoStyles.video}
-                    onPlaybackStatusUpdate={updateProgressBar}
+        <Animated.View
+            ref={controlBarRef}
+            style={{ ...videoStyles.controlBar, opacity: 1 }}
+        >
+            <View style={videoStyles.progressBar}>
+                <View style={videoStyles.fillBar}>
+                    <View
+                        ref={filledBarRef}
+                        style={{
+                            ...videoStyles.alreadyFilledBar,
+                            width: 0
+                        }}
+                    />
+                </View>
+                <View
+                    ref={progressBarButtonRef}
+                    hitSlop={{ left: 14, right: 14 }}
+                    style={{
+                        ...videoStyles.progressControlButton,
+                        left: 0,
+                        end: 0
+                    }}
+                    onMoveShouldSetResponder={e => true}
+                    onResponderMove={getPosition}
+                    onResponderRelease={setPlaybackPosition}
                 />
-                <TouchableWithoutFeedback>
-                    <View style={videoStyles.touchableArea} />
-                </TouchableWithoutFeedback>
-                <TweetVideoControlBar video={videoRef.current}/>
-                {/* <Animated.View
-                    ref={controlBarRef}
-                    style={{ ...videoStyles.controlBar, opacity: 1 }}
-                >
-                    <View style={videoStyles.progressBar}>
-                        <View style={videoStyles.fillBar}>
-                            <View
-                                ref={filledBarRef}
-                                style={{
-                                    ...videoStyles.alreadyFilledBar,
-                                    width: 0
-                                }}
-                            />
-                        </View>
-                        <View
-                            ref={progressBarButtonRef}
-                            hitSlop={{ left: 14, right: 14 }}
-                            style={{
-                                ...videoStyles.progressControlButton,
-                                left: 0,
-                                end: 0
-                            }}
-                            onMoveShouldSetResponder={e => true}
-                            onResponderMove={getPosition}
-                            onResponderRelease={setPlaybackPosition}
-                        />
-                    </View>
-                    <View style={videoStyles.controlBarFooter}>
-                        <Icon
-                            name={playerControlButtonIcon}
-                            size={18}
-                            color="white"
-                            style={{ height: 18 }}
-                            onPress={updatePlaybackStatus}
-                        />
-                        <Icon
-                            name={volumeControlButtonIcon}
-                            size={20}
-                            color="white"
-                            style={{height: 20}}
-                            onPress={updateVolume}
-                        />
-                    </View>
-                </Animated.View> */}
             </View>
-        </View>
+            <View style={videoStyles.controlBarFooter}>
+                <Icon
+                    name={playerControlButtonIcon}
+                    size={18}
+                    color="white"
+                    style={{ height: 18 }}
+                    onPress={updatePlaybackStatus}
+                />
+                <Icon
+                    name={volumeControlButtonIcon}
+                    size={20}
+                    color="white"
+                    style={{height: 20}}
+                    onPress={updateVolume}
+                />
+            </View>
+        </Animated.View>
     );
 }
-
-export default TweetVideoFunction;
+export default TweetVideoControlBar;
