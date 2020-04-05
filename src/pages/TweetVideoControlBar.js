@@ -8,6 +8,9 @@ import { ScreenOrientation  } from 'expo';
 import Icon from './CustomIcon';
 import videoStyles from '../style/index';
 
+export function testFunction() {
+    alert('ho');
+}
 function TweetVideoControlBar(props) {
     const [volumeControlButtonIcon, setVolumeControlButtonIcon] = useState('volume-off');
     const [playerControlButtonIcon, setPlayerControlButtonIcon] = useState('play');
@@ -35,7 +38,7 @@ function TweetVideoControlBar(props) {
         'FontName': require("../../assets/fonts/icomoon.ttf")
     });
 
-    var video = props.video;
+    //var video = props.video;
     var controlBarVisibility = new Animated.Value(1);
     var shouldProgress = true;
     var videoDuration = 10704;
@@ -69,11 +72,15 @@ function TweetVideoControlBar(props) {
             setVolumeControlButtonIcon('volume-off');
         }
     }
+    
+    testFunction()
 
     function updatePlaybackStatus() {
         switch (playerControlButtonIcon) {
             case 'play':
-                props.video.playAsync();
+                props.videoRef.current.playAsync()
+                
+                //props.video();
                 //setPlayerControlButtonIcon('pause');
                 break;
             case 'pause':
@@ -216,4 +223,9 @@ function TweetVideoControlBar(props) {
         </Animated.View>
     );
 }
+
+/* export function testFunction() {
+    alert(controlBarRef);
+} */
+
 export default TweetVideoControlBar;

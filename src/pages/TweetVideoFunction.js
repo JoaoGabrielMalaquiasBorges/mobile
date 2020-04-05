@@ -8,6 +8,7 @@ import { ScreenOrientation  } from 'expo';
 import Icon from './CustomIcon';
 import videoStyles from '../style/index';
 import TweetVideoControlBar from './TweetVideoControlBar';
+import { testFunction } from './TweetVideoControlBar';
 
 function TweetVideoFunction(props) {
     const [volumeControlButtonIcon, setVolumeControlButtonIcon] = useState('volume-off');
@@ -187,12 +188,12 @@ function TweetVideoFunction(props) {
                     shouldPlay={false}
                     isMuted={true}
                     style={videoStyles.video}
-                    onPlaybackStatusUpdate={updateProgressBar}
+                    onPlaybackStatusUpdate={testFunction}
                 />
                 <TouchableWithoutFeedback>
                     <View style={videoStyles.touchableArea} />
                 </TouchableWithoutFeedback>
-                <TweetVideoControlBar video={videoRef.current}/>
+                <TweetVideoControlBar videoRef={videoRef}/>
                 {/* <Animated.View
                     ref={controlBarRef}
                     style={{ ...videoStyles.controlBar, opacity: 1 }}
