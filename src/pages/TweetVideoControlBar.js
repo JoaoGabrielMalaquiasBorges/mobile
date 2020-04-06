@@ -8,8 +8,43 @@ import { ScreenOrientation  } from 'expo';
 import Icon from './CustomIcon';
 import videoStyles from '../style/index';
 
-export function testFunction() {
-    alert('ho');
+
+const controlBarRef = React.createRef();
+const filledBarRef = React.createRef();
+const progressBarButtonRef = React.createRef();
+function isPortrait() {
+    if ( Dimensions.get('window').height > Dimensions.get('window').width ) {
+        return true;
+    } else {
+        return false;
+    }
+}
+var progressBarWidth = isPortrait() ? Dimensions.get('window').width*0.95-42 : 424.45;
+var progressBarButtonOffset = videoStyles.progressControlButton.width/progressBarWidth;
+var shouldProgress = true;
+var count = 0;
+var flag = true;
+export function testFunction(position) {
+    if (shouldProgress) {
+        if (position < 1-progressBarButtonOffset) {
+            filledBarRef.current.setNativeProps({
+                style: {
+                    width: (position+progressBarButtonOffset/2)*100 + '%'
+                }
+            });
+            progressBarButtonRef.current.setNativeProps({
+                style: {
+                    left: position*100 + '%'
+                }
+            });
+            count++;
+            if (position > 0 && flag) {
+                flag = false;
+                alert(count)
+            }
+            alert(1-progressBarButtonOffset + '\n' + position + ' -' + count)
+        }
+    }
 }
 function TweetVideoControlBar(props) {
     const [volumeControlButtonIcon, setVolumeControlButtonIcon] = useState('volume-off');
@@ -40,27 +75,14 @@ function TweetVideoControlBar(props) {
 
     //var video = props.video;
     var controlBarVisibility = new Animated.Value(1);
-    var shouldProgress = true;
     var videoDuration = 10704;
-    var position;
-    var currentVideoPosition
+    /* var position; */
 
-    function isPortrait() {
-        if ( Dimensions.get('window').height > Dimensions.get('window').width ) {
-            return true;
-        } else {
-            return false;
-        }
-    }
     
-    var progressBarWidth = isPortrait() ? Dimensions.get('window').width*0.95-42 : 424.45;
-    var progressBarButtonOffset = videoStyles.progressControlButton.width/progressBarWidth;
+    
     var newProgressBarButtonOffset = 16/progressBarWidth;
     var videoBoxOffset = isPortrait() ? 0 : (Dimensions.get('window').width*0.95-22)-444.45;
 
-    const controlBarRef = React.createRef();
-    const filledBarRef = React.createRef();
-    const progressBarButtonRef = React.createRef();
     
     function updateVolume() {
         if (volumeControlButtonIcon == 'volume-off') {
@@ -72,21 +94,18 @@ function TweetVideoControlBar(props) {
             setVolumeControlButtonIcon('volume-off');
         }
     }
-    
-    testFunction()
-
     function updatePlaybackStatus() {
         switch (playerControlButtonIcon) {
             case 'play':
                 props.videoRef.current.playAsync()
                 
                 //props.video();
-                //setPlayerControlButtonIcon('pause');
+                setPlayerControlButtonIcon('pause');
                 break;
-            case 'pause':
+            /* case 'pause':
                 videoRef.current.pauseAsync();
                 setPlayerControlButtonIcon('play');
-                break;
+                break; */
             case 'replay':
                 videoRef.current.replayAsync();
                 setPlayerControlButtonIcon('pause');
@@ -94,7 +113,7 @@ function TweetVideoControlBar(props) {
         }
     }
 
-    function updateProgressBar(playbackStatus) {
+    /* function updateProgressBar(playbackStatus) {
         if (playbackStatus.isPlaying) {
             if (shouldProgress) {
                 currentVideoPosition = playbackStatus.positionMillis/videoDuration;
@@ -126,7 +145,7 @@ function TweetVideoControlBar(props) {
                 }
             });
         }
-    }
+    } */
 
     function getPosition(e) {
         shouldProgress = false;
@@ -152,34 +171,27 @@ function TweetVideoControlBar(props) {
     }
     
     function setPlaybackPosition() {
-        if (position > 1-newProgressBarButtonOffset) {
-            position = 1-progressBarButtonOffset;
-        }
         progressBarButtonRef.current.setNativeProps({
             style: {
                 height: 12,
-                width: 12,
-                left: position*100 + '%'
+                width: 12
             }
         });
-        videoRef.current.pauseAsync().then(
+        props.videoRef.current.pauseAsync().then(
             () => {
-                videoRef.current.playFromPositionAsync(position*videoDuration).then(
+                props.videoRef.current.playFromPositionAsync(position*videoDuration).then(
                     () => {
                         shouldProgress = true;
                     }
                 );
             }
-        );
-        if ( playerControlButtonIcon == 'play' || playerControlButtonIcon == 'replay' ) {
-            setPlayerControlButtonIcon('pause');
-        }      
+        );      
     }
 
     return(
         <Animated.View
             ref={controlBarRef}
-            style={{ ...videoStyles.controlBar, opacity: 1 }}
+            style={{ ...videoStyles.controlBar, opacity: 0.5 }}
         >
             <View style={videoStyles.progressBar}>
                 <View style={videoStyles.fillBar}>
@@ -201,7 +213,6 @@ function TweetVideoControlBar(props) {
                     }}
                     onMoveShouldSetResponder={e => true}
                     onResponderMove={getPosition}
-                    onResponderRelease={setPlaybackPosition}
                 />
             </View>
             <View style={videoStyles.controlBarFooter}>
@@ -223,9 +234,5 @@ function TweetVideoControlBar(props) {
         </Animated.View>
     );
 }
-
-/* export function testFunction() {
-    alert(controlBarRef);
-} */
 
 export default TweetVideoControlBar;

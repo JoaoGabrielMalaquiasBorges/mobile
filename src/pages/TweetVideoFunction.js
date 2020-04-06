@@ -11,7 +11,11 @@ import TweetVideoControlBar from './TweetVideoControlBar';
 import { testFunction } from './TweetVideoControlBar';
 
 function TweetVideoFunction(props) {
-    const [volumeControlButtonIcon, setVolumeControlButtonIcon] = useState('volume-off');
+    var video = props.video;
+    const videoRef = React.createRef();
+    var videoDuration = 10704;
+    var currentVideoPosition = 0;
+/*     const [volumeControlButtonIcon, setVolumeControlButtonIcon] = useState('volume-off');
     const [playerControlButtonIcon, setPlayerControlButtonIcon] = useState('play');
 
     useEffect(() => {
@@ -39,7 +43,7 @@ function TweetVideoFunction(props) {
 
     var video = props.video;
     var controlBarVisibility = new Animated.Value(1);
-    var shouldProgress = true;
+    //var shouldProgress = true;
     var videoDuration = 10704;
     var position;
     var currentVideoPosition;
@@ -96,16 +100,7 @@ function TweetVideoFunction(props) {
                 currentVideoPosition = playbackStatus.positionMillis/videoDuration;
                 //alert(playbackStatus.positionMillis)
                 if (currentVideoPosition <= 1-progressBarButtonOffset) {
-                    filledBarRef.current.setNativeProps({
-                        style: {
-                            width: (currentVideoPosition+progressBarButtonOffset/2)*100 + '%'
-                        }
-                    });
-                    progressBarButtonRef.current.setNativeProps({
-                        style: {
-                            left: currentVideoPosition*100 + '%'
-                        }
-                    });
+                    
                 }
             }
         }
@@ -171,13 +166,7 @@ function TweetVideoFunction(props) {
             setPlayerControlButtonIcon('pause');
         }      
     }
-
-    /* const ControlBar = React.forwardRef(
-        (props, ref) => (
-            <TweetVideoControlBar ref={ref}/>
-        )
-    ); */
-
+ */
     return(
         <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
             <View style={videoStyles.videoBox}>
@@ -188,12 +177,19 @@ function TweetVideoFunction(props) {
                     shouldPlay={false}
                     isMuted={true}
                     style={videoStyles.video}
-                    onPlaybackStatusUpdate={testFunction}
+                    onPlaybackStatusUpdate={
+                        playbackStatus => {
+                            if (playbackStatus.isPlaying) {
+                                currentVideoPosition = playbackStatus.positionMillis/videoDuration;
+                                testFunction(currentVideoPosition)
+                            }
+                        }
+                    }
                 />
                 <TouchableWithoutFeedback>
                     <View style={videoStyles.touchableArea} />
                 </TouchableWithoutFeedback>
-                <TweetVideoControlBar videoRef={videoRef}/>
+                <TweetVideoControlBar videoRef={videoRef} />
                 {/* <Animated.View
                     ref={controlBarRef}
                     style={{ ...videoStyles.controlBar, opacity: 1 }}
