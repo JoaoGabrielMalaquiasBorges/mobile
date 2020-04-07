@@ -22,7 +22,7 @@ function isPortrait() {
 var progressBarWidth = isPortrait() ? Dimensions.get('window').width*0.95-42 : 424.45;
 var progressBarButtonOffset = videoStyles.progressControlButton.width/progressBarWidth;
 var shouldProgress = true;
-var count = 0;
+var count = 1;
 var flag = true;
 export function testFunction(position) {
     if (shouldProgress) {
@@ -37,12 +37,11 @@ export function testFunction(position) {
                     left: position*100 + '%'
                 }
             });
-            count++;
-            if (position > 0 && flag) {
-                flag = false;
-                alert(count)
-            }
-            alert(1-progressBarButtonOffset + '\n' + position + ' -' + count)
+            /* if (count == 1) {
+                alert(1-progressBarButtonOffset + '\n' + position + '\n' + count)
+            } */
+            alert(1-progressBarButtonOffset + '\n' + position + '\n' + count)
+            count = count + 1;
         }
     }
 }
@@ -73,43 +72,43 @@ function TweetVideoControlBar(props) {
         'FontName': require("../../assets/fonts/icomoon.ttf")
     });
 
-    //var video = props.video;
+    /* var video = props.video;
     var controlBarVisibility = new Animated.Value(1);
     var videoDuration = 10704;
-    /* var position; */
+    var position; */
 
     
     
-    var newProgressBarButtonOffset = 16/progressBarWidth;
-    var videoBoxOffset = isPortrait() ? 0 : (Dimensions.get('window').width*0.95-22)-444.45;
+    /* var newProgressBarButtonOffset = 16/progressBarWidth;
+    var videoBoxOffset = isPortrait() ? 0 : (Dimensions.get('window').width*0.95-22)-444.45; */
 
     
     function updateVolume() {
         if (volumeControlButtonIcon == 'volume-off') {
-            videoRef.current.setIsMutedAsync(false);
+            props.videoRef.current.setIsMutedAsync(false);
             setVolumeControlButtonIcon('volume-high');
-        }
-        else {
-            videoRef.current.setIsMutedAsync(true);
+        } else {
+            props.videoRef.current.setIsMutedAsync(true);
             setVolumeControlButtonIcon('volume-off');
         }
     }
+
     function updatePlaybackStatus() {
         switch (playerControlButtonIcon) {
             case 'play':
-                props.videoRef.current.playAsync()
-                
-                //props.video();
+                props.videoRef.current.playAsync();
                 setPlayerControlButtonIcon('pause');
                 break;
-            /* case 'pause':
+                
+            case 'pause':
                 videoRef.current.pauseAsync();
                 setPlayerControlButtonIcon('play');
-                break; */
+                break;
+
             case 'replay':
                 videoRef.current.replayAsync();
                 setPlayerControlButtonIcon('pause');
-                break;     
+                break;
         }
     }
 
@@ -147,7 +146,7 @@ function TweetVideoControlBar(props) {
         }
     } */
 
-    function getPosition(e) {
+    /* function getPosition(e) {
         shouldProgress = false;
         position = (e.nativeEvent.pageX-Dimensions.get('window').width*0.025-11-videoBoxOffset/2-10-8)/progressBarWidth;
         if ( position >= 0 && position <= 1-newProgressBarButtonOffset ) {
@@ -186,7 +185,7 @@ function TweetVideoControlBar(props) {
                 );
             }
         );      
-    }
+    } */
 
     return(
         <Animated.View
@@ -210,9 +209,9 @@ function TweetVideoControlBar(props) {
                         ...videoStyles.progressControlButton,
                         left: 0,
                         end: 0
-                    }}
+                    }}/* 
                     onMoveShouldSetResponder={e => true}
-                    onResponderMove={getPosition}
+                    onResponderMove={getPosition} */
                 />
             </View>
             <View style={videoStyles.controlBarFooter}>
@@ -227,7 +226,7 @@ function TweetVideoControlBar(props) {
                     name={volumeControlButtonIcon}
                     size={20}
                     color="white"
-                    style={{height: 20}}
+                    style={{ height: 20 }}
                     onPress={updateVolume}
                 />
             </View>

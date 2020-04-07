@@ -1,4 +1,4 @@
-import React from 'react';
+/* import React from 'react';
 import { View, Dimensions, Animated,  TouchableWithoutFeedback, Image  } from 'react-native';
 import { Video } from 'expo-av';
 import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
@@ -312,3 +312,4 @@ export default class TweetVideo extends React.Component {
     }
 }
 
+ */

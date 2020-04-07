@@ -166,7 +166,7 @@ function TweetVideoFunction(props) {
             setPlayerControlButtonIcon('pause');
         }      
     }
- */
+ */var flag = true;
     return(
         <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
             <View style={videoStyles.videoBox}>
@@ -182,11 +182,20 @@ function TweetVideoFunction(props) {
                             if (playbackStatus.isPlaying) {
                                 currentVideoPosition = playbackStatus.positionMillis/videoDuration;
                                 testFunction(currentVideoPosition)
+                                if (currentVideoPosition > 0.6 && flag) {
+                                    flag = false;
+                                    videoRef.current.setIsMutedAsync(false);
+                                }
                             }
+                            //alert('h')
                         }
                     }
                 />
-                <TouchableWithoutFeedback>
+                <TouchableWithoutFeedback onPress={
+                    () => {
+                        videoRef.current.setIsMutedAsync(false);
+                    }
+                }>
                     <View style={videoStyles.touchableArea} />
                 </TouchableWithoutFeedback>
                 <TweetVideoControlBar videoRef={videoRef} />
