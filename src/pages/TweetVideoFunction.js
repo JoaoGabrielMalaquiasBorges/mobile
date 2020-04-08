@@ -166,7 +166,18 @@ function TweetVideoFunction(props) {
             setPlayerControlButtonIcon('pause');
         }      
     }
- */var flag = true;
+ */ var date, prevTime, currTime, count;
+    date = new Date();
+    prevTime = currTime = count = 0;
+    
+    var _ = require('lodash');
+    function test() {};
+    test = _.once(
+        () => {
+            alert(date.getTime())
+        }
+    );
+    
     return(
         <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
             <View style={videoStyles.videoBox}>
@@ -176,18 +187,20 @@ function TweetVideoFunction(props) {
                     source={/* require('../../assets/theCoralSong.mp4') */{ uri: video.video_info.variants[0].url }}
                     shouldPlay={false}
                     isMuted={true}
+                    progressUpdateIntervalMillis={500}
                     style={videoStyles.video}
                     onPlaybackStatusUpdate={
                         playbackStatus => {
                             if (playbackStatus.isPlaying) {
-                                currentVideoPosition = playbackStatus.positionMillis/videoDuration;
-                                testFunction(currentVideoPosition)
-                                if (currentVideoPosition > 0.6 && flag) {
-                                    flag = false;
-                                    videoRef.current.setIsMutedAsync(false);
-                                }
+                                //currentVideoPosition = playbackStatus.positionMillis/videoDuration;
+                                /* currTime = Date.now();
+                                if (currTime-prevTime >= 1000) {
+                                    prevTime = currTime;
+                                    testFunction(currentVideoPosition);
+                                } */
+                                count++;
+                                alert(count);
                             }
-                            //alert('h')
                         }
                     }
                 />

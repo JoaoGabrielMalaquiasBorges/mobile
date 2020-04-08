@@ -40,8 +40,8 @@ export function testFunction(position) {
             /* if (count == 1) {
                 alert(1-progressBarButtonOffset + '\n' + position + '\n' + count)
             } */
-            alert(1-progressBarButtonOffset + '\n' + position + '\n' + count)
-            count = count + 1;
+            //alert(/* 1-progressBarButtonOffset + '\n' + position + '\n' +  */count)
+            //count = count + 1;
         }
     }
 }
