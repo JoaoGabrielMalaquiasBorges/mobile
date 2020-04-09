@@ -171,10 +171,11 @@ function TweetVideoFunction(props) {
     prevTime = currTime = count = 0;
     
     var _ = require('lodash');
-    function test() {};
+    function test(x) {};
     test = _.once(
         () => {
-            alert(date.getTime())
+            //alert(count +' ' +prevTime +' ' +positionMillis);
+            
         }
     );
     
@@ -187,7 +188,7 @@ function TweetVideoFunction(props) {
                     source={/* require('../../assets/theCoralSong.mp4') */{ uri: video.video_info.variants[0].url }}
                     shouldPlay={false}
                     isMuted={true}
-                    progressUpdateIntervalMillis={500}
+                    progressUpdateIntervalMillis={1000}
                     style={videoStyles.video}
                     onPlaybackStatusUpdate={
                         playbackStatus => {
@@ -198,17 +199,32 @@ function TweetVideoFunction(props) {
                                     prevTime = currTime;
                                     testFunction(currentVideoPosition);
                                 } */
-                                count++;
+                                if (count == 2) {
+                                    prevTime = Date.now();
+                                }
+                                if (count == 3) {
+                                    currTime = Date.now();
+                                }
                                 alert(count);
+                                count++;
+                                /* if (prevTime != playbackStatus.positionMillis) {
+                                    count++;
+                                    alert(count +' ' +prevTime +' ' +playbackStatus.positionMillis);
+                                    prevTime = playbackStatus.positionMillis;
+                                } */
+                            } else {
+                                if (playbackStatus.didJustFinish) {
+                                    alert(currTime-prevTime);
+                                }
                             }
                         }
                     }
                 />
-                <TouchableWithoutFeedback onPress={
+                <TouchableWithoutFeedback /* onPress={
                     () => {
                         videoRef.current.setIsMutedAsync(false);
                     }
-                }>
+                } */>
                     <View style={videoStyles.touchableArea} />
                 </TouchableWithoutFeedback>
                 <TweetVideoControlBar videoRef={videoRef} />

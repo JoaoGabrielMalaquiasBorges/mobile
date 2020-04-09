@@ -22,7 +22,7 @@ function isPortrait() {
 var progressBarWidth = isPortrait() ? Dimensions.get('window').width*0.95-42 : 424.45;
 var progressBarButtonOffset = videoStyles.progressControlButton.width/progressBarWidth;
 var shouldProgress = true;
-var count = 1;
+//var count = 1;
 var flag = true;
 export function testFunction(position) {
     if (shouldProgress) {
