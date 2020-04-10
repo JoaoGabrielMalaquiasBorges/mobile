@@ -178,7 +178,12 @@ function TweetVideoFunction(props) {
             
         }
     );
-    
+    function _onPlaybackStatusUpdate(playbackStatus) {
+        if (playbackStatus.isPlaying) {
+            alert(count);
+            count++;
+        }
+    }
     return(
         <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
             <View style={videoStyles.videoBox}>
@@ -188,34 +193,12 @@ function TweetVideoFunction(props) {
                     source={/* require('../../assets/theCoralSong.mp4') */{ uri: video.video_info.variants[0].url }}
                     shouldPlay={false}
                     isMuted={true}
-                    progressUpdateIntervalMillis={1000}
                     style={videoStyles.video}
                     onPlaybackStatusUpdate={
                         playbackStatus => {
                             if (playbackStatus.isPlaying) {
-                                //currentVideoPosition = playbackStatus.positionMillis/videoDuration;
-                                /* currTime = Date.now();
-                                if (currTime-prevTime >= 1000) {
-                                    prevTime = currTime;
-                                    testFunction(currentVideoPosition);
-                                } */
-                                if (count == 2) {
-                                    prevTime = Date.now();
-                                }
-                                if (count == 3) {
-                                    currTime = Date.now();
-                                }
-                                alert(count);
-                                count++;
-                                /* if (prevTime != playbackStatus.positionMillis) {
-                                    count++;
-                                    alert(count +' ' +prevTime +' ' +playbackStatus.positionMillis);
-                                    prevTime = playbackStatus.positionMillis;
-                                } */
-                            } else {
-                                if (playbackStatus.didJustFinish) {
-                                    alert(currTime-prevTime);
-                                }
+                                currentVideoPosition = playbackStatus.positionMillis/videoDuration;
+                                testFunction(currentVideoPosition);
                             }
                         }
                     }
