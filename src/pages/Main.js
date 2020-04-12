@@ -15,7 +15,7 @@ import QuotedTweet from './QuotedTweet';
 import TweetHeader from './TweetHeader';
 import { Linking, ScreenOrientation  } from 'expo';
 
-function Main() {
+function Main({ navigation }) {
     var tweet = tweetObject;
     var quotedTweet = [];
     var replayInfo = [];
@@ -94,7 +94,7 @@ function Main() {
                 case "video":
                     return (
                         <View style={{marginBottom: 10}}>
-                            <TweetVideoFunction video={tweet.extended_entities.media[0]} width={Dimensions.get('window').width-42}/>
+                            <TweetVideoFunction video={tweet.extended_entities.media[0]} navigation={navigation} width={Dimensions.get('window').width-42}/>
                         </View>
                     );
                     break;

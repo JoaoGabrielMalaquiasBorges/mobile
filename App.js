@@ -7,7 +7,7 @@ import Main from './src/pages/Main';
 export default function App() {
   return (
     <>
-      {/* <StatusBar barStyle="default"/> */}
+      <StatusBar translucent={true} backgroundColor='rgba(0, 0, 0, 0.5)' />
       <Routes />
     </>
   );
