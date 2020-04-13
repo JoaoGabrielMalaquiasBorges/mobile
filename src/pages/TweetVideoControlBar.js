@@ -23,6 +23,7 @@ function TweetVideoControlBar(props) {
     function updateVolume() {
         if (volumeControlButtonIcon == 'volume-off') {
             //props.videoRef.current.setIsMutedAsync(false);
+            props.videoRef.current.pauseAsync();
             props.navigation.navigate('Profile', { videoRef: props.videoRef })
             
             setVolumeControlButtonIcon('volume-high');

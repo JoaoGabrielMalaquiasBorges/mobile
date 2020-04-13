@@ -12,7 +12,14 @@ const Routes = createAppContainer(
                 title: 'Insider Spider'
             },
         },
-        Profile,
+        Profile: {
+            screen: Profile,
+            /* navigationOptions: {
+                onTransitionStart: () => {
+                    alert('hi')
+                }
+            }, */
+        },
     }, {
         defaultNavigationOptions: {
             headerStyle: {
