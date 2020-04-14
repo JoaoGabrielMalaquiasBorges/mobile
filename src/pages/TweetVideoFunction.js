@@ -14,9 +14,12 @@ function TweetVideoFunction(props) {
     const video = props.video;
     const videoDuration = 10704;
     const videoRef = React.createRef();
+
     var currentVideoPosition = 0;
 
+
     function _onPlaybackStatusUpdate(playbackStatus) {
+        //alert(JSON.stringify(props.navigation.state))
         if (playbackStatus.isPlaying) {
             currentVideoPosition = playbackStatus.positionMillis/videoDuration;
             testFunction(currentVideoPosition);

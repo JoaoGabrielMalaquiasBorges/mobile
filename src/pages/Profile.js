@@ -4,34 +4,20 @@ import { Video } from 'expo-av';
 import Icon from './CustomIcon';
 import * as Font from 'expo-font';
 import TweetVideoFunction from './TweetVideoFunction';
-import { NavigationEvents } from 'react-navigation';
+import { NavigationEvents, NavigationActions } from 'react-navigation';
 
 function Profile({ navigation }) {
     Font.loadAsync({
         'FontName': require("../../assets/fonts/icomoon.ttf")
     });
 
-    const videoRef = navigation.getParam('videoRef');
+    const notFullscreenSizeVideo = navigation.getParam('notFullscreenSizeVideo');
     const fullscreenVideoRef = React.createRef();
 
     useEffect(() => {
-        /* videoRef.current.getStatusAsync().then(
-            playbackStatus => {
-                fullscreenVideoRef.current.setStatusAsync(playbackStatus).then(
-                    () => {
-                        fullscreenVideoRef.current.playAsync();
-                    }
-                );
-                //alert( JSON.stringify(playbackStatus) );
-            }
-        ); */
-        //alert(navigation.isFocused())
-        /* const unsubscribe = navigation.addListener('focus', e => {
-            alert ('hi');
-        }); */
-        //navigation.addListener()
+        fullscreenVideoRef.current.setStatusAsync(notFullscreenSizeVideo.playbackStatus);
         return () => {
-            //videoRef.current.playFromPositionAsync(5000);
+            fullscreenVideoRef.current.unloadAsync();
         };
     });
     
@@ -39,13 +25,19 @@ function Profile({ navigation }) {
         <>
             <StatusBar hidden={true} />
             <NavigationEvents
-                onWillBlur={() => videoRef.current.playFromPositionAsync(5000)}
+                onWillBlur={() =>
+                    fullscreenVideoRef.current.getStatusAsync().then(
+                        playbackStatus => {
+                            notFullscreenSizeVideo.videoRef.current.setStatusAsync(playbackStatus);
+                        }
+                    )
+                }
             />
             <View>
                 <Video
                     ref={fullscreenVideoRef}
                     resizeMode="contain"
-                    source={{ uri: videoRef.current.props.source.uri }}
+                    source={{ uri: notFullscreenSizeVideo.videoRef.current.props.source.uri }}
                     style={{ height: 250, width: 300 }}/* 
                     onPlaybackStatusUpdate={_onPlaybackStatusUpdate} */
                 />

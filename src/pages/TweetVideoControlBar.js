@@ -23,8 +23,22 @@ function TweetVideoControlBar(props) {
     function updateVolume() {
         if (volumeControlButtonIcon == 'volume-off') {
             //props.videoRef.current.setIsMutedAsync(false);
-            props.videoRef.current.pauseAsync();
-            props.navigation.navigate('Profile', { videoRef: props.videoRef })
+
+            props.videoRef.current.getStatusAsync().then(
+                playbackStatus => {
+                    props.navigation.navigate(
+                        'Profile', {
+                            notFullscreenSizeVideo: {
+                                videoRef: props.videoRef,
+                                playbackStatus: playbackStatus
+                            }
+                        }
+                    );
+                    if (playbackStatus.isPlaying) {
+                        props.videoRef.current.pauseAsync();
+                    }
+                }
+            );
             
             setVolumeControlButtonIcon('volume-high');
         } else {
