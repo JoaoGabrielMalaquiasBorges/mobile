@@ -14,12 +14,18 @@ function Profile({ navigation }) {
     const notFullscreenSizeVideo = navigation.getParam('notFullscreenSizeVideo');
     const fullscreenVideoRef = React.createRef();
 
+    //alert(notFullscreenSizeVideo.routeKey + '\n' + navigation.state.key)
+
     useEffect(() => {
         fullscreenVideoRef.current.setStatusAsync(notFullscreenSizeVideo.playbackStatus);
         return () => {
             fullscreenVideoRef.current.unloadAsync();
         };
     });
+
+    /* for(var property in navigation.state) {
+        alert(property + "=" + navigation.state[property]);
+    } */
     
     return(
         <>
@@ -38,8 +44,8 @@ function Profile({ navigation }) {
                     ref={fullscreenVideoRef}
                     resizeMode="contain"
                     source={{ uri: notFullscreenSizeVideo.videoRef.current.props.source.uri }}
-                    style={{ height: 250, width: 300 }}/* 
-                    onPlaybackStatusUpdate={_onPlaybackStatusUpdate} */
+                    style={{ height: 250, width: 300 }}
+                    //onPlaybackStatusUpdate={_onPlaybackStatusUpdate}
                 />
                 <Icon
                     name='play'

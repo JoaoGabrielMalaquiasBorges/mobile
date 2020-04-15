@@ -19,7 +19,7 @@ function TweetVideoFunction(props) {
 
 
     function _onPlaybackStatusUpdate(playbackStatus) {
-        //alert(JSON.stringify(props.navigation.state))
+        //alert( JSON.stringify(props.navigation.params) )
         if (playbackStatus.isPlaying) {
             currentVideoPosition = playbackStatus.positionMillis/videoDuration;
             testFunction(currentVideoPosition);

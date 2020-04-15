@@ -21,6 +21,9 @@ function TweetVideoControlBar(props) {
     var controlBarVisibility = new Animated.Value(1);
 
     function updateVolume() {
+        /* props.navigation.setParams({ name: 'Lucy' });
+        alert(JSON.stringify(props.navigation.state)); */
+
         if (volumeControlButtonIcon == 'volume-off') {
             //props.videoRef.current.setIsMutedAsync(false);
 
@@ -30,7 +33,8 @@ function TweetVideoControlBar(props) {
                         'Profile', {
                             notFullscreenSizeVideo: {
                                 videoRef: props.videoRef,
-                                playbackStatus: playbackStatus
+                                playbackStatus: playbackStatus,
+                                routeKey: props.navigation.state.key
                             }
                         }
                     );
