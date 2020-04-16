@@ -9,6 +9,7 @@ import Icon from './CustomIcon';
 import videoStyles from '../style/index';
 import TweetVideoControlBar from "./TweetVideoControlBar";
 import { testFunction, finishProgress } from './TweetVideoProgressBar';
+import { NavigationEvents } from 'react-navigation';
 
 function TweetVideoFunction(props) {
     const video = props.video;
@@ -17,9 +18,8 @@ function TweetVideoFunction(props) {
 
     var currentVideoPosition = 0;
 
-
     function _onPlaybackStatusUpdate(playbackStatus) {
-        //alert( JSON.stringify(props.navigation.params) )
+        //alert( JSON.stringify(props.navigation) )
         if (playbackStatus.isPlaying) {
             currentVideoPosition = playbackStatus.positionMillis/videoDuration;
             testFunction(currentVideoPosition);
@@ -32,6 +32,9 @@ function TweetVideoFunction(props) {
     
     return(
         <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
+            <NavigationEvents
+                onWillFocus={ payload => alert(payload.action.type) }
+            />
             <View style={videoStyles.videoBox}>
                 <Video
                     resizeMode="cover"

@@ -31,7 +31,7 @@ function Profile({ navigation }) {
         <>
             <StatusBar hidden={true} />
             <NavigationEvents
-                onWillBlur={() =>
+                onWillBlur={payload =>
                     fullscreenVideoRef.current.getStatusAsync().then(
                         playbackStatus => {
                             notFullscreenSizeVideo.videoRef.current.setStatusAsync(playbackStatus);
