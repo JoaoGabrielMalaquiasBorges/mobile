@@ -32,9 +32,9 @@ function TweetVideoFunction(props) {
     
     return(
         <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
-            <NavigationEvents
+            {/* <NavigationEvents
                 onWillFocus={ payload => alert(payload.action.type) }
-            />
+            /> */}
             <View style={videoStyles.videoBox}>
                 <Video
                     resizeMode="cover"

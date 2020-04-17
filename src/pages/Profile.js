@@ -17,7 +17,12 @@ function Profile({ navigation }) {
     //alert(notFullscreenSizeVideo.routeKey + '\n' + navigation.state.key)
 
     useEffect(() => {
-        fullscreenVideoRef.current.setStatusAsync(notFullscreenSizeVideo.playbackStatus);
+        //alert( JSON.stringify(notFullscreenSizeVideo.playbackStatus) );
+        fullscreenVideoRef.current.setStatusAsync(notFullscreenSizeVideo.playbackStatus).then(
+            /* e => {
+                alert( JSON.stringify(notFullscreenSizeVideo.playbackStatus) );
+            } */
+        );
         return () => {
             fullscreenVideoRef.current.unloadAsync();
         };
@@ -31,10 +36,11 @@ function Profile({ navigation }) {
         <>
             <StatusBar hidden={true} />
             <NavigationEvents
-                onWillBlur={payload =>
-                    fullscreenVideoRef.current.getStatusAsync().then(
+                onWillBlur={
+                    payload => fullscreenVideoRef.current.getStatusAsync().then(
                         playbackStatus => {
-                            notFullscreenSizeVideo.videoRef.current.setStatusAsync(playbackStatus);
+                            //notFullscreenSizeVideo.videoRef.current.setStatusAsync(playbackStatus);
+                            notFullscreenSizeVideo.videoRef.current.playFromPositionAsync(5000);
                         }
                     )
                 }
@@ -42,7 +48,7 @@ function Profile({ navigation }) {
             <View>
                 <Video
                     ref={fullscreenVideoRef}
-                    resizeMode="contain"
+                    //resizeMode="contain"
                     source={{ uri: notFullscreenSizeVideo.videoRef.current.props.source.uri }}
                     style={{ height: 250, width: 300 }}
                     //onPlaybackStatusUpdate={_onPlaybackStatusUpdate}
