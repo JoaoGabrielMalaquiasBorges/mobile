@@ -18,10 +18,10 @@ function Profile({ navigation }) {
 
     useEffect(() => {
         //alert( JSON.stringify(notFullscreenSizeVideo.playbackStatus) );
-        fullscreenVideoRef.current.setStatusAsync(notFullscreenSizeVideo.playbackStatus).then(
-            /* e => {
+        fullscreenVideoRef.current.setStatusAsync({ positionMillis: 10704 }).then(
+            e => {
                 alert( JSON.stringify(notFullscreenSizeVideo.playbackStatus) );
-            } */
+            }
         );
         return () => {
             fullscreenVideoRef.current.unloadAsync();
@@ -48,7 +48,7 @@ function Profile({ navigation }) {
             <View>
                 <Video
                     ref={fullscreenVideoRef}
-                    //resizeMode="contain"
+                    resizeMode='contain'
                     source={{ uri: notFullscreenSizeVideo.videoRef.current.props.source.uri }}
                     style={{ height: 250, width: 300 }}
                     //onPlaybackStatusUpdate={_onPlaybackStatusUpdate}
@@ -60,7 +60,9 @@ function Profile({ navigation }) {
                     style={{ height: 20, marginLeft: 100 }}
                     onPress={
                         () => {
-                            fullscreenVideoRef.current.playAsync();
+                            fullscreenVideoRef.current.playAsync().then(
+                                alert('hi')
+                            );
                         }
                     }
                 />
