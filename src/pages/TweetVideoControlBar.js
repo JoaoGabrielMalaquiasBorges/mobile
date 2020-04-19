@@ -31,10 +31,9 @@ function TweetVideoControlBar(props) {
                 playbackStatus => {
                     props.navigation.navigate(
                         'Profile', {
-                            notFullscreenSizeVideo: {
-                                videoRef: props.videoRef,
-                                playbackStatus: playbackStatus
-                            }
+                            //video: props.video,
+                            //videoRef: props.videoRef,
+                            playbackStatus: playbackStatus
                         }
                     );
                     if (playbackStatus.isPlaying) {

@@ -1,10 +1,27 @@
-import { createAppContainer } from 'react-navigation';
-import { createStackNavigator } from 'react-navigation-stack';
-
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 import Main from './pages/Main';
 import Profile from './pages/Profile';
 
-const Routes = createAppContainer(
+const Stack = createStackNavigator();
+
+function Routes() {
+    return (
+        <NavigationContainer>
+            <Stack.Navigator initialRouteName='Main' screenOptions={{
+                headerStyle: {
+                    backgroundColor: 'purple'
+                }
+            }}>
+                <Stack.Screen name="Main" component={Main} options={{ title: 'Insider Spider' }} />
+                <Stack.Screen name="Profile" component={Profile} />
+            </Stack.Navigator>
+        </NavigationContainer>
+    );
+}
+
+/* const Routes = createAppContainer(
     createStackNavigator({
         Main: {
             screen: Main,
@@ -14,11 +31,11 @@ const Routes = createAppContainer(
         },
         Profile: {
             screen: Profile,
-            /* navigationOptions: {
+            navigationOptions: {
                 onTransitionStart: () => {
                     alert('hi')
                 }
-            }, */
+            },
         },
     }, {
         defaultNavigationOptions: {
@@ -27,6 +44,6 @@ const Routes = createAppContainer(
             }
         }
     })
-);
+); */
 
 export default Routes;

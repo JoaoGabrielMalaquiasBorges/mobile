@@ -1,6 +1,5 @@
 import React from 'react';
 import { StatusBar } from 'react-native';
-import { NavigationActions } from 'react-navigation';
 
 import Routes from './src/routes';
 import Main from './src/pages/Main';

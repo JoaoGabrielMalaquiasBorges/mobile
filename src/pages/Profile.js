@@ -3,22 +3,22 @@ import { View, StatusBar, Text } from 'react-native';
 import { Video } from 'expo-av';
 import Icon from './CustomIcon';
 import * as Font from 'expo-font';
-import TweetVideoFunction from './TweetVideoFunction';
-import { NavigationEvents, NavigationActions } from 'react-navigation';
+import tweetObject from './Model';
 
-function Profile({ navigation }) {
+function Profile({ route, navigation }) {
     Font.loadAsync({
         'FontName': require("../../assets/fonts/icomoon.ttf")
     });
 
-    const notFullscreenSizeVideo = navigation.getParam('notFullscreenSizeVideo');
+    const tweet = tweetObject;
+    const notFullscreenSizeVideo = route.params;
     const fullscreenVideoRef = React.createRef();
 
     //alert(notFullscreenSizeVideo.routeKey + '\n' + navigation.state.key)
 
     useEffect(() => {
         //alert( JSON.stringify(notFullscreenSizeVideo.playbackStatus) );
-        fullscreenVideoRef.current.setStatusAsync({ positionMillis: 10704 }).then(
+        fullscreenVideoRef.current.setStatusAsync({ positionMillis: 10703 }).then(
             e => {
                 alert( JSON.stringify(notFullscreenSizeVideo.playbackStatus) );
             }
@@ -35,7 +35,7 @@ function Profile({ navigation }) {
     return(
         <>
             <StatusBar hidden={true} />
-            <NavigationEvents
+            {/* <NavigationEvents
                 onWillBlur={
                     payload => fullscreenVideoRef.current.getStatusAsync().then(
                         playbackStatus => {
@@ -44,12 +44,12 @@ function Profile({ navigation }) {
                         }
                     )
                 }
-            />
+            /> */}
             <View>
                 <Video
                     ref={fullscreenVideoRef}
                     resizeMode='contain'
-                    source={{ uri: notFullscreenSizeVideo.videoRef.current.props.source.uri }}
+                    source={{ uri: tweet.extended_entities.media[0].video_info.variants[0].url }}
                     style={{ height: 250, width: 300 }}
                     //onPlaybackStatusUpdate={_onPlaybackStatusUpdate}
                 />

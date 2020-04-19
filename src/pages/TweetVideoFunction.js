@@ -9,7 +9,6 @@ import Icon from './CustomIcon';
 import videoStyles from '../style/index';
 import TweetVideoControlBar from "./TweetVideoControlBar";
 import { testFunction, finishProgress } from './TweetVideoProgressBar';
-import { NavigationEvents } from 'react-navigation';
 
 function TweetVideoFunction(props) {
     const video = props.video;
@@ -48,7 +47,7 @@ function TweetVideoFunction(props) {
                 <TouchableWithoutFeedback>
                     <View style={videoStyles.touchableArea} />
                 </TouchableWithoutFeedback>
-                <TweetVideoControlBar videoRef={videoRef} navigation={props.navigation}/>
+                <TweetVideoControlBar video={video} videoRef={videoRef} navigation={props.navigation}/>
             </View>
         </View>
     );
