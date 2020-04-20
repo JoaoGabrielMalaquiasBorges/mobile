@@ -17,12 +17,12 @@ function Profile({ route, navigation }) {
     //alert(notFullscreenSizeVideo.routeKey + '\n' + navigation.state.key)
 
     useEffect(() => {
-        //alert( JSON.stringify(notFullscreenSizeVideo.playbackStatus) );
-        fullscreenVideoRef.current.setStatusAsync({ positionMillis: 10703 }).then(
+        //alert( fullscreenVideoRef.current.props.source.uri );
+        /* fullscreenVideoRef.current.setStatusAsync({ positionMillis: 26000 }).then(
             e => {
                 alert( JSON.stringify(notFullscreenSizeVideo.playbackStatus) );
             }
-        );
+        ); */
         return () => {
             fullscreenVideoRef.current.unloadAsync();
         };
@@ -49,8 +49,9 @@ function Profile({ route, navigation }) {
                 <Video
                     ref={fullscreenVideoRef}
                     resizeMode='contain'
-                    source={{ uri: tweet.extended_entities.media[0].video_info.variants[0].url }}
+                    source={{ uri: tweet.extended_entities.media[0].video_info.variants[0].url /* 'http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4' */}}
                     style={{ height: 250, width: 300 }}
+                    status={notFullscreenSizeVideo.playbackStatus}
                     //onPlaybackStatusUpdate={_onPlaybackStatusUpdate}
                 />
                 <Icon

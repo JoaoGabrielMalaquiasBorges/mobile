@@ -27,20 +27,22 @@ function TweetVideoControlBar(props) {
         if (volumeControlButtonIcon == 'volume-off') {
             //props.videoRef.current.setIsMutedAsync(false);
 
-            props.videoRef.current.getStatusAsync().then(
-                playbackStatus => {
-                    props.navigation.navigate(
-                        'Profile', {
-                            //video: props.video,
-                            //videoRef: props.videoRef,
-                            playbackStatus: playbackStatus
-                        }
-                    );
-                    if (playbackStatus.isPlaying) {
-                        props.videoRef.current.pauseAsync();
-                    }
+            
+                //alert( JSON.stringify(props.videoRef.current.props) );
+
+            
+                
+            props.videoRef.current.pauseAsync().then(playbackStatus => {
+                if (playerControlButtonIcon == 'pause') {
+                    playbackStatus.isPlaying = true;
                 }
-            );
+                props.navigation.navigate(
+                    'Profile', {
+                        //videoRef: props.videoRef,
+                        playbackStatus: playbackStatus
+                    }
+                );
+            });
             
             setVolumeControlButtonIcon('volume-high');
         } else {

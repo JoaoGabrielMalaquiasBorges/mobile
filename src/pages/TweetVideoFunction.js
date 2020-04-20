@@ -18,7 +18,6 @@ function TweetVideoFunction(props) {
     var currentVideoPosition = 0;
 
     function _onPlaybackStatusUpdate(playbackStatus) {
-        //alert( JSON.stringify(props.navigation) )
         if (playbackStatus.isPlaying) {
             currentVideoPosition = playbackStatus.positionMillis/videoDuration;
             testFunction(currentVideoPosition);
@@ -47,7 +46,7 @@ function TweetVideoFunction(props) {
                 <TouchableWithoutFeedback>
                     <View style={videoStyles.touchableArea} />
                 </TouchableWithoutFeedback>
-                <TweetVideoControlBar video={video} videoRef={videoRef} navigation={props.navigation}/>
+                <TweetVideoControlBar videoRef={videoRef} navigation={props.navigation}/>
             </View>
         </View>
     );
