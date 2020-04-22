@@ -11,7 +11,7 @@ function Profile ({ route, navigation }) {
   Font.loadAsync({
     FontName: require('../../assets/fonts/icomoon.ttf')
   })
-  
+
   const tweet = tweetObject
   const notFullscreenSizeVideo = route.params
   const fullscreenVideoRef = React.createRef()
@@ -60,11 +60,13 @@ function Profile ({ route, navigation }) {
           size={20}
           color='black'
           style={{ height: 20, marginLeft: 100 }}
-          onPress={() => {
-            fullscreenVideoRef.current.playAsync().then(
-              alert('hi')
-            )
-          }}
+          onPress={
+            () => {
+              fullscreenVideoRef.current.playAsync().then(
+                alert('hi')
+              )
+            }
+          }
         />
       </View>
     </>
