@@ -4,6 +4,7 @@ import { Video } from 'expo-av'
 import Icon from './CustomIcon'
 import * as Font from 'expo-font'
 import tweetObject from './Model'
+import { CommonActions } from '@react-navigation/native'
 
 /* global alert */
 
@@ -19,13 +20,11 @@ function Profile ({ route, navigation }) {
   // alert(notFullscreenSizeVideo.routeKey + '\n' + navigation.state.key)
 
   useEffect(() => {
-    // alert( fullscreenVideoRef.current.props.source.uri );
-    /* fullscreenVideoRef.current.setStatusAsync({ positionMillis: 26000 }).then(
-            e => {
-                alert( JSON.stringify(notFullscreenSizeVideo.playbackStatus) );
-            }
-        ); */
+    const unsubscribe = navigation.addListener('transitionStart', () => {
+      alert(JSON.stringify(route))
+    })
     return () => {
+      unsubscribe()
       fullscreenVideoRef.current.unloadAsync()
     }
   })
@@ -51,7 +50,11 @@ function Profile ({ route, navigation }) {
         <Video
           ref={fullscreenVideoRef}
           resizeMode='contain'
-          source={{ uri: tweet.extended_entities.media[0].video_info.variants[0].url /* 'http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4' */ }}
+          source={{
+            uri:
+              tweet.extended_entities.media[0].video_info.variants[0].url
+              /* 'http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4' */
+          }}
           style={{ height: 250, width: 300 }}
           status={notFullscreenSizeVideo.playbackStatus}
         />
@@ -60,13 +63,9 @@ function Profile ({ route, navigation }) {
           size={20}
           color='black'
           style={{ height: 20, marginLeft: 100 }}
-          onPress={
-            () => {
-              fullscreenVideoRef.current.playAsync().then(
-                alert('hi')
-              )
-            }
-          }
+          onPress={() => {
+            fullscreenVideoRef.current.playAsync().then(alert('hi'))
+          }}
         />
       </View>
     </>

@@ -46,7 +46,7 @@ function TweetVideoFunction(props) {
                 <TouchableWithoutFeedback>
                     <View style={videoStyles.touchableArea} />
                 </TouchableWithoutFeedback>
-                <TweetVideoControlBar videoRef={videoRef} navigation={props.navigation}/>
+                <TweetVideoControlBar videoRef={videoRef} navigation={props.navigation} route={props.route}/>
             </View>
         </View>
     );

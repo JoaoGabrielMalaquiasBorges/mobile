@@ -1,24 +1,33 @@
 import React, { useState, useEffect } from 'react';
-import { View, Dimensions, Animated,  TouchableWithoutFeedback, Image, Text  } from 'react-native';
+import { View, Dimensions, Animated, TouchableWithoutFeedback, Image, Text } from 'react-native';
 import { Video } from 'expo-av';
 import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { throwIfAudioIsDisabled } from 'expo-av/build/Audio/AudioAvailability';
 import * as Font from 'expo-font';
-import { ScreenOrientation  } from 'expo';
+import { ScreenOrientation } from 'expo';
 import Icon from './CustomIcon';
 import videoStyles from '../style/index';
 import TweetVideoProgressBar from "./TweetVideoProgressBar";
+import { useFocusEffect } from '@react-navigation/native'
 
 function TweetVideoControlBar(props) {
     Font.loadAsync({
         'FontName': require("../../assets/fonts/icomoon.ttf")
     });
-    
+
     const controlBarRef = React.createRef();
     const [volumeControlButtonIcon, setVolumeControlButtonIcon] = useState('volume-off');
     const [playerControlButtonIcon, setPlayerControlButtonIcon] = useState('play');
-    
+
     var controlBarVisibility = new Animated.Value(1);
+
+    useFocusEffect(
+        React.useCallback(() => {
+            if (typeof props.route != 'undefined') {
+                alert( JSON.stringify(props.route) )
+            }
+        }, [props.route])
+    );
 
     function updateVolume() {
         /* props.navigation.setParams({ name: 'Lucy' });
@@ -27,23 +36,23 @@ function TweetVideoControlBar(props) {
         if (volumeControlButtonIcon == 'volume-off') {
             //props.videoRef.current.setIsMutedAsync(false);
 
-            
-                //alert( JSON.stringify(props.videoRef.current.props) );
 
-            
-                
+
+
+
             props.videoRef.current.pauseAsync().then(playbackStatus => {
                 if (playerControlButtonIcon == 'pause') {
-                    playbackStatus.isPlaying = true;
+                    setPlayerControlButtonIcon('play');
+                    playbackStatus.shouldPlay = true;
                 }
                 props.navigation.navigate(
                     'Profile', {
-                        //videoRef: props.videoRef,
-                        playbackStatus: playbackStatus
-                    }
+                    //videoRef: props.videoRef,
+                    playbackStatus: playbackStatus
+                }
                 );
             });
-            
+
             setVolumeControlButtonIcon('volume-high');
         } else {
             props.videoRef.current.setIsMutedAsync(true);
@@ -56,7 +65,7 @@ function TweetVideoControlBar(props) {
                 props.videoRef.current.playAsync();
                 setPlayerControlButtonIcon('pause');
                 break;
-                
+
             case 'pause':
                 props.videoRef.current.pauseAsync();
                 setPlayerControlButtonIcon('play');
@@ -69,7 +78,7 @@ function TweetVideoControlBar(props) {
         }
     }
 
-    return(
+    return (
         <Animated.View
             ref={controlBarRef}
             style={{ ...videoStyles.controlBar, opacity: 1 }}
