@@ -20,11 +20,14 @@ function Profile ({ route, navigation }) {
   // alert(notFullscreenSizeVideo.routeKey + '\n' + navigation.state.key)
 
   useEffect(() => {
-    const unsubscribe = navigation.addListener('transitionStart', () => {
-      alert(JSON.stringify(route))
-    })
+    /* const unsubscribe = navigation.addListener('transitionStart', () => {
+      navigation.dispatch({
+        ...CommonActions.setParams({ user: 'Wojtek' }),
+        source: notFullscreenSizeVideo.routeKey
+      })
+    }) */
     return () => {
-      unsubscribe()
+      // unsubscribe()
       fullscreenVideoRef.current.unloadAsync()
     }
   })
