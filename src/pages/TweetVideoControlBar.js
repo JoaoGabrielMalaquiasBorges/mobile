@@ -21,18 +21,13 @@ function TweetVideoControlBar(props) {
 
     var controlBarVisibility = new Animated.Value(1);
 
-    /* useFocusEffect(
+    useFocusEffect(
         React.useCallback(() => {
             if (typeof props.route.params != 'undefined') {
                 alert( JSON.stringify(props.route.params) )
             }
         }, [props.route.params])
-    ); */
-
-    useFocusEffect(() => {
-        alert('hi')
-        return () => alert('ho')
-    })
+    );
 
     function updateVolume() {
         /* props.navigation.setParams({ name: 'Lucy' });
@@ -41,25 +36,18 @@ function TweetVideoControlBar(props) {
         if (volumeControlButtonIcon == 'volume-off') {
             //props.videoRef.current.setIsMutedAsync(false);
 
-
-
-
-
             props.videoRef.current.pauseAsync().then(playbackStatus => {
                 if (playerControlButtonIcon == 'pause') {
                     setPlayerControlButtonIcon('play');
                     playbackStatus.shouldPlay = true;
                 }
-                props.navigation.navigate(
-                    'Profile', {
-                    //videoRef: props.videoRef,
+                props.navigation.navigate('Profile', {
                     playbackStatus: playbackStatus,
                     routeKey: props.route.key
-                }
-                );
+                });
             });
 
-            //setVolumeControlButtonIcon('volume-high');
+            setVolumeControlButtonIcon('volume-high');
         } else {
             props.videoRef.current.setIsMutedAsync(true);
             setVolumeControlButtonIcon('volume-off');

@@ -17,38 +17,24 @@ function Profile ({ route, navigation }) {
   const notFullscreenSizeVideo = route.params
   const fullscreenVideoRef = React.createRef()
 
-  // alert(notFullscreenSizeVideo.routeKey + '\n' + navigation.state.key)
-
   useEffect(() => {
-    /* const unsubscribe = navigation.addListener('transitionStart', () => {
-      navigation.dispatch({
-        ...CommonActions.setParams({ user: 'Wojtek' }),
-        source: notFullscreenSizeVideo.routeKey
+    const unsubscribe = navigation.addListener('transitionStart', () => {
+      fullscreenVideoRef.current.getStatusAsync().then(playbackStatus => {
+        navigation.dispatch({
+          ...CommonActions.setParams(playbackStatus),
+          source: notFullscreenSizeVideo.routeKey
+        })
       })
-    }) */
+    })
     return () => {
-      // unsubscribe()
+      unsubscribe()
       fullscreenVideoRef.current.unloadAsync()
     }
   })
 
-  /* for(var property in navigation.state) {
-        alert(property + "=" + navigation.state[property]);
-    } */
-
   return (
     <>
       <StatusBar hidden />
-      {/* <NavigationEvents
-                onWillBlur={
-                    payload => fullscreenVideoRef.current.getStatusAsync().then(
-                        playbackStatus => {
-                            //notFullscreenSizeVideo.videoRef.current.setStatusAsync(playbackStatus);
-                            notFullscreenSizeVideo.videoRef.current.playFromPositionAsync(5000);
-                        }
-                    )
-                }
-            /> */}
       <View>
         <Video
           ref={fullscreenVideoRef}
