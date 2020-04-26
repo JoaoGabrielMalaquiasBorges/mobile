@@ -8,7 +8,9 @@ import { ScreenOrientation  } from 'expo';
 import Icon from './CustomIcon';
 import videoStyles from '../style/index';
 import TweetVideoControlBar from "./TweetVideoControlBar";
-import { testFunction, finishProgress } from './TweetVideoProgressBar';
+// import { testFunction, finishProgress } from './TweetVideoProgressBar';
+import { useFocusEffect } from '@react-navigation/native'
+import TweetVideoProgressBar from "./TweetVideoProgressBar"
 
 function TweetVideoFunction(props) {
     const video = props.video;
@@ -17,22 +19,27 @@ function TweetVideoFunction(props) {
 
     var currentVideoPosition = 0;
 
+    useFocusEffect(
+        React.useCallback(() => {
+            if (typeof props.route.params != 'undefined') {
+                videoRef.current.setStatusAsync(props.route.params)
+            }
+        }, [props.route.params])
+    );
+
     function _onPlaybackStatusUpdate(playbackStatus) {
         if (playbackStatus.isPlaying) {
             currentVideoPosition = playbackStatus.positionMillis/videoDuration;
-            testFunction(currentVideoPosition);
+            // testFunction(currentVideoPosition);
         } else {
             if (playbackStatus.didJustFinish) {
-                finishProgress();
+                // finishProgress();
             }
         }
     }
     
     return(
         <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
-            {/* <NavigationEvents
-                onWillFocus={ payload => alert(payload.action.type) }
-            /> */}
             <View style={videoStyles.videoBox}>
                 <Video
                     resizeMode="cover"
@@ -45,8 +52,19 @@ function TweetVideoFunction(props) {
                 />
                 <TouchableWithoutFeedback>
                     <View style={videoStyles.touchableArea} />
-                </TouchableWithoutFeedback>
-                <TweetVideoControlBar videoRef={videoRef} navigation={props.navigation} route={props.route}/>
+                </TouchableWithoutFeedback>{/* 
+                <TweetVideoProgressBar videoRef={videoRef} /> */}
+                <TweetVideoControlBar
+                    videoRef={videoRef}
+                    navigatorProps={{
+                        navigation: props.navigation,
+                        route: props.route
+                    }}
+                    controls={{
+                        playback: 'play',
+                        volume: 'volume-off'
+                    }}
+                />
             </View>
         </View>
     );

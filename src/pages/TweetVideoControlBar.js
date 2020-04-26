@@ -10,63 +10,62 @@ import videoStyles from '../style/index';
 import TweetVideoProgressBar from "./TweetVideoProgressBar";
 import { useFocusEffect } from '@react-navigation/native'
 
-function TweetVideoControlBar(props) {
+function TweetVideoControlBar({ videoRef, navigatorProps, controls}) {
     Font.loadAsync({
         'FontName': require("../../assets/fonts/icomoon.ttf")
     });
 
     const controlBarRef = React.createRef();
-    const [volumeControlButtonIcon, setVolumeControlButtonIcon] = useState('volume-off');
-    const [playerControlButtonIcon, setPlayerControlButtonIcon] = useState('play');
+    const [volumeControlButtonIcon, setVolumeControlButtonIcon] = useState(controls.volume);
+    const [playerControlButtonIcon, setPlayerControlButtonIcon] = useState(controls.playback);
 
     var controlBarVisibility = new Animated.Value(1);
 
     useFocusEffect(
         React.useCallback(() => {
-            if (typeof props.route.params != 'undefined') {
-                alert( JSON.stringify(props.route.params) )
+            if (navigatorProps.route.name == 'Main' && typeof navigatorProps.route.params != 'undefined') {
+               // alert( JSON.stringify('hi') )
             }
-        }, [props.route.params])
+        }, [navigatorProps.route])
     );
 
     function updateVolume() {
-        /* props.navigation.setParams({ name: 'Lucy' });
-        alert(JSON.stringify(props.navigation.state)); */
 
         if (volumeControlButtonIcon == 'volume-off') {
-            //props.videoRef.current.setIsMutedAsync(false);
+            // videoRef.current.setIsMutedAsync(false);
 
-            props.videoRef.current.pauseAsync().then(playbackStatus => {
+            videoRef.current.pauseAsync().then(playbackStatus => {
                 if (playerControlButtonIcon == 'pause') {
                     setPlayerControlButtonIcon('play');
                     playbackStatus.shouldPlay = true;
                 }
-                props.navigation.navigate('Profile', {
+                navigatorProps.navigation.navigate('Profile', {
                     playbackStatus: playbackStatus,
-                    routeKey: props.route.key
+                    routeKey: navigatorProps.route.key
                 });
             });
 
             setVolumeControlButtonIcon('volume-high');
         } else {
-            props.videoRef.current.setIsMutedAsync(true);
+            videoRef.current.setIsMutedAsync(true);
             setVolumeControlButtonIcon('volume-off');
         }
     }
+
     function updatePlaybackStatus() {
         switch (playerControlButtonIcon) {
             case 'play':
-                props.videoRef.current.playAsync();
+                videoRef.current.playAsync();
                 setPlayerControlButtonIcon('pause');
                 break;
 
             case 'pause':
-                props.videoRef.current.pauseAsync();
+                videoRef.current.pauseAsync();
                 setPlayerControlButtonIcon('play');
                 break;
 
             case 'replay':
-                props.videoRef.current.replayAsync();
+                videoRef.current.replayAsync();
                 setPlayerControlButtonIcon('pause');
                 break;
         }
@@ -77,7 +76,7 @@ function TweetVideoControlBar(props) {
             ref={controlBarRef}
             style={{ ...videoStyles.controlBar, opacity: 1 }}
         >
-            <TweetVideoProgressBar videoRef={props.videoRef} />
+            <TweetVideoProgressBar videoRef={videoRef} />
             <View style={videoStyles.controlBarFooter}>
                 <Icon
                     name={playerControlButtonIcon}

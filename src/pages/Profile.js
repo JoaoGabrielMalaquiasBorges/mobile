@@ -5,6 +5,8 @@ import Icon from './CustomIcon'
 import * as Font from 'expo-font'
 import tweetObject from './Model'
 import { CommonActions } from '@react-navigation/native'
+import TweetVideoControlBar from "./TweetVideoControlBar"
+import TweetVideoProgressBar from "./TweetVideoProgressBar"
 
 /* global alert */
 
@@ -56,6 +58,18 @@ function Profile ({ route, navigation }) {
             fullscreenVideoRef.current.playAsync().then(alert('hi'))
           }}
         />
+        <TweetVideoControlBar
+          videoRef={fullscreenVideoRef}
+          navigatorProps={{
+              navigation: navigation,
+              route: route
+          }}
+          controls={{
+              playback: 'play',
+              volume: 'volume-off'
+          }}
+        />{/* 
+        <TweetVideoProgressBar videoRef={fullscreenVideoRef} /> */}
       </View>
     </>
   )

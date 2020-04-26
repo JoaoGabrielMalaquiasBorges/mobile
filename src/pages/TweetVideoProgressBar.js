@@ -8,8 +8,8 @@ import { ScreenOrientation  } from 'expo';
 import Icon from './CustomIcon';
 import videoStyles from '../style/index';
 
-const filledBarRef = React.createRef();
-const progressBarButtonRef = React.createRef();
+/* const filledBarRef = React.createRef();
+const progressBarButtonRef = React.createRef(); */
 
 function isPortrait() {
     if ( Dimensions.get('window').height > Dimensions.get('window').width ) {
@@ -23,7 +23,7 @@ var progressBarWidth = isPortrait() ? Dimensions.get('window').width*0.95-42 : 4
 var progressBarButtonOffset = videoStyles.progressControlButton.width/progressBarWidth;
 var shouldProgress = true;
 
-export function testFunction(position) {
+/* export function testFunction(position) {
     if (shouldProgress) {
         if (position > 1-progressBarButtonOffset) {
             position = 1-progressBarButtonOffset;
@@ -53,9 +53,12 @@ export function finishProgress() {
             end: 0
         }
     });
-}
+} */
 
 function TweetVideoControlBar(props) {
+    const filledBarRef = React.createRef();
+    const progressBarButtonRef = React.createRef();
+
     useEffect(() => {
         ScreenOrientation.addOrientationChangeListener( e => {
                 if ( isPortrait() ) {
