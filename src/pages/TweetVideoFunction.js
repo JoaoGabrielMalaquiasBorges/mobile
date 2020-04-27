@@ -8,7 +8,7 @@ import { ScreenOrientation  } from 'expo';
 import Icon from './CustomIcon';
 import videoStyles from '../style/index';
 import TweetVideoControlBar from "./TweetVideoControlBar";
-// import { testFunction, finishProgress } from './TweetVideoProgressBar';
+import { testFunction, finishProgress } from './TweetVideoProgressBar';
 import { useFocusEffect } from '@react-navigation/native'
 import TweetVideoProgressBar from "./TweetVideoProgressBar"
 
@@ -30,10 +30,10 @@ function TweetVideoFunction(props) {
     function _onPlaybackStatusUpdate(playbackStatus) {
         if (playbackStatus.isPlaying) {
             currentVideoPosition = playbackStatus.positionMillis/videoDuration;
-            // testFunction(currentVideoPosition);
+            testFunction(currentVideoPosition);
         } else {
             if (playbackStatus.didJustFinish) {
-                // finishProgress();
+                finishProgress();
             }
         }
     }
@@ -52,8 +52,8 @@ function TweetVideoFunction(props) {
                 />
                 <TouchableWithoutFeedback>
                     <View style={videoStyles.touchableArea} />
-                </TouchableWithoutFeedback>{/* 
-                <TweetVideoProgressBar videoRef={videoRef} /> */}
+                </TouchableWithoutFeedback>
+                <TweetVideoProgressBar videoRef={videoRef} color={'green'}/>
                 <TweetVideoControlBar
                     videoRef={videoRef}
                     navigatorProps={{

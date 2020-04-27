@@ -7,7 +7,7 @@ import * as Font from 'expo-font';
 import { ScreenOrientation } from 'expo';
 import Icon from './CustomIcon';
 import videoStyles from '../style/index';
-import TweetVideoProgressBar from "./TweetVideoProgressBar";
+// import TweetVideoProgressBar from "./TweetVideoProgressBar";
 import { useFocusEffect } from '@react-navigation/native'
 
 function TweetVideoControlBar({ videoRef, navigatorProps, controls}) {
@@ -74,9 +74,9 @@ function TweetVideoControlBar({ videoRef, navigatorProps, controls}) {
     return (
         <Animated.View
             ref={controlBarRef}
-            style={{ ...videoStyles.controlBar, opacity: 1 }}
+            style={{ ...videoStyles.controlBar, opacity: 1, height: 32 }}
         >
-            <TweetVideoProgressBar videoRef={videoRef} />
+            {/* <TweetVideoProgressBar videoRef={videoRef} /> */}
             <View style={videoStyles.controlBarFooter}>
                 <Icon
                     name={playerControlButtonIcon}

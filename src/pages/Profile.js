@@ -7,6 +7,7 @@ import tweetObject from './Model'
 import { CommonActions } from '@react-navigation/native'
 import TweetVideoControlBar from "./TweetVideoControlBar"
 import TweetVideoProgressBar from "./TweetVideoProgressBar"
+import { testFunction, finishProgress } from './TweetVideoProgressBar';
 
 /* global alert */
 
@@ -18,8 +19,10 @@ function Profile ({ route, navigation }) {
   const tweet = tweetObject
   const notFullscreenSizeVideo = route.params
   const fullscreenVideoRef = React.createRef()
+  const videoDuration = 10704;
 
   useEffect(() => {
+    fullscreenVideoRef.current.setStatusAsync(notFullscreenSizeVideo.playbackStatus)
     const unsubscribe = navigation.addListener('transitionStart', () => {
       fullscreenVideoRef.current.getStatusAsync().then(playbackStatus => {
         navigation.dispatch({
@@ -34,6 +37,18 @@ function Profile ({ route, navigation }) {
     }
   })
 
+  function _onPlaybackStatusUpdate(playbackStatus) {
+    if (playbackStatus.isPlaying) {
+        currentVideoPosition = playbackStatus.positionMillis/videoDuration;
+        testFunction(currentVideoPosition);
+    } else {
+        if (playbackStatus.didJustFinish) {
+          alert('hi')
+          finishProgress();
+        }
+    }
+  }
+
   return (
     <>
       <StatusBar hidden />
@@ -47,7 +62,7 @@ function Profile ({ route, navigation }) {
               /* 'http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4' */
           }}
           style={{ height: 250, width: 300 }}
-          status={notFullscreenSizeVideo.playbackStatus}
+          onPlaybackStatusUpdate={_onPlaybackStatusUpdate}
         />
         <Icon
           name='play'
@@ -58,6 +73,7 @@ function Profile ({ route, navigation }) {
             fullscreenVideoRef.current.playAsync().then(alert('hi'))
           }}
         />
+        <TweetVideoProgressBar videoRef={fullscreenVideoRef} color={'red'}/>
         <TweetVideoControlBar
           videoRef={fullscreenVideoRef}
           navigatorProps={{
@@ -68,8 +84,7 @@ function Profile ({ route, navigation }) {
               playback: 'play',
               volume: 'volume-off'
           }}
-        />{/* 
-        <TweetVideoProgressBar videoRef={fullscreenVideoRef} /> */}
+        />
       </View>
     </>
   )

@@ -45,7 +45,6 @@ const videoStyles = StyleSheet.create({
     },
     alreadyFilledBar: {
         height: 3,
-        backgroundColor: 'white',
         borderRadius: 5,
     },
     progressControlButton: {
