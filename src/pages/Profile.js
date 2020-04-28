@@ -22,7 +22,14 @@ function Profile ({ route, navigation }) {
   const videoDuration = 10704;
 
   useEffect(() => {
-    fullscreenVideoRef.current.setStatusAsync(notFullscreenSizeVideo.playbackStatus)
+    fullscreenVideoRef.current.setStatusAsync({
+      /* shouldPlay: notFullscreenSizeVideo.playbackStatus.shouldPlay,
+      positionMillis: notFullscreenSizeVideo.playbackStatus.positionMillis,
+      isMuted: notFullscreenSizeVideo.playbackStatus.isMuted */
+      shouldPlay: true,
+      positionMillis: 10704
+    })
+    alert(JSON.stringify(notFullscreenSizeVideo.playbackStatus))
     const unsubscribe = navigation.addListener('transitionStart', () => {
       fullscreenVideoRef.current.getStatusAsync().then(playbackStatus => {
         navigation.dispatch({
@@ -43,7 +50,7 @@ function Profile ({ route, navigation }) {
         testFunction(currentVideoPosition);
     } else {
         if (playbackStatus.didJustFinish) {
-          alert('hi')
+          // alert(JSON.stringify(playbackStatus))
           finishProgress();
         }
     }

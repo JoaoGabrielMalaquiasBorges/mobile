@@ -21,13 +21,13 @@ function TweetVideoControlBar({ videoRef, navigatorProps, controls}) {
 
     var controlBarVisibility = new Animated.Value(1);
 
-    useFocusEffect(
+    /* useFocusEffect(
         React.useCallback(() => {
             if (navigatorProps.route.name == 'Main' && typeof navigatorProps.route.params != 'undefined') {
                // alert( JSON.stringify('hi') )
             }
         }, [navigatorProps.route])
-    );
+    ); */
 
     function updateVolume() {
 
@@ -35,7 +35,7 @@ function TweetVideoControlBar({ videoRef, navigatorProps, controls}) {
             // videoRef.current.setIsMutedAsync(false);
 
             videoRef.current.pauseAsync().then(playbackStatus => {
-                if (playerControlButtonIcon == 'pause') {
+                if (playerControlButtonIcon == 'pause' && playbackStatus.positionMillis != 10704) {
                     setPlayerControlButtonIcon('play');
                     playbackStatus.shouldPlay = true;
                 }

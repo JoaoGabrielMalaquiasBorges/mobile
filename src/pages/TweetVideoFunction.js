@@ -17,11 +17,14 @@ function TweetVideoFunction(props) {
     const videoDuration = 10704;
     const videoRef = React.createRef();
 
-    var currentVideoPosition = 0;
+    var prevParams
+    var currentVideoPosition = 0
 
     useFocusEffect(
         React.useCallback(() => {
-            if (typeof props.route.params != 'undefined') {
+            if (props.route.params != prevParams) {
+                prevParams = props.route.params
+                // alert(JSON.stringify(prevParams))
                 videoRef.current.setStatusAsync(props.route.params)
             }
         }, [props.route.params])
