@@ -38,7 +38,7 @@ function TweetVideoControlBar({ videoRef, navigatorProps, controls}) {
                 if (playerControlButtonIcon == 'pause' /* && playbackStatus.positionMillis != 10704 */) {
                     setPlayerControlButtonIcon('play');
                     playbackStatus.shouldPlay = true;
-                    playbackStatus.positionMillis = 10026*0.99
+                    playbackStatus.positionMillis = 10670
                 }
                 navigatorProps.navigation.navigate('Profile', {
                     playbackStatus: playbackStatus,

@@ -18,22 +18,19 @@ function Profile ({ route, navigation }) {
 
   const tweet = tweetObject
   const notFullscreenSizeVideo = route.params
-  var fullscreenVideoRef
+  var fullscreenVideoRef = React.createRef()
   const videoDuration = 10704;
 
   useEffect(() => {
-    /* fullscreenVideoRef.current.setStatusAsync({
+    fullscreenVideoRef.current.setStatusAsync({
       shouldPlay: notFullscreenSizeVideo.playbackStatus.shouldPlay,
       positionMillis: notFullscreenSizeVideo.playbackStatus.positionMillis,
       isMuted: notFullscreenSizeVideo.playbackStatus.isMuted
-
-      shouldPlay: true,
-      positionMillis: notFullscreenSizeVideo.playbackStatus.positionMillis
-    }) */
-    // alert(JSON.stringify(notFullscreenSizeVideo.playbackStatus))
-    alert('hi')
-    /* const unsubscribe = navigation.addListener('transitionStart', () => {
-      fullscreenVideoRef.getStatusAsync().then(playbackStatus => {
+    })
+    alert(JSON.stringify(notFullscreenSizeVideo.playbackStatus))
+    // alert('hi')
+    const unsubscribe = navigation.addListener('transitionStart', () => {
+      fullscreenVideoRef.current.getStatusAsync().then(playbackStatus => {
         navigation.dispatch({
           ...CommonActions.setParams(playbackStatus),
           source: notFullscreenSizeVideo.routeKey
@@ -42,8 +39,8 @@ function Profile ({ route, navigation }) {
     })
     return () => {
       unsubscribe()
-      fullscreenVideoRef.unloadAsync()
-    } */
+      fullscreenVideoRef.current.unloadAsync()
+    }
   })
 
   function _onPlaybackStatusUpdate(playbackStatus) {
@@ -63,7 +60,7 @@ function Profile ({ route, navigation }) {
       <StatusBar hidden />
       <View>
         <Video
-          ref={el => {
+          ref={fullscreenVideoRef /* el => {
             fullscreenVideoRef = el
             fullscreenVideoRef.loadAsync({
               uri: 'https://www.w3schools.com/html/mov_bbb.mp4' // tweet.extended_entities.media[0].video_info.variants[0].url
@@ -72,13 +69,14 @@ function Profile ({ route, navigation }) {
               positionMillis: notFullscreenSizeVideo.playbackStatus.positionMillis,
               isMuted: notFullscreenSizeVideo.playbackStatus.isMuted
             })//.then(playbackStatus => alert(JSON.stringify(playbackStatus)), reason => alert(reason))
-          }}
+          } */}
           resizeMode='contain'
-          /* source={{
+          source={{
             uri:
-              tweet.extended_entities.media[0].video_info.variants[0].url
+               tweet.extended_entities.media[0].video_info.variants[0].url
               // 'http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4'
-          }} */
+              // 'https://www.w3schools.com/html/mov_bbb.mp4'
+          }}
           style={{ height: 250, width: 300 }}/* 
           onReadyForDisplay={playbackStatus => alert(JSON.stringify(playbackStatus))} */
           onPlaybackStatusUpdate={_onPlaybackStatusUpdate}
@@ -89,7 +87,7 @@ function Profile ({ route, navigation }) {
           color='black'
           style={{ height: 20, marginLeft: 100 }}
           onPress={() => {
-            fullscreenVideoRef./* current. */playAsync().then(alert('hi'))
+            fullscreenVideoRef.current.playAsync().then(alert('hi'))
           }}
         />
         <TweetVideoProgressBar videoRef={fullscreenVideoRef} color={'red'}/>
