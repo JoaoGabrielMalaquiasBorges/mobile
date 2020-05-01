@@ -27,7 +27,7 @@ function Profile ({ route, navigation }) {
       positionMillis: notFullscreenSizeVideo.playbackStatus.positionMillis,
       isMuted: notFullscreenSizeVideo.playbackStatus.isMuted
     })
-    alert(JSON.stringify(notFullscreenSizeVideo.playbackStatus))
+    // alert(JSON.stringify(notFullscreenSizeVideo.playbackStatus))
     // alert('hi')
     const unsubscribe = navigation.addListener('transitionStart', () => {
       fullscreenVideoRef.current.getStatusAsync().then(playbackStatus => {
@@ -73,7 +73,7 @@ function Profile ({ route, navigation }) {
           resizeMode='contain'
           source={{
             uri:
-               tweet.extended_entities.media[0].video_info.variants[0].url
+              tweet.extended_entities.media[0].video_info.variants[0].url
               // 'http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4'
               // 'https://www.w3schools.com/html/mov_bbb.mp4'
           }}
