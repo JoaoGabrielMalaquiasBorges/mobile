@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { View, StatusBar, Text } from 'react-native'
+import { View, StatusBar, Text, Animated } from 'react-native'
 import { Video } from 'expo-av'
 import Icon from './CustomIcon'
 import * as Font from 'expo-font'
@@ -7,7 +7,8 @@ import tweetObject from './Model'
 import { CommonActions } from '@react-navigation/native'
 import TweetVideoControlBar from "./TweetVideoControlBar"
 import TweetVideoProgressBar from "./TweetVideoProgressBar"
-import { testFunction, finishProgress } from './TweetVideoProgressBar';
+import { testFunction, finishProgress } from './TweetVideoProgressBar'
+import TweetVideoThumbnail from './TweetVideoThumbnail'
 
 /* global alert */
 
@@ -18,8 +19,11 @@ function Profile ({ route, navigation }) {
 
   const tweet = tweetObject
   const notFullscreenSizeVideo = route.params
-  var fullscreenVideoRef = React.createRef()
+  const fullscreenVideoRef = React.createRef()
   const videoDuration = 10704;
+
+  var currentVideoPosition = 0
+  var thumbnailVisibility = new Animated.Value(1)
 
   useEffect(() => {
     fullscreenVideoRef.current.setStatusAsync({
@@ -81,15 +85,20 @@ function Profile ({ route, navigation }) {
           onReadyForDisplay={playbackStatus => alert(JSON.stringify(playbackStatus))} */
           onPlaybackStatusUpdate={_onPlaybackStatusUpdate}
         />
-        <Icon
-          name='play'
-          size={20}
-          color='black'
-          style={{ height: 20, marginLeft: 100 }}
-          onPress={() => {
-            fullscreenVideoRef.current.playAsync().then(alert('hi'))
+        <Animated.Image
+          resizeMode='contain'
+          style={{
+            height: 250,
+            width: 300,
+            position: 'absolute',
+            opacity: thumbnailVisibility
+          }}
+          source={{
+            uri:
+              'http://pbs.twimg.com/ext_tw_video_thumb/869317980307415040/pu/img/t_E6wyADk_PvxuzF.jpg'
           }}
         />
+        <TweetVideoThumbnail/>
         <TweetVideoProgressBar videoRef={fullscreenVideoRef} color={'red'}/>
         <TweetVideoControlBar
           videoRef={fullscreenVideoRef}
@@ -103,6 +112,19 @@ function Profile ({ route, navigation }) {
           }}
         />
       </View>
+      <Icon
+        name='play'
+        size={20}
+        color='black'
+        style={{ marginTop: 10, height: 20, marginLeft: 100 }}
+        onPress={() => {
+          // fullscreenVideoRef.current.playAsync().then(alert('hi'))
+          Animated.timing(thumbnailVisibility, {
+            toValue: 0,
+            duration: 1
+          }).start()
+        }}
+      />
     </>
   )
 }
