@@ -9,6 +9,7 @@ import Icon from './CustomIcon';
 import videoStyles from '../style/index';
 // import TweetVideoProgressBar from "./TweetVideoProgressBar";
 import { useFocusEffect } from '@react-navigation/native'
+import { generateThumbnail } from './TweetVideoThumbnail'
 
 function TweetVideoControlBar({ videoRef, navigatorProps, controls}) {
     Font.loadAsync({
@@ -19,7 +20,21 @@ function TweetVideoControlBar({ videoRef, navigatorProps, controls}) {
     const [volumeControlButtonIcon, setVolumeControlButtonIcon] = useState(controls.volume);
     const [playerControlButtonIcon, setPlayerControlButtonIcon] = useState(controls.playback);
 
+    /* async function getThumbnail () {
+        if (navigatorProps.route.name == 'Main' && typeof navigatorProps.route.params == 'undefined') {
+            return await generateThumbnail()
+        }
+    }
+
+    const videoThumbnail = getThumbnail() */
+
     var controlBarVisibility = new Animated.Value(1);
+    var videoThumbnail
+
+    /* if (navigatorProps.route.name == 'Main' && typeof navigatorProps.route.params == 'undefined') {
+        videoThumbnail = generateThumbnail()
+        alert(JSON.stringify(videoThumbnail))
+    } */
 
     /* useFocusEffect(
         React.useCallback(() => {
@@ -29,11 +44,14 @@ function TweetVideoControlBar({ videoRef, navigatorProps, controls}) {
         }, [navigatorProps.route])
     ); */
 
-    function updateVolume() {
+    async function updateVolume() {
 
         if (volumeControlButtonIcon == 'volume-off') {
             // videoRef.current.setIsMutedAsync(false);
 
+            if (navigatorProps.route.params == undefined) {
+                videoThumbnail = await generateThumbnail()
+            }
             videoRef.current.pauseAsync().then(playbackStatus => {
                 if (playerControlButtonIcon == 'pause' /* && playbackStatus.positionMillis != 10704 */) {
                     setPlayerControlButtonIcon('play');
@@ -42,7 +60,8 @@ function TweetVideoControlBar({ videoRef, navigatorProps, controls}) {
                 }
                 navigatorProps.navigation.navigate('Profile', {
                     playbackStatus: playbackStatus,
-                    routeKey: navigatorProps.route.key
+                    routeKey: navigatorProps.route.key,
+                    thumbnail: videoThumbnail
                 });
             });
 

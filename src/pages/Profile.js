@@ -8,7 +8,7 @@ import { CommonActions } from '@react-navigation/native'
 import TweetVideoControlBar from "./TweetVideoControlBar"
 import TweetVideoProgressBar from "./TweetVideoProgressBar"
 import { testFunction, finishProgress } from './TweetVideoProgressBar'
-import TweetVideoThumbnail from './TweetVideoThumbnail'
+// import TweetVideoThumbnail from './TweetVideoThumbnail'
 
 /* global alert */
 
@@ -33,6 +33,7 @@ function Profile ({ route, navigation }) {
     })
     // alert(JSON.stringify(notFullscreenSizeVideo.playbackStatus))
     // alert('hi')
+    alert(notFullscreenSizeVideo.thumbnail)
     const unsubscribe = navigation.addListener('transitionStart', () => {
       fullscreenVideoRef.current.getStatusAsync().then(playbackStatus => {
         navigation.dispatch({
@@ -81,7 +82,7 @@ function Profile ({ route, navigation }) {
               // 'http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4'
               // 'https://www.w3schools.com/html/mov_bbb.mp4'
           }}
-          style={{ height: 250, width: 300 }}/* 
+          style={{ height: 250, width: 300, opacity: 0 }}/* 
           onReadyForDisplay={playbackStatus => alert(JSON.stringify(playbackStatus))} */
           onPlaybackStatusUpdate={_onPlaybackStatusUpdate}
         />
@@ -94,11 +95,9 @@ function Profile ({ route, navigation }) {
             opacity: thumbnailVisibility
           }}
           source={{
-            uri:
-              'http://pbs.twimg.com/ext_tw_video_thumb/869317980307415040/pu/img/t_E6wyADk_PvxuzF.jpg'
+            uri: notFullscreenSizeVideo.thumbnail
           }}
         />
-        <TweetVideoThumbnail/>
         <TweetVideoProgressBar videoRef={fullscreenVideoRef} color={'red'}/>
         <TweetVideoControlBar
           videoRef={fullscreenVideoRef}

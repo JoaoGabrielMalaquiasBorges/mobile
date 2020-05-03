@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react'
 import { View, StatusBar, Text, Image } from 'react-native'
 import * as VideoThumbnails from 'expo-video-thumbnails'
+import tweetObject from './Model'
 
-function TweetVideoThumbnail () {
+/* function TweetVideoThumbnail () {
+  const tweet = tweetObject
   const [globalUri, setGlobalUri] = useState('')
 
   async function generateThumbnail () {
     const { uri } = await VideoThumbnails.getThumbnailAsync(
-      // 'https://video.twimg.com/ext_tw_video/869317980307415040/pu/vid/180x320/FMei8yCw7yc_Z7e-.mp4',
-      'http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4',
+      tweet.extended_entities.media[0].video_info.variants[0].url,
       { time: 10704 }
     )
     // alert(JSON.stringify(uri))
@@ -25,7 +26,8 @@ function TweetVideoThumbnail () {
             resizeMode='contain'
             style={{
                 height: 250,
-                width: 300
+                width: 300,
+                position: 'absolute'
             }}
             source={{
                 uri: globalUri
@@ -37,4 +39,14 @@ function TweetVideoThumbnail () {
   }
 }
 
-export default TweetVideoThumbnail
+export default TweetVideoThumbnail */
+
+export async function generateThumbnail () {
+  const tweet = tweetObject
+  const { uri } = await VideoThumbnails.getThumbnailAsync(
+    tweet.extended_entities.media[0].video_info.variants[0].url,
+    { time: 10704 }
+  )
+  // alert(JSON.stringify(uri))
+  return uri
+}
