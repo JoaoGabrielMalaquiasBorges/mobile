@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { View, StatusBar, Text, Animated } from 'react-native'
+import { View, StatusBar, Text, Animated, Image } from 'react-native'
 import { Video } from 'expo-av'
 import Icon from './CustomIcon'
 import * as Font from 'expo-font'
@@ -20,10 +20,21 @@ function Profile ({ route, navigation }) {
   const tweet = tweetObject
   const notFullscreenSizeVideo = route.params
   const fullscreenVideoRef = React.createRef()
-  const videoDuration = 10704;
+  const videoDuration = tweet.extended_entities.media[0].video_info.duration_millis;
 
   var currentVideoPosition = 0
-  var thumbnailVisibility = new Animated.Value(1)
+  var visibility = new Animated.ValueXY({ x: 1, y: 0 })
+
+  if (notFullscreenSizeVideo.playbackStatus.positionMillis == videoDuration) {
+    Animated.timing(visibility, {
+      toValue: { x: 0, y: 1 },
+      duration: 1
+    }).start(({ finished }) => {})
+  }
+
+  /* if (currentVideoPosition != 0) {
+    alert('hi')
+  } */
 
   useEffect(() => {
     fullscreenVideoRef.current.setStatusAsync({
@@ -33,7 +44,7 @@ function Profile ({ route, navigation }) {
     })
     // alert(JSON.stringify(notFullscreenSizeVideo.playbackStatus))
     // alert('hi')
-    alert(notFullscreenSizeVideo.thumbnail)
+    // alert(notFullscreenSizeVideo.thumbnail)
     const unsubscribe = navigation.addListener('transitionStart', () => {
       fullscreenVideoRef.current.getStatusAsync().then(playbackStatus => {
         navigation.dispatch({
@@ -50,12 +61,11 @@ function Profile ({ route, navigation }) {
 
   function _onPlaybackStatusUpdate(playbackStatus) {
     if (playbackStatus.isPlaying) {
-        currentVideoPosition = playbackStatus.positionMillis/videoDuration;
-        testFunction(currentVideoPosition);
+        currentVideoPosition = playbackStatus.positionMillis/videoDuration
+        testFunction(currentVideoPosition)
     } else {
         if (playbackStatus.didJustFinish) {
-          // alert(JSON.stringify(playbackStatus))
-          finishProgress();
+          finishProgress()
         }
     }
   }
@@ -64,35 +74,29 @@ function Profile ({ route, navigation }) {
     <>
       <StatusBar hidden />
       <View>
-        <Video
-          ref={fullscreenVideoRef /* el => {
-            fullscreenVideoRef = el
-            fullscreenVideoRef.loadAsync({
-              uri: 'https://www.w3schools.com/html/mov_bbb.mp4' // tweet.extended_entities.media[0].video_info.variants[0].url
-            }, initialStatus={
-              shouldPlay: notFullscreenSizeVideo.playbackStatus.shouldPlay,
-              positionMillis: notFullscreenSizeVideo.playbackStatus.positionMillis,
-              isMuted: notFullscreenSizeVideo.playbackStatus.isMuted
-            })//.then(playbackStatus => alert(JSON.stringify(playbackStatus)), reason => alert(reason))
-          } */}
-          resizeMode='contain'
-          source={{
-            uri:
-              tweet.extended_entities.media[0].video_info.variants[0].url
-              // 'http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4'
-              // 'https://www.w3schools.com/html/mov_bbb.mp4'
-          }}
-          style={{ height: 250, width: 300, opacity: 0 }}/* 
-          onReadyForDisplay={playbackStatus => alert(JSON.stringify(playbackStatus))} */
-          onPlaybackStatusUpdate={_onPlaybackStatusUpdate}
-        />
+        <Animated.View style={{ opacity: visibility.x }}>
+          <Video
+            ref={fullscreenVideoRef}
+            resizeMode='contain'
+            source={{
+              uri:
+                tweet.extended_entities.media[0].video_info.variants[0].url
+                // 'http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4'
+                // 'https://www.w3schools.com/html/mov_bbb.mp4'
+            }}
+            style={{ height: 250, width: 300 }}/* 
+            onReadyForDisplay={playbackStatus => alert(JSON.stringify(playbackStatus))} */
+            onPlaybackStatusUpdate={_onPlaybackStatusUpdate}
+          />
+        </Animated.View>
         <Animated.Image
+          // ref={thumbnailRef}
           resizeMode='contain'
           style={{
             height: 250,
             width: 300,
             position: 'absolute',
-            opacity: thumbnailVisibility
+            opacity: visibility.y
           }}
           source={{
             uri: notFullscreenSizeVideo.thumbnail
@@ -118,10 +122,6 @@ function Profile ({ route, navigation }) {
         style={{ marginTop: 10, height: 20, marginLeft: 100 }}
         onPress={() => {
           // fullscreenVideoRef.current.playAsync().then(alert('hi'))
-          Animated.timing(thumbnailVisibility, {
-            toValue: 0,
-            duration: 1
-          }).start()
         }}
       />
     </>

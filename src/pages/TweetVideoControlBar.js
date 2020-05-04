@@ -49,14 +49,15 @@ function TweetVideoControlBar({ videoRef, navigatorProps, controls}) {
         if (volumeControlButtonIcon == 'volume-off') {
             // videoRef.current.setIsMutedAsync(false);
 
-            if (navigatorProps.route.params == undefined) {
+            if (navigatorProps.route.name == 'Main') {
                 videoThumbnail = await generateThumbnail()
             }
+
             videoRef.current.pauseAsync().then(playbackStatus => {
                 if (playerControlButtonIcon == 'pause' /* && playbackStatus.positionMillis != 10704 */) {
                     setPlayerControlButtonIcon('play');
                     playbackStatus.shouldPlay = true;
-                    playbackStatus.positionMillis = 10670
+                    playbackStatus.positionMillis = 10704
                 }
                 navigatorProps.navigation.navigate('Profile', {
                     playbackStatus: playbackStatus,
