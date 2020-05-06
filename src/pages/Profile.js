@@ -24,12 +24,13 @@ function Profile ({ route, navigation }) {
 
   var currentVideoPosition = 0
   var visibility = new Animated.ValueXY({ x: 1, y: 0 })
+  var showingThumbnail = false
 
   if (notFullscreenSizeVideo.playbackStatus.positionMillis == videoDuration) {
     Animated.timing(visibility, {
       toValue: { x: 0, y: 1 },
       duration: 1
-    }).start(({ finished }) => {})
+    }).start(({ finished }) => { showingThumbnail = true })
   }
 
   /* if (currentVideoPosition != 0) {
@@ -42,6 +43,7 @@ function Profile ({ route, navigation }) {
       positionMillis: notFullscreenSizeVideo.playbackStatus.positionMillis,
       isMuted: notFullscreenSizeVideo.playbackStatus.isMuted
     })
+    finishProgress()
     // alert(JSON.stringify(notFullscreenSizeVideo.playbackStatus))
     // alert('hi')
     // alert(notFullscreenSizeVideo.thumbnail)
@@ -59,6 +61,17 @@ function Profile ({ route, navigation }) {
     }
   })
 
+  function showVideo (playbackStatus) {
+    if (playbackStatus.positionMillis > 0 && playbackStatus.positionMillis < videoDuration) {
+      if (showingThumbnail) {
+        Animated.timing(visibility, {
+          toValue: { x: 1, y: 0 },
+          duration: 1
+        }).start(({ finished }) => { showingThumbnail = false })
+      }
+    }
+  }
+
   function _onPlaybackStatusUpdate(playbackStatus) {
     if (playbackStatus.isPlaying) {
         currentVideoPosition = playbackStatus.positionMillis/videoDuration
@@ -66,6 +79,8 @@ function Profile ({ route, navigation }) {
     } else {
         if (playbackStatus.didJustFinish) {
           finishProgress()
+        } else {
+          showVideo(playbackStatus)
         }
     }
   }
