@@ -8,6 +8,8 @@ import { ScreenOrientation  } from 'expo';
 import Icon from './CustomIcon';
 import videoStyles from '../style/index';
 
+// ScreenOrientation.getOrientationAsync().then(({ orientation }) => alert(orientation))
+
 var globalFilledBarRef
 var globalProgressBarButtonRef
 

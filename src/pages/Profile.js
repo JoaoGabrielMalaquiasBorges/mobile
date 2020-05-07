@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { View, StatusBar, Text, Animated, Image } from 'react-native'
+import { View, Dimensions, StatusBar, Text, Animated, Image } from 'react-native'
 import { Video } from 'expo-av'
 import Icon from './CustomIcon'
 import * as Font from 'expo-font'
@@ -117,7 +117,11 @@ function Profile ({ route, navigation }) {
             uri: notFullscreenSizeVideo.thumbnail
           }}
         />
-        <TweetVideoProgressBar videoRef={fullscreenVideoRef} color={'red'}/>
+        <TweetVideoProgressBar
+          videoRef={fullscreenVideoRef}
+          width={Dimensions.get('window').width-20}
+          color={'red'}
+        />
         <TweetVideoControlBar
           videoRef={fullscreenVideoRef}
           navigatorProps={{
