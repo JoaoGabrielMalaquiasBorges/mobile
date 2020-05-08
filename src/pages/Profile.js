@@ -119,7 +119,14 @@ function Profile ({ route, navigation }) {
         />
         <TweetVideoProgressBar
           videoRef={fullscreenVideoRef}
-          width={Dimensions.get('window').width-20}
+          width={{
+            portraitWidth: Dimensions.get('window').width-20,
+            landscapeWidth: Dimensions.get('window').width-20
+          }}
+          videoBoxOffset={{
+            portraitOffset: 0,
+            landscapeOffset: 0
+          }}
           color={'red'}
         />
         <TweetVideoControlBar

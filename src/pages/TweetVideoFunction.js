@@ -56,7 +56,18 @@ function TweetVideoFunction(props) {
                 <TouchableWithoutFeedback>
                     <View style={videoStyles.touchableArea} />
                 </TouchableWithoutFeedback>
-                <TweetVideoProgressBar videoRef={videoRef} color={'green'}/>
+                <TweetVideoProgressBar
+                    videoRef={videoRef}
+                    width={{
+                        portraitWidth: Dimensions.get('window').width*0.95-42,
+                        landscapeWidth: 424.45
+                    }}
+                    videoBoxOffset={{
+                        portraitOffset: 0,
+                        landscapeOffset: (Dimensions.get('window').width*0.95-22)-444.45
+                    }}
+                    color={'green'}
+                />
                 <TweetVideoControlBar
                     videoRef={videoRef}
                     navigatorProps={{
