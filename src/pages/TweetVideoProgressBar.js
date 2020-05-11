@@ -20,7 +20,7 @@ function isPortrait() {
         return false;
     }
 }
-//
+
 // Dimensions.get('window').width*(Math.floor(width.portraitWidth)-width.portraitWidth)*(-1)+Math.floor(width.portraitWidth)
 var progressBarWidth = isPortrait() ? Dimensions.get('window').width*0.95-42 : 424.45;
 var progressBarButtonOffset = videoStyles.progressControlButton.width/progressBarWidth;
@@ -29,6 +29,11 @@ var shouldProgress = true;
 function TweetVideoControlBar(props) {
     const filledBarRef = React.createRef();
     const progressBarButtonRef = React.createRef();
+
+    /* var frac = Math.floor(width.portraitWidth)-width.portraitWidth == 0
+        ? 1
+        : (Math.floor(width.portraitWidth)-width.portraitWidth)*(-1)
+    var int = Math.floor(width.portraitWidth) */
 
     var videoDuration = 10704;
     var position = null;
