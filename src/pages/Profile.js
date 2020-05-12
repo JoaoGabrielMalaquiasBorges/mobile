@@ -43,7 +43,10 @@ function Profile ({ route, navigation }) {
       positionMillis: notFullscreenSizeVideo.playbackStatus.positionMillis,
       isMuted: notFullscreenSizeVideo.playbackStatus.isMuted
     })
-    finishProgress()
+
+    if (notFullscreenSizeVideo.playbackStatus.positionMillis == videoDuration) {
+      finishProgress()
+    }
     // alert(JSON.stringify(notFullscreenSizeVideo.playbackStatus))
     // alert('hi')
     // alert(notFullscreenSizeVideo.thumbnail)
@@ -123,11 +126,7 @@ function Profile ({ route, navigation }) {
             portraitWidth: Dimensions.get('window').width-20,
             landscapeWidth: Dimensions.get('window').width-20
           }}
-          videoBoxOffset={{
-            portraitOffset: 0,
-            landscapeOffset: 0
-          }}
-          color={'red'}
+          videoBoxOffset={0}
         />
         <TweetVideoControlBar
           videoRef={fullscreenVideoRef}

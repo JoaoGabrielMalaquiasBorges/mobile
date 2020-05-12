@@ -25,7 +25,11 @@ function TweetVideoFunction(props) {
             if (props.route.params != prevParams) {
                 prevParams = props.route.params
                 // alert(JSON.stringify(prevParams))
-                videoRef.current.setStatusAsync(props.route.params)
+                videoRef.current.setStatusAsync(props.route.params).then((playbackStatus) => {
+                    if (playbackStatus.positionMillis == videoDuration) {
+                        finishProgress()
+                    }
+                })
             }
         }, [props.route.params])
     );
@@ -62,11 +66,7 @@ function TweetVideoFunction(props) {
                         portraitWidth: Dimensions.get('window').width*0.95-42,
                         landscapeWidth: 424.45
                     }}
-                    videoBoxOffset={{
-                        portraitOffset: 0,
-                        landscapeOffset: (Dimensions.get('window').width*0.95-22)-444.45
-                    }}
-                    color={'green'}
+                    videoBoxOffset={(Dimensions.get('window').width*0.95-22)-444.45}
                 />
                 <TweetVideoControlBar
                     videoRef={videoRef}

@@ -26,7 +26,7 @@ var progressBarWidth = isPortrait() ? Dimensions.get('window').width*0.95-42 : 4
 var progressBarButtonOffset = videoStyles.progressControlButton.width/progressBarWidth;
 var shouldProgress = true;
 
-function TweetVideoControlBar(props) {
+function TweetVideoProgressBar({ videoRef, width/* , videoBoxOffset */ }) {
     const filledBarRef = React.createRef();
     const progressBarButtonRef = React.createRef();
 
@@ -98,12 +98,12 @@ function TweetVideoControlBar(props) {
         if (position > 1-progressBarButtonOffset) {
             finishProgress();
 
-            props.videoRef.current.pauseAsync().then(() => {
-                props.videoRef.current.playFromPositionAsync(0.99*videoDuration);
+            videoRef.current.pauseAsync().then(() => {
+                videoRef.current.playFromPositionAsync(0.99*videoDuration);
             });
         } else {
-            props.videoRef.current.pauseAsync().then(() => {
-                props.videoRef.current.playFromPositionAsync(position*videoDuration).then(() => {
+            videoRef.current.pauseAsync().then(() => {
+                videoRef.current.playFromPositionAsync(position*videoDuration).then(() => {
                     shouldProgress = true;
                 });
             });
@@ -118,8 +118,7 @@ function TweetVideoControlBar(props) {
                         ref={filledBarRef}
                         style={{
                             ...videoStyles.alreadyFilledBar,
-                            width: 0,
-                            backgroundColor: props.color
+                            width: 0
                         }}
                     />
                 </View>
@@ -181,4 +180,4 @@ export function finishProgress() {
     });
 }
 
-export default TweetVideoControlBar;
+export default TweetVideoProgressBar;
