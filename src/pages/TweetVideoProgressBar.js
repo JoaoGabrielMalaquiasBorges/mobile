@@ -7,6 +7,7 @@ import * as Font from 'expo-font';
 import { ScreenOrientation  } from 'expo';
 import Icon from './CustomIcon';
 import videoStyles from '../style/index';
+import tweetObject from './Model'
 
 // ScreenOrientation.getOrientationAsync().then(({ orientation }) => alert(orientation))
 
@@ -22,26 +23,39 @@ function isPortrait() {
 }
 
 // Dimensions.get('window').width*(Math.floor(width.portraitWidth)-width.portraitWidth)*(-1)+Math.floor(width.portraitWidth)
-var progressBarWidth = isPortrait() ? Dimensions.get('window').width*0.95-42 : 424.45;
-var progressBarButtonOffset = videoStyles.progressControlButton.width/progressBarWidth;
-var shouldProgress = true;
+var progressBarWidth// = isPortrait() ? Dimensions.get('window').width*0.95-42 : 424.45;
+var progressBarButtonOffset// = videoStyles.progressControlButton.width/progressBarWidth;
+var shouldProgress = true
 
 function TweetVideoProgressBar({ videoRef, width/* , videoBoxOffset */ }) {
-    const filledBarRef = React.createRef();
-    const progressBarButtonRef = React.createRef();
+    const tweet = tweetObject
+    const videoDuration = tweet.extended_entities.media[0].video_info.duration_millis
+    const filledBarRef = React.createRef()
+    const progressBarButtonRef = React.createRef()
 
-    /* var frac = Math.floor(width.portraitWidth)-width.portraitWidth == 0
+    const frac = Math.floor(width.portraitWidth)-width.portraitWidth == 0
         ? 1
         : (Math.floor(width.portraitWidth)-width.portraitWidth)*(-1)
-    var int = Math.floor(width.portraitWidth) */
 
-    var videoDuration = 10704;
-    var position = null;
-    var newProgressBarButtonOffset = 16/progressBarWidth;
-    var videoBoxOffset = isPortrait() ? 0 : (Dimensions.get('window').width*0.95-22)-444.45;
+    const int = Math.floor(width.portraitWidth)
+
+    var position
+    var newProgressBarButtonOffset// = 16/progressBarWidth;
+    var _videoBoxOffset
 
     globalFilledBarRef = filledBarRef
     globalProgressBarButtonRef = progressBarButtonRef
+
+    progressBarWidth = isPortrait()
+        ? Dimensions.get('window').width*frac+int
+        : Dimensions.get('window').width*Math.floor(frac)+width.landscapeWidth
+
+    _videoBoxOffset = isPortrait()
+        ? 0
+        : (Dimensions.get('window').width*frac+videoBoxOffset)*Math.ceil(1-frac)
+
+    progressBarButtonOffset = videoStyles.progressControlButton.width/progressBarWidth
+    newProgressBarButtonOffset = 16/progressBarWidth
 
     useEffect(() => {
         ScreenOrientation.addOrientationChangeListener( e => {
