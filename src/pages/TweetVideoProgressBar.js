@@ -9,12 +9,14 @@ import Icon from './CustomIcon';
 import videoStyles from '../style/index';
 import tweetObject from './Model'
 
-// ScreenOrientation.getOrientationAsync().then(({ orientation }) => alert(orientation))
-
 var globalFilledBarRef
 var globalProgressBarButtonRef
+var progressBarWidth
+var progressBarButtonOffset
+var shouldProgress = true
 
 function isPortrait() {
+    // ScreenOrientation.getOrientationAsync().then(({ orientation }) => alert(orientation))
     if ( Dimensions.get('window').height > Dimensions.get('window').width ) {
         return true;
     } else {
@@ -22,12 +24,7 @@ function isPortrait() {
     }
 }
 
-// Dimensions.get('window').width*(Math.floor(width.portraitWidth)-width.portraitWidth)*(-1)+Math.floor(width.portraitWidth)
-var progressBarWidth// = isPortrait() ? Dimensions.get('window').width*0.95-42 : 424.45;
-var progressBarButtonOffset// = videoStyles.progressControlButton.width/progressBarWidth;
-var shouldProgress = true
-
-function TweetVideoProgressBar({ videoRef, width/* , videoBoxOffset */ }) {
+function TweetVideoProgressBar({ videoRef, width, videoBoxOffset }) {
     const tweet = tweetObject
     const videoDuration = tweet.extended_entities.media[0].video_info.duration_millis
     const filledBarRef = React.createRef()
@@ -40,7 +37,7 @@ function TweetVideoProgressBar({ videoRef, width/* , videoBoxOffset */ }) {
     const int = Math.floor(width.portraitWidth)
 
     var position
-    var newProgressBarButtonOffset// = 16/progressBarWidth;
+    var newProgressBarButtonOffset
     var _videoBoxOffset
 
     globalFilledBarRef = filledBarRef
@@ -60,15 +57,15 @@ function TweetVideoProgressBar({ videoRef, width/* , videoBoxOffset */ }) {
     useEffect(() => {
         ScreenOrientation.addOrientationChangeListener( e => {
                 if ( isPortrait() ) {
-                    progressBarWidth = Dimensions.get('window').width*0.95-42;
+                    progressBarWidth = Dimensions.get('window').width*frac+int
+                    _videoBoxOffset = 0;
                     progressBarButtonOffset = videoStyles.progressControlButton.width/progressBarWidth;
                     newProgressBarButtonOffset = 16/progressBarWidth;
-                    videoBoxOffset = 0;
                 } else {
-                    progressBarWidth = 424.45;
+                    progressBarWidth = Dimensions.get('window').width*Math.floor(frac)+width.landscapeWidth
+                    _videoBoxOffset = (Dimensions.get('window').width*frac+videoBoxOffset)*Math.ceil(1-frac)
                     progressBarButtonOffset = videoStyles.progressControlButton.width/progressBarWidth;
                     newProgressBarButtonOffset = 16/progressBarWidth;
-                    videoBoxOffset = (Dimensions.get('window').width*0.95-22)-444.45;
                 }
         });
         return () => {
@@ -78,7 +75,9 @@ function TweetVideoProgressBar({ videoRef, width/* , videoBoxOffset */ }) {
 
     function getPosition(e) {
         shouldProgress = false;
-        position = (e.nativeEvent.pageX-Dimensions.get('window').width*0.025-11-videoBoxOffset/2-10-8)/progressBarWidth;
+        position =
+            (e.nativeEvent.pageX-Dimensions.get('window').width*(1-frac)/2+int/2-_videoBoxOffset/2-8)
+            /progressBarWidth;
 
         if ( position >= 0 && position <= 1-newProgressBarButtonOffset ) {
             progressBarButtonRef.current.setNativeProps({
@@ -117,6 +116,7 @@ function TweetVideoProgressBar({ videoRef, width/* , videoBoxOffset */ }) {
             });
         } else {
             videoRef.current.pauseAsync().then(() => {
+                // alert(position)
                 videoRef.current.playFromPositionAsync(position*videoDuration).then(() => {
                     shouldProgress = true;
                 });

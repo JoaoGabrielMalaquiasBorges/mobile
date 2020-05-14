@@ -11,6 +11,7 @@ import TweetVideoControlBar from "./TweetVideoControlBar";
 import { testFunction, finishProgress } from './TweetVideoProgressBar';
 import { useFocusEffect } from '@react-navigation/native'
 import TweetVideoProgressBar from "./TweetVideoProgressBar"
+import runOnce from "../../utils/once.js"
 
 function TweetVideoFunction(props) {
     const video = props.video;
@@ -37,6 +38,7 @@ function TweetVideoFunction(props) {
     function _onPlaybackStatusUpdate(playbackStatus) {
         if (playbackStatus.isPlaying) {
             currentVideoPosition = playbackStatus.positionMillis/videoDuration;
+            // runOnce(() => setTimeout(() => alert(currentVideoPosition), 1000))
             testFunction(currentVideoPosition);
         } else {
             if (playbackStatus.didJustFinish) {
@@ -63,10 +65,10 @@ function TweetVideoFunction(props) {
                 <TweetVideoProgressBar
                     videoRef={videoRef}
                     width={{
-                        portraitWidth: Dimensions.get('window').width*0.95-42,
+                        portraitWidth: 0.95-42, // Dimensions.get('window').width*0.95-42
                         landscapeWidth: 424.45
                     }}
-                    videoBoxOffset={(Dimensions.get('window').width*0.95-22)-444.45}
+                    videoBoxOffset={(-22)-444.45} // (Dimensions.get('window').width*0.95-22)-444.45
                 />
                 <TweetVideoControlBar
                     videoRef={videoRef}
