@@ -116,7 +116,6 @@ function TweetVideoProgressBar({ videoRef, width, videoBoxOffset }) {
             });
         } else {
             videoRef.current.pauseAsync().then(() => {
-                // alert(position)
                 videoRef.current.playFromPositionAsync(position*videoDuration).then(() => {
                     shouldProgress = true;
                 });

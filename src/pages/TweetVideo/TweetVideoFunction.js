@@ -5,13 +5,13 @@ import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { throwIfAudioIsDisabled } from 'expo-av/build/Audio/AudioAvailability';
 import * as Font from 'expo-font';
 import { ScreenOrientation  } from 'expo';
-import Icon from './CustomIcon';
-import videoStyles from '../style/index';
-import TweetVideoControlBar from "./TweetVideoControlBar";
-import { testFunction, finishProgress } from './TweetVideoProgressBar';
+import Icon from '../CustomIcon';
+import videoStyles from '../../style/index';
+import TweetVideoControlBar from "../TweetVideoControlBar";
+import { testFunction, finishProgress } from '../TweetVideoProgressBar';
 import { useFocusEffect } from '@react-navigation/native'
-import TweetVideoProgressBar from "./TweetVideoProgressBar"
-import runOnce from "../../utils/once.js"
+import TweetVideoProgressBar from "../TweetVideoProgressBar"
+import runOnce from "../../../utils/once.js"
 
 function TweetVideoFunction(props) {
     const video = props.video;
@@ -36,12 +36,8 @@ function TweetVideoFunction(props) {
     );
 
     function _onPlaybackStatusUpdate(playbackStatus) {
-        if (playbackStatus.shouldPlay) {
-            runOnce(() => alert(JSON.stringify(playbackStatus)))
-        }
         if (playbackStatus.isPlaying) {
             currentVideoPosition = playbackStatus.positionMillis/videoDuration;
-            // runOnce(() => setTimeout(() => alert(currentVideoPosition), 1000))
             testFunction(currentVideoPosition);
         } else {
             if (playbackStatus.didJustFinish) {

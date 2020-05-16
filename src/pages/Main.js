@@ -3,7 +3,7 @@ import { ScrollView, Dimensions, StyleSheet, Text, View, Image } from 'react-nat
 import {WebView} from 'react-native-webview';
 import HTML from 'react-native-render-html';
 import TweetVideo from './TweetVideo';
-import TweetVideoFunction from './TweetVideoFunction';
+import TweetVideoFunction from './TweetVideo/TweetVideoFunction';
 import * as Font from 'expo-font';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import Icon from './CustomIcon';
@@ -162,7 +162,7 @@ function Main({ route, navigation }) {
                                 name="twitter"
                                 size={18}
                                 color="#1DA1F2"
-                                onPress={()=>{Linking.openURL('twitter://intent/retweet?tweet_id=20');}} 
+                                onPress={()=>{Linking.openURL('twitter://post?message=hello&in_reply_to_status_id=20');}} 
                             />
                         </View>
                         {replayInfo}
