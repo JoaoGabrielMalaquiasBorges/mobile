@@ -134,7 +134,7 @@ function Profile ({ route, navigation }) {
               navigation: navigation,
               route: route
           }}
-          controls={{
+          controlsState={{
               playback: 'play',
               volume: 'volume-off'
           }}

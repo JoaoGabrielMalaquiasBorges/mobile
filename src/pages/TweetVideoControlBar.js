@@ -10,15 +10,16 @@ import videoStyles from '../style/index';
 // import TweetVideoProgressBar from "./TweetVideoProgressBar";
 import { useFocusEffect } from '@react-navigation/native'
 import { generateThumbnail } from './TweetVideoThumbnail'
+import { controls } from './TweetVideo/styles'
 
-function TweetVideoControlBar({ videoRef, navigatorProps, controls}) {
+function TweetVideoControlBar({ videoRef, navigatorProps, controlsState}) {
     Font.loadAsync({
         'FontName': require("../../assets/fonts/icomoon.ttf")
     });
 
     const controlBarRef = React.createRef();
-    const [volumeControlButtonIcon, setVolumeControlButtonIcon] = useState(controls.volume);
-    const [playerControlButtonIcon, setPlayerControlButtonIcon] = useState(controls.playback);
+    const [volumeControlButtonIcon, setVolumeControlButtonIcon] = useState(controlsState.volume);
+    const [playerControlButtonIcon, setPlayerControlButtonIcon] = useState(controlsState.playback);
 
     /* async function getThumbnail () {
         if (navigatorProps.route.name == 'Main' && typeof navigatorProps.route.params == 'undefined') {
@@ -95,25 +96,22 @@ function TweetVideoControlBar({ videoRef, navigatorProps, controls}) {
     return (
         <Animated.View
             ref={controlBarRef}
-            style={{ ...videoStyles.controlBar, opacity: 1, height: 32 }}
+            style={controls.container}
         >
-            {/* <TweetVideoProgressBar videoRef={videoRef} /> */}
-            <View style={videoStyles.controlBarFooter}>
-                <Icon
-                    name={playerControlButtonIcon}
-                    size={18}
-                    color="white"
-                    style={{ height: 18 }}
-                    onPress={updatePlaybackStatus}
-                />
-                <Icon
-                    name={volumeControlButtonIcon}
-                    size={20}
-                    color="white"
-                    style={{ height: 20 }}
-                    onPress={updateVolume}
-                />
-            </View>
+            <Icon
+                name={playerControlButtonIcon}
+                size={18}
+                color="white"
+                style={{ height: 18 }}
+                onPress={updatePlaybackStatus}
+            />
+            <Icon
+                name={volumeControlButtonIcon}
+                size={20}
+                color="white"
+                style={{ height: 20 }}
+                onPress={updateVolume}
+            />
         </Animated.View>
     );
 }

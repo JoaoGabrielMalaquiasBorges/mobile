@@ -8,6 +8,7 @@ import { ScreenOrientation  } from 'expo';
 import Icon from './CustomIcon';
 import videoStyles from '../style/index';
 import tweetObject from './Model'
+import { container, progressBar } from './TweetVideo/styles'
 
 var globalFilledBarRef
 var globalProgressBarButtonRef
@@ -124,30 +125,28 @@ function TweetVideoProgressBar({ videoRef, width, videoBoxOffset }) {
     }
 
     return(
-        <View style={videoStyles.controlBar}>
-            <View style={videoStyles.progressBar}>
-                <View style={videoStyles.fillBar}>
-                    <View
-                        ref={filledBarRef}
-                        style={{
-                            ...videoStyles.alreadyFilledBar,
-                            width: 0
-                        }}
-                    />
-                </View>
+        <View style={progressBar.container}>
+            <View style={progressBar.notFilledYet}>
                 <View
-                    ref={progressBarButtonRef}
-                    hitSlop={{ left: 14, right: 14 }}
+                    ref={filledBarRef}
                     style={{
-                        ...videoStyles.progressControlButton,
-                        left: 0,
-                        end: 0
+                        ...progressBar.filled,
+                        width: 0
                     }}
-                    onMoveShouldSetResponder={e => true}
-                    onResponderMove={getPosition}
-                    onResponderRelease={setPlaybackPosition}
                 />
             </View>
+            <View
+                ref={progressBarButtonRef}
+                hitSlop={{ left: 14, right: 14 }}
+                style={{
+                    ...progressBar.button,
+                    left: 0,
+                    end: 0
+                }}
+                onMoveShouldSetResponder={e => true}
+                onResponderMove={getPosition}
+                onResponderRelease={setPlaybackPosition}
+            />
         </View>
     );
 }
