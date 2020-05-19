@@ -6,7 +6,8 @@ const container = {
     right: 0,
     justifyContent: 'space-between',
     paddingHorizontal: 10,
-    paddingBottom: 10
+    paddingBottom: 10/* ,
+    backgroundColor: "rgba(0, 0, 0, 0.5)" */
 }
 
 export default container

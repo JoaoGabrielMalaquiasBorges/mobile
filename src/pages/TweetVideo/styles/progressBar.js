@@ -10,7 +10,7 @@ const progressBar = {
         backgroundColor: 'white'
     },
     notFilledYet: {
-        height: 1.5,
+        height: 3,
         backgroundColor: "rgba(162, 158, 158, 0.5)",
         borderRadius: 5,
         //This is to prevent progress bar to exceed radio button once that he don't start/end at min/max of horizontal position of your parent container as result of border width has been setted to 1 for use of elevation property

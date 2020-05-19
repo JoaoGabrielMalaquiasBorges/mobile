@@ -8,7 +8,7 @@ import { CommonActions } from '@react-navigation/native'
 import TweetVideoControlBar from "./TweetVideoControlBar"
 import TweetVideoProgressBar from "./TweetVideoProgressBar"
 import { testFunction, finishProgress } from './TweetVideoProgressBar'
-// import TweetVideoThumbnail from './TweetVideoThumbnail'
+import { container } from './TweetVideo/styles'
 
 /* global alert */
 
@@ -120,25 +120,27 @@ function Profile ({ route, navigation }) {
             uri: notFullscreenSizeVideo.thumbnail
           }}
         />
-        <TweetVideoProgressBar
-          videoRef={fullscreenVideoRef}
-          width={{
-            portraitWidth: -20, // Dimensions.get('window').width-20
-            landscapeWidth: -20 // Dimensions.get('window').width-20
-          }}
-          videoBoxOffset={0}
-        />
-        <TweetVideoControlBar
-          videoRef={fullscreenVideoRef}
-          navigatorProps={{
-              navigation: navigation,
-              route: route
-          }}
-          controlsState={{
-              playback: 'play',
-              volume: 'volume-off'
-          }}
-        />
+        <View style={container}>
+          <TweetVideoProgressBar
+            videoRef={fullscreenVideoRef}
+            width={{
+              portraitWidth: -20, // Dimensions.get('window').width-20
+              landscapeWidth: -20 // Dimensions.get('window').width-20
+            }}
+            videoBoxOffset={0}
+          />
+          <TweetVideoControlBar
+            videoRef={fullscreenVideoRef}
+            navigatorProps={{
+                navigation: navigation,
+                route: route
+            }}
+            controlsState={{
+                playback: 'play',
+                volume: 'volume-off'
+            }}
+          />
+        </View>
       </View>
       <Icon
         name='play'
