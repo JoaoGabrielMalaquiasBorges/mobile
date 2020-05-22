@@ -26,7 +26,7 @@ const progressBar = {
         borderWidth: 1, // setting border props for that elevation prop works
         borderColor: 'transparent',
         backgroundColor: 'white',
-        borderRadius: 10,
+        borderRadius: 10
     }
 }
 
