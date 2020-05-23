@@ -2,17 +2,36 @@ import React, { useState, useEffect } from 'react';
 import { View, Dimensions, Animated,  TouchableWithoutFeedback, Image, Text  } from 'react-native'
 import { container, progressBar } from './TweetVideo/styles'
 
+var millis = -1
+var shouldIncrement = true
+const myEmitter = new EventEmitter()
+
+export function start () {
+    millis++
+    if (shouldIncrement) {
+        start()
+    }
+}
+
+export function startAt (millis) {
+    millis = millis
+    if (shouldIncrement) {
+        start()
+}
+
+export function stop () {
+    shouldIncrement = false
+}
+
+function transform () {
+    
+}
+
 function Timer () {
     var [time, setTime] = useState(0)
 
-    function start () {
-        setInterval(() => {
-            if (time == 59) {
-               setTime(0) 
-            } else {
-                setTime(time+1)
-            }
-        }, 1000)
-    }
+    useEffect(() => {
+        
+    })    
     
 }
