@@ -13,6 +13,7 @@ import { useFocusEffect } from '@react-navigation/native'
 import TweetVideoProgressBar from "../TweetVideoProgressBar"
 import runOnce from "../../../utils/once.js"
 import { container } from './styles'
+import Timer from './Timer'
 
 function TweetVideoFunction(props) {
     const video = props.video;
@@ -82,6 +83,7 @@ function TweetVideoFunction(props) {
                             volume: 'volume-off'
                         }}
                     />
+                    <Timer/>
                 </View>
             </View>
         </View>

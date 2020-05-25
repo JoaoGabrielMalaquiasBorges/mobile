@@ -11,6 +11,7 @@ import videoStyles from '../style/index';
 import { useFocusEffect } from '@react-navigation/native'
 import { generateThumbnail } from './TweetVideoThumbnail'
 import { controls } from './TweetVideo/styles'
+import { start, startAt, stop } from './TweetVideo/Timer'
 
 function TweetVideoControlBar({ videoRef, navigatorProps, controlsState}) {
     Font.loadAsync({
@@ -79,6 +80,7 @@ function TweetVideoControlBar({ videoRef, navigatorProps, controlsState}) {
             case 'play':
                 videoRef.current.playAsync();
                 setPlayerControlButtonIcon('pause');
+                start()
                 break;
 
             case 'pause':

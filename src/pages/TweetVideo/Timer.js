@@ -1,26 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import { View, Dimensions, Animated,  TouchableWithoutFeedback, Image, Text  } from 'react-native'
-import { container, progressBar } from './TweetVideo/styles'
+import EventEmitter from 'events'
 
 var seconds = 0
 var minutes = 0
-var shouldIncrement = true
-const myEmitter = new EventEmitter()
+var shouldIncrement = false
+const clock = new EventEmitter()
 
 export function start () {
-    seconds++
-    setInterval(() => {
-        myEmitter.emit('eventOne')
-        if (shouldIncrement) {
-            start()
-        }
+    setTimeout(() => {
+        shouldIncrement = true
+        seconds++
+        clock.emit('tick')
     }, 1000)
 }
 
 export function startAt (seconds) {
-    seconds = seconds
     setInterval(() => {
-        myEmitter.emit('eventOne')
+        seconds = seconds
+        clock.emit('tick')
         if (shouldIncrement) {
             start()
         }
@@ -31,19 +29,36 @@ export function stop () {
     shouldIncrement = false
 }
 
-function transform () {
-    if (seconds % 60 == 1) {
-        seconds = 0
-        minutes++
-    }
-    setTime((minutes > 9 ? minutes : '0' + minutes) + ':' + (seconds > 9 ? seconds : '0' + seconds))
-}
-
 function Timer () {
-    var [time, setTime] = useState(0)
+    var [time, setTime] = useState('00:00')
+
+    function handleTime () {
+        if (seconds == 60) {
+            seconds = 0
+            minutes++
+        }
+        setTime((minutes > 9 ? minutes : '0' + minutes) + ':' + (seconds > 9 ? seconds : '0' + seconds))
+    }
 
     useEffect(() => {
-        
-    })    
-    
+        clock.addListener('tick', handleTime)
+        if (shouldIncrement) {
+            start()
+        }
+        return () => {
+            clock.removeAllListeners()
+        }
+    })
+
+    return (
+        <View style={{
+            position: 'absolute',
+            bottom: 10,
+            right: 50
+        }}>
+            <Text style={{ color: 'white' }}>{time}</Text>  
+        </View>
+    )
 }
+
+export default Timer;
