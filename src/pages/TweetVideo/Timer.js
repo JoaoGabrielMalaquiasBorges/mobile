@@ -14,7 +14,7 @@ export function start () {
         clock.emit('tick')
     }, 1000)
 }
-
+//
 export function startAt (seconds) {
     setInterval(() => {
         seconds = seconds
