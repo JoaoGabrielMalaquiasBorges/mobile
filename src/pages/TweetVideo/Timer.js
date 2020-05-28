@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { View, Dimensions, Animated,  TouchableWithoutFeedback, Image, Text  } from 'react-native'
 import EventEmitter from 'events'
+import tweetObject from '../Model'
+
+const tweet = tweetObject
+const clock = new EventEmitter()
 
 var seconds = 0
 var minutes = 0
 var shouldIncrement = false
-const clock = new EventEmitter()
 
 export function start () {
     setTimeout(() => {
