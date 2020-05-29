@@ -8,14 +8,16 @@ const clock = new EventEmitter()
 
 var seconds = 0
 var minutes = 0
-var shouldIncrement = false
+var shouldIncrement = true
 
 export function start () {
-    setTimeout(() => {
-        shouldIncrement = true
-        seconds++
-        clock.emit('tick')
-    }, 1000)
+    if (shouldIncrement) {
+        setTimeout(() => {
+            seconds++
+            clock.emit('tick')
+            start()
+        }, 1000)
+    }
 }
 
 export function startAt (seconds) {
@@ -45,9 +47,6 @@ function Timer () {
 
     useEffect(() => {
         clock.addListener('tick', handleTime)
-        if (shouldIncrement) {
-            start()
-        }
         return () => {
             clock.removeAllListeners()
         }

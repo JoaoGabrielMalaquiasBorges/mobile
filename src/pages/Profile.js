@@ -9,6 +9,7 @@ import TweetVideoControlBar from "./TweetVideoControlBar"
 import TweetVideoProgressBar from "./TweetVideoProgressBar"
 import { testFunction, finishProgress } from './TweetVideoProgressBar'
 import { container } from './TweetVideo/styles'
+import Timer, { start, stop } from './TweetVideo/Timer'
 
 /* global alert */
 
@@ -140,6 +141,7 @@ function Profile ({ route, navigation }) {
                 volume: 'volume-off'
             }}
           />
+          <Timer/>
         </View>
       </View>
       <Icon

@@ -11,7 +11,7 @@ import videoStyles from '../style/index';
 import { useFocusEffect } from '@react-navigation/native'
 import { generateThumbnail } from './TweetVideoThumbnail'
 import { controls } from './TweetVideo/styles'
-import { start, startAt, stop } from './TweetVideo/Timer'
+import { start, stop } from './TweetVideo/Timer'
 
 function TweetVideoControlBar({ videoRef, navigatorProps, controlsState}) {
     Font.loadAsync({
@@ -61,6 +61,7 @@ function TweetVideoControlBar({ videoRef, navigatorProps, controlsState}) {
                     // playbackStatus.shouldPlay = true;
                     playbackStatus.positionMillis = 10704
                 }
+                // stop()
                 navigatorProps.navigation.navigate('Profile', {
                     playbackStatus: playbackStatus,
                     routeKey: navigatorProps.route.key,
