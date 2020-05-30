@@ -21,7 +21,7 @@ function TweetVideoControlBar({ videoRef, navigatorProps, controlsState}) {
     const controlBarRef = React.createRef();
     const [volumeControlButtonIcon, setVolumeControlButtonIcon] = useState(controlsState.volume);
     const [playerControlButtonIcon, setPlayerControlButtonIcon] = useState(controlsState.playback);
-
+    
     /* async function getThumbnail () {
         if (navigatorProps.route.name == 'Main' && typeof navigatorProps.route.params == 'undefined') {
             return await generateThumbnail()

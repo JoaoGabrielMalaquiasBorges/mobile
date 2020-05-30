@@ -11,13 +11,11 @@ var minutes = 0
 var shouldIncrement = true
 
 export function start () {
-    if (shouldIncrement) {
-        setTimeout(() => {
-            seconds++
-            clock.emit('tick')
-            start()
-        }, 1000)
-    }
+    setTimeout(() => {
+        seconds++
+        clock.emit('tick')
+        start()
+    }, 1000)
 }
 
 export function startAt (seconds) {
