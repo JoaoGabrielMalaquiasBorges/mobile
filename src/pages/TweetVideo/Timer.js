@@ -2,38 +2,48 @@ import React, { useState, useEffect } from 'react';
 import { View, Dimensions, Animated,  TouchableWithoutFeedback, Image, Text  } from 'react-native'
 import EventEmitter from 'events'
 import tweetObject from '../Model'
+import { useFocusEffect } from '@react-navigation/native'
 
 const tweet = tweetObject
 const clock = new EventEmitter()
 
-var seconds = 0
-var minutes = 0
+/* var seconds = 0
+var minutes = 0 */
 var shouldIncrement = true
 
 export function start () {
-    setTimeout(() => {
+    /* setTimeout(() => {
         seconds++
         clock.emit('tick')
-        start()
-    }, 1000)
+    }, 1000) */
 }
 
 export function startAt (seconds) {
-    setInterval(() => {
+    /* setInterval(() => {
         seconds = seconds
         clock.emit('tick')
         if (shouldIncrement) {
             start()
         }
-    }, 1000)
+    }, 1000) */
 }
 
 export function stop () {
     shouldIncrement = false
 }
 
-function Timer () {
+function Timer ({ seconds }) {
     var [time, setTime] = useState('00:00')
+    
+    /* var seconds = seconds == undefined ? 0 : seconds
+    var minutes = minutes == undefined ? 0 : minutes
+
+    function startT () {
+        setTimeout(() => {
+            seconds++
+            clock.emit('tick')
+        }, 1000)
+    }
 
     function handleTime () {
         if (seconds == 60) {
@@ -41,14 +51,18 @@ function Timer () {
             minutes++
         }
         setTime((minutes > 9 ? minutes : '0' + minutes) + ':' + (seconds > 9 ? seconds : '0' + seconds))
-    }
+    } */
 
-    useEffect(() => {
-        clock.addListener('tick', handleTime)
+    useFocusEffect(() => {
+        /* clock.addListener('tick', handleTime)
+        startT()
         return () => {
             clock.removeAllListeners()
-        }
-    })
+        } */
+        alert(seconds)
+    });
+    
+   // useEffect()
 
     return (
         <View style={{
