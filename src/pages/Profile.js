@@ -53,10 +53,10 @@ function Profile ({ route, navigation }) {
     // alert(notFullscreenSizeVideo.thumbnail)
     const unsubscribe = navigation.addListener('transitionStart', () => {
       fullscreenVideoRef.current.getStatusAsync().then(playbackStatus => {
-        /* navigation.dispatch({
+        navigation.dispatch({
           ...CommonActions.setParams(playbackStatus),
           source: notFullscreenSizeVideo.routeKey
-        }) */
+        })
       })
     })
     return () => {
@@ -141,7 +141,7 @@ function Profile ({ route, navigation }) {
                 volume: 'volume-off'
             }}
           />
-          <Timer seconds={10} minutes={10}/>
+          <Timer route={route}/>
         </View>
       </View>
       <Icon

@@ -83,7 +83,7 @@ function TweetVideoFunction(props) {
                             volume: 'volume-off'
                         }}
                     />
-                    <Timer seconds={0} minutes={0}/>
+                    <Timer route={props.route}/>
                 </View>
             </View>
         </View>
