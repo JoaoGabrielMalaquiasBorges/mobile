@@ -141,7 +141,7 @@ function Profile ({ route, navigation }) {
                 volume: 'volume-off'
             }}
           />
-          <Timer route={route}/>
+          <Timer navigation={navigation}/>
         </View>
       </View>
       <Icon

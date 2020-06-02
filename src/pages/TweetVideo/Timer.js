@@ -5,20 +5,19 @@ import tweetObject from '../Model'
 import { useFocusEffect, useIsFocused } from '@react-navigation/native'
 
 const tweet = tweetObject
-// const clock = new EventEmitter()
+const videoDuration = tweet.extended_entities.media[0].video_info.duration_millis
 
 var seconds = 0
 var minutes = 0
 var shouldIncrement = true
 
 export function start () {
+    shouldIncrement = true
+    seconds++
     setTimeout(() => {
-        seconds++
-        // clock.emit('tick')
-        start()
+        clock.emit('tick')
     }, 1000)
 }
-
 
 export function startAt (seconds) {
     /* setInterval(() => {
@@ -34,19 +33,10 @@ export function stop () {
     shouldIncrement = false
 }
 
-function Timer ({ route }) {
-    var [time, setTime] = useState('00:00')
-
-    const isFocused = useIsFocused()
+function Timer ({ navigation }) {
+    const [time, setTime] = useState('00:00')
 
     const clock = new EventEmitter()
-
-    function startt () {
-        setTimeout(() => {
-            seconds++
-            clock.emit('tick')
-        }, 1000)
-    }
 
     function handleTime () {
         if (seconds == 60) {
@@ -56,27 +46,22 @@ function Timer ({ route }) {
         setTime((minutes > 9 ? minutes : '0' + minutes) + ':' + (seconds > 9 ? seconds : '0' + seconds))
     }
 
-    /* var seconds = seconds == undefined ? 0 : seconds
-    var minutes = minutes == undefined ? 0 : minutes
-
-    function startT () {
-        setTimeout(() => {
-            seconds++
-            clock.emit('tick')
-        }, 1000)
-    }
-
-     */
+    /* if ( minutes*60+seconds == Math.trunc(videoDuration/1000)) {
+        stop()
+    } */
 
     useEffect(() => {
         clock.addListener('tick', handleTime)
-        isFocused ? alert('ho') : undefined
+        if (navigation.isFocused() && shouldIncrement) {
+            seconds++
+            setTimeout(() => {
+                clock.emit('tick')
+            }, 1000)
+        }
         return () => {
             clock.removeAllListeners()
         }
     });
-    
-   // useEffect()
 
     return (
         <View style={{
