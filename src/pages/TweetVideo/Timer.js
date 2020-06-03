@@ -46,9 +46,10 @@ function Timer ({ navigation }) {
         setTime((minutes > 9 ? minutes : '0' + minutes) + ':' + (seconds > 9 ? seconds : '0' + seconds))
     }
 
-    /* if ( minutes*60+seconds == Math.trunc(videoDuration/1000)) {
+    if ( minutes*60+seconds == Math.trunc(videoDuration/1000)) {
         stop()
-    } */
+        alert(JSON.stringify(navigation))
+    }
 
     useEffect(() => {
         clock.addListener('tick', handleTime)
