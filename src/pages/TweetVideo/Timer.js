@@ -3,15 +3,17 @@ import { View, Dimensions, Animated,  TouchableWithoutFeedback, Image, Text  } f
 import EventEmitter from 'events'
 import tweetObject from '../Model'
 import { useFocusEffect, useIsFocused } from '@react-navigation/native'
+import { timer } from  './styles'
 
 const tweet = tweetObject
 const videoDuration = tweet.extended_entities.media[0].video_info.duration_millis
+const render = new EventEmitter()
 
 var seconds = 0
 var minutes = 0
-var shouldIncrement = true
+var shouldIncrement = false
 
-export function start () {
+export function startTimer () {
     shouldIncrement = true
     seconds++
     setTimeout(() => {
@@ -19,22 +21,20 @@ export function start () {
     }, 1000)
 }
 
-export function startAt (seconds) {
-    /* setInterval(() => {
-        seconds = seconds
-        clock.emit('tick')
-        if (shouldIncrement) {
-            start()
-        }
-    }, 1000) */
+export function startTimerAt (time) {
+    shouldIncrement = false
+    minutes = Math.trunc((time/1000)/60)
+    seconds = Math.trunc(time/1000)%60
+    shouldIncrement = true
+    render.emit('re-render')
 }
 
-export function stop () {
+export function stopTimer () {
     shouldIncrement = false
 }
 
-function Timer ({ navigation }) {
-    const [time, setTime] = useState('00:00')
+function Timer ({ route, navigation }) {
+    const [time, setTime] = useState('a')// (minutes > 9 ? minutes : '0' + minutes) + ':' + (seconds > 9 ? seconds : '0' + seconds))
 
     const clock = new EventEmitter()
 
@@ -46,13 +46,21 @@ function Timer ({ navigation }) {
         setTime((minutes > 9 ? minutes : '0' + minutes) + ':' + (seconds > 9 ? seconds : '0' + seconds))
     }
 
-    if ( minutes*60+seconds == Math.trunc(videoDuration/1000)) {
-        stop()
-        alert(JSON.stringify(navigation))
+    if (minutes*60+seconds == Math.trunc(videoDuration/1000)) {
+        stopTimer()
     }
 
     useEffect(() => {
         clock.addListener('tick', handleTime)
+        render.addListener('re-render', () => {
+            setTime((minutes > 9 ? minutes : '0' + minutes) + ':' + (seconds > 9 ? seconds : '0' + seconds))
+        })
+        const unsubscribe = navigation.addListener('focus', () => {
+            if (route.name == 'Main' && minutes*60+seconds == Math.trunc(videoDuration/1000)) {
+                setTime((minutes > 9 ? minutes : '0' + minutes) + ':' + (seconds > 9 ? seconds : '0' + seconds))
+            }
+        })
+        alert('hi')
         if (navigation.isFocused() && shouldIncrement) {
             seconds++
             setTimeout(() => {
@@ -60,17 +68,29 @@ function Timer ({ navigation }) {
             }, 1000)
         }
         return () => {
+            unsubscribe()
             clock.removeAllListeners()
+            render.removeAllListeners()
         }
     });
 
     return (
-        <View style={{
-            position: 'absolute',
-            bottom: 10,
-            right: 50
-        }}>
-            <Text style={{ color: 'white' }}>{time}</Text>  
+        <View style={timer.container}>
+            <Text style={timer.text}>{time}</Text>
+            <Text style={timer.text}> / </Text>
+            <Text style={timer.text}>{
+                (
+                    Math.trunc(Math.trunc(videoDuration/1000)/60) > 9
+                        ? Math.trunc(Math.trunc(videoDuration/1000)/60)
+                        : '0' + Math.trunc(Math.trunc(videoDuration/1000)/60)
+                )
+                + ':' +
+                (
+                    Math.trunc(videoDuration/1000)%60 > 9
+                        ? Math.trunc(videoDuration/1000)%60
+                        : '0' + Math.trunc(videoDuration/1000)%60
+                )
+            }</Text>
         </View>
     )
 }

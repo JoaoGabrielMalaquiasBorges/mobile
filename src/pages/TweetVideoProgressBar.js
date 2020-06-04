@@ -9,6 +9,7 @@ import Icon from './CustomIcon';
 import videoStyles from '../style/index';
 import tweetObject from './Model'
 import { container, progressBar } from './TweetVideo/styles'
+import { startTimerAt } from './TweetVideo/Timer'
 
 var globalFilledBarRef
 var globalProgressBarButtonRef
@@ -113,12 +114,15 @@ function TweetVideoProgressBar({ videoRef, width, videoBoxOffset }) {
             finishProgress();
 
             videoRef.current.pauseAsync().then(() => {
-                videoRef.current.playFromPositionAsync(0.99*videoDuration);
+                videoRef.current.playFromPositionAsync(0.99*videoDuration).then(() => {
+                    startTimerAt(0.99*videoDuration)                 
+                });
             });
         } else {
             videoRef.current.pauseAsync().then(() => {
                 videoRef.current.playFromPositionAsync(position*videoDuration).then(() => {
                     shouldProgress = true;
+                    startTimerAt(position*videoDuration)                 
                 });
             });
         }
