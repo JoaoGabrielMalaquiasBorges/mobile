@@ -34,7 +34,7 @@ export function stopTimer () {
 }
 
 function Timer ({ route, navigation }) {
-    const [time, setTime] = useState('a')// (minutes > 9 ? minutes : '0' + minutes) + ':' + (seconds > 9 ? seconds : '0' + seconds))
+    const [time, setTime] = useState((minutes > 9 ? minutes : '0' + minutes) + ':' + (seconds > 9 ? seconds : '0' + seconds))
 
     const clock = new EventEmitter()
 
@@ -53,14 +53,13 @@ function Timer ({ route, navigation }) {
     useEffect(() => {
         clock.addListener('tick', handleTime)
         render.addListener('re-render', () => {
-            setTime((minutes > 9 ? minutes : '0' + minutes) + ':' + (seconds > 9 ? seconds : '0' + seconds))
+            setTime((minutes > 9 ? minutes : ' 0' + minutes) + ':' + (seconds > 9 ? seconds : '0' + seconds))
         })
         const unsubscribe = navigation.addListener('focus', () => {
             if (route.name == 'Main' && minutes*60+seconds == Math.trunc(videoDuration/1000)) {
                 setTime((minutes > 9 ? minutes : '0' + minutes) + ':' + (seconds > 9 ? seconds : '0' + seconds))
             }
         })
-        alert('hi')
         if (navigation.isFocused() && shouldIncrement) {
             seconds++
             setTimeout(() => {
