@@ -15,16 +15,13 @@ var shouldIncrement = false
 
 export function startTimer () {
     shouldIncrement = true
-    seconds++
-    setTimeout(() => {
-        clock.emit('tick')
-    }, 1000)
+    render.emit('re-render')
 }
 
 export function startTimerAt (time) {
     shouldIncrement = false
     minutes = Math.trunc((time/1000)/60)
-    seconds = Math.trunc(time/1000)%60
+    seconds = Math.round(time/1000)%60
     shouldIncrement = true
     render.emit('re-render')
 }
