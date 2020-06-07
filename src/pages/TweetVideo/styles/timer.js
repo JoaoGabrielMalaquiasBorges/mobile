@@ -3,10 +3,10 @@ const timer = {
         position: 'absolute',
         bottom: 10,
         right: 50,
-        flexDirection: 'row'
+        flexDirection: 'row',
     },
     text: {
-        color: 'white'
+        color: 'white',
     }
 }
 
