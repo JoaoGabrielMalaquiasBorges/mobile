@@ -67,7 +67,7 @@ function TweetVideoFunction(props) {
                     <TweetVideoProgressBar
                         videoRef={videoRef}
                         width={{
-                            portraitWidth: 0.95-42, // Dimensions.get('window').width*0.95-42
+                            portraitWidth: 0.95-42, //  Dimensions.get('window').width*0.95-42
                             landscapeWidth: 424.45
                         }}
                         videoBoxOffset={(-22)-444.45} // (Dimensions.get('window').width*0.95-22)-444.45
