@@ -14,6 +14,8 @@ import Timer, { start, stop } from './TweetVideo/Timer'
 /* global alert */
 
 function Profile ({ route, navigation }) {
+  alert('hi')
+
   Font.loadAsync({
     FontName: require('../../assets/fonts/icomoon.ttf')
   })
@@ -151,6 +153,10 @@ function Profile ({ route, navigation }) {
         style={{ marginTop: 10, height: 20, marginLeft: 100 }}
         onPress={() => {
           // fullscreenVideoRef.current.playAsync().then(alert('hi'))
+          Animated.timing(visibility, {
+            toValue: { x: 1, y: 0 },
+            duration: 1
+          }).start()
         }}
       />
     </>

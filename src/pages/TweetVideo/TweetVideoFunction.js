@@ -14,6 +14,7 @@ import TweetVideoProgressBar from "../TweetVideoProgressBar"
 import runOnce from "../../../utils/once.js"
 import { container } from './styles'
 import Timer from './Timer'
+import ControlBar from "./ControlBar";
 
 function TweetVideoFunction(props) {
     const video = props.video;
@@ -63,28 +64,7 @@ function TweetVideoFunction(props) {
                 <TouchableWithoutFeedback>
                     <View style={videoStyles.touchableArea} />
                 </TouchableWithoutFeedback>
-                <View style={container}>
-                    <TweetVideoProgressBar
-                        videoRef={videoRef}
-                        width={{
-                            portraitWidth: 0.95-42, //  Dimensions.get('window').width*0.95-42
-                            landscapeWidth: 424.45
-                        }}
-                        videoBoxOffset={(-22)-444.45} // (Dimensions.get('window').width*0.95-22)-444.45
-                    />
-                    <TweetVideoControlBar
-                        videoRef={videoRef}
-                        navigatorProps={{
-                            navigation: props.navigation,
-                            route: props.route
-                        }}
-                        controlsState={{
-                            playback: 'play',
-                            volume: 'volume-off'
-                        }}
-                    />
-                    <Timer navigation={props.navigation} route={props.route}/>
-                </View>
+                <ControlBar route={props.route} navigation={props.navigation} videoRef={videoRef}/>
             </View>
         </View>
     );
