@@ -14,7 +14,6 @@ import Timer, { start, stop } from './TweetVideo/Timer'
 /* global alert */
 
 function Profile ({ route, navigation }) {
-  alert('hi')
 
   Font.loadAsync({
     FontName: require('../../assets/fonts/icomoon.ttf')
@@ -68,13 +67,12 @@ function Profile ({ route, navigation }) {
   })
 
   function showVideo (playbackStatus) {
-    if (playbackStatus.positionMillis > 0 && playbackStatus.positionMillis < videoDuration) {
-      if (showingThumbnail) {
-        Animated.timing(visibility, {
+    if (playbackStatus.positionMillis > 0 && showingThumbnail) {
+        alert(JSON.stringify(playbackStatus))
+        /* Animated.timing(visibility, {
           toValue: { x: 1, y: 0 },
           duration: 1
-        }).start(({ finished }) => { showingThumbnail = false })
-      }
+        }).start(({ finished }) => { showingThumbnail = false }) */
     }
   }
 
@@ -86,7 +84,10 @@ function Profile ({ route, navigation }) {
         if (playbackStatus.didJustFinish) {
           finishProgress()
         } else {
-          showVideo(playbackStatus)
+          if (playbackStatus.positionMillis == 0) {
+            // showVideo(playbackStatus)
+            alert('hi')
+          }
         }
     }
   }
