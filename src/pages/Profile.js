@@ -20,13 +20,14 @@ function Profile ({ route, navigation }) {
   })
 
   const tweet = tweetObject
+  const videoDuration = tweet.extended_entities.media[0].video_info.duration_millis
   const notFullscreenSizeVideo = route.params
   const fullscreenVideoRef = React.createRef()
-  const videoDuration = tweet.extended_entities.media[0].video_info.duration_millis;
 
-  var currentVideoPosition = 0
   var visibility = new Animated.ValueXY({ x: 1, y: 0 })
   var showingThumbnail = false
+  var shouldShowVideo = false
+  var currentVideoPosition = 0
 
   if (notFullscreenSizeVideo.playbackStatus.positionMillis == videoDuration) {
     Animated.timing(visibility, {
@@ -35,15 +36,17 @@ function Profile ({ route, navigation }) {
     }).start(({ finished }) => { showingThumbnail = true })
   }
 
-  /* if (currentVideoPosition != 0) {
-    alert('hi')
-  } */
-
   useEffect(() => {
+
+  
     fullscreenVideoRef.current.setStatusAsync({
       shouldPlay: notFullscreenSizeVideo.playbackStatus.shouldPlay,
       positionMillis: notFullscreenSizeVideo.playbackStatus.positionMillis,
       isMuted: notFullscreenSizeVideo.playbackStatus.isMuted
+    }).then(playbackStatus => {
+      if (playbackStatus.positionMillis == videoDuration) {
+        shouldShowVideo = true
+      }
     })
 
     if (notFullscreenSizeVideo.playbackStatus.positionMillis == videoDuration) {
@@ -66,29 +69,31 @@ function Profile ({ route, navigation }) {
     }
   })
 
-  function showVideo (playbackStatus) {
-    if (playbackStatus.positionMillis > 0 && showingThumbnail) {
-        alert(JSON.stringify(playbackStatus))
-        /* Animated.timing(visibility, {
-          toValue: { x: 1, y: 0 },
-          duration: 1
-        }).start(({ finished }) => { showingThumbnail = false }) */
+  function showVideo () {
+    if (showingThumbnail) {
+      alert('ho')
+      /* Animated.timing(visibility, {
+        toValue: { x: 1, y: 0 },
+        duration: 1
+      }).start(({ finished }) => { showingThumbnail = false }) */
     }
   }
 
-  function _onPlaybackStatusUpdate(playbackStatus) {
+  function onPlaybackStatusUpdate (playbackStatus) {
     if (playbackStatus.isPlaying) {
         currentVideoPosition = playbackStatus.positionMillis/videoDuration
         testFunction(currentVideoPosition)
     } else {
-        if (playbackStatus.didJustFinish) {
-          finishProgress()
-        } else {
-          if (playbackStatus.positionMillis == 0) {
-            // showVideo(playbackStatus)
-            alert('hi')
-          }
+      if (playbackStatus.didJustFinish) {
+        finishProgress()
+      } else {
+        if (shouldShowVideo && playbackStatus.positionMillis != videoDuration) {
+          shouldShowVideo = false
+          // showVideo()
+          alert(playbackStatus.positionMillis)
+          // setTimeout(() => alert(initialVideoPosition), 1000)
         }
+      }
     }
   }
 
@@ -108,7 +113,7 @@ function Profile ({ route, navigation }) {
             }}
             style={{ height: 250, width: 300 }}/* 
             onReadyForDisplay={playbackStatus => alert(JSON.stringify(playbackStatus))} */
-            onPlaybackStatusUpdate={_onPlaybackStatusUpdate}
+            onPlaybackStatusUpdate={onPlaybackStatusUpdate}
           />
         </Animated.View>
         <Animated.Image
