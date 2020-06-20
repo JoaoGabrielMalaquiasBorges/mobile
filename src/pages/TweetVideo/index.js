@@ -7,16 +7,15 @@ import * as Font from 'expo-font';
 import { ScreenOrientation  } from 'expo';
 import Icon from '../CustomIcon';
 import videoStyles from '../../style/index';
-import TweetVideoControlBar from "../TweetVideoControlBar";
-import { testFunction, finishProgress } from '../TweetVideoProgressBar';
+import Controls from "./Controls";
+import { testFunction, finishProgress } from './ProgressBar';
 import { useFocusEffect } from '@react-navigation/native'
-import TweetVideoProgressBar from "../TweetVideoProgressBar"
 import runOnce from "../../../utils/once.js"
 import { container } from './styles'
 import Timer from './Timer'
 import ControlBar from "./ControlBar";
 
-function TweetVideoFunction(props) {
+function TweetVideo(props) {
     const video = props.video;
     const videoDuration = 10704;
     const videoRef = React.createRef();
@@ -70,4 +69,4 @@ function TweetVideoFunction(props) {
     );
 }
 
-export default TweetVideoFunction;
+export default TweetVideo;

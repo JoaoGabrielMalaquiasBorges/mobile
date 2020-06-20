@@ -5,15 +5,15 @@ import Icon from './CustomIcon'
 import * as Font from 'expo-font'
 import tweetObject from './Model'
 import { CommonActions } from '@react-navigation/native'
-import TweetVideoControlBar from "./TweetVideoControlBar"
-import TweetVideoProgressBar from "./TweetVideoProgressBar"
-import { testFunction, finishProgress } from './TweetVideoProgressBar'
+import Controls from "./TweetVideo/Controls"
+import ProgressBar from "./TweetVideo/ProgressBar"
+import { testFunction, finishProgress } from './TweetVideo/ProgressBar'
 import { container } from './TweetVideo/styles'
 import Timer, { start, stop } from './TweetVideo/Timer'
 
 /* global alert */
 
-function Profile ({ route, navigation }) {
+function FullscreenSizeVideo ({ route, navigation }) {
 
   Font.loadAsync({
     FontName: require('../../assets/fonts/icomoon.ttf')
@@ -29,16 +29,7 @@ function Profile ({ route, navigation }) {
   var shouldShowVideo = false
   var currentVideoPosition = 0
 
-  if (notFullscreenSizeVideo.playbackStatus.positionMillis == videoDuration) {
-    Animated.timing(visibility, {
-      toValue: { x: 0, y: 1 },
-      duration: 1
-    }).start(({ finished }) => { showingThumbnail = true })
-  }
-
   useEffect(() => {
-
-  
     fullscreenVideoRef.current.setStatusAsync({
       shouldPlay: notFullscreenSizeVideo.playbackStatus.shouldPlay,
       positionMillis: notFullscreenSizeVideo.playbackStatus.positionMillis,
@@ -52,9 +43,7 @@ function Profile ({ route, navigation }) {
     if (notFullscreenSizeVideo.playbackStatus.positionMillis == videoDuration) {
       finishProgress()
     }
-    // alert(JSON.stringify(notFullscreenSizeVideo.playbackStatus))
-    // alert('hi')
-    // alert(notFullscreenSizeVideo.thumbnail)
+
     const unsubscribe = navigation.addListener('transitionStart', () => {
       fullscreenVideoRef.current.getStatusAsync().then(playbackStatus => {
         navigation.dispatch({
@@ -63,14 +52,21 @@ function Profile ({ route, navigation }) {
         })
       })
     })
+  
     return () => {
       unsubscribe()
       fullscreenVideoRef.current.unloadAsync()
     }
   })
 
+  if (notFullscreenSizeVideo.playbackStatus.positionMillis == videoDuration) {
+    Animated.timing(visibility, {
+      toValue: { x: 0, y: 1 },
+      duration: 1
+    }).start(({ finished }) => { showingThumbnail = true })
+  }
+
   function showVideo () {
-    // alert('ho')
     Animated.timing(visibility, {
       toValue: { x: 1, y: 0 },
       duration: 1
@@ -88,8 +84,6 @@ function Profile ({ route, navigation }) {
         if (shouldShowVideo && playbackStatus.positionMillis < videoDuration) {
           shouldShowVideo = false
           showVideo()
-          // alert(playbackStatus.positionMillis)
-          // setTimeout(() => alert(initialVideoPosition), 1000)
         }
       }
     }
@@ -109,13 +103,11 @@ function Profile ({ route, navigation }) {
                 // 'http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4'
                 // 'https://www.w3schools.com/html/mov_bbb.mp4'
             }}
-            style={{ height: 250, width: 300 }}/* 
-            onReadyForDisplay={playbackStatus => alert(JSON.stringify(playbackStatus))} */
+            style={{ height: 250, width: 300 }}
             onPlaybackStatusUpdate={onPlaybackStatusUpdate}
           />
         </Animated.View>
         <Animated.Image
-          // ref={thumbnailRef}
           resizeMode='contain'
           style={{
             height: 250,
@@ -128,7 +120,7 @@ function Profile ({ route, navigation }) {
           }}
         />
         <View style={container}>
-          <TweetVideoProgressBar
+          <ProgressBar
             videoRef={fullscreenVideoRef}
             width={{
               portraitWidth: -20, // Dimensions.get('window').width-20
@@ -136,7 +128,7 @@ function Profile ({ route, navigation }) {
             }}
             videoBoxOffset={0}
           />
-          <TweetVideoControlBar
+          <Controls
             videoRef={fullscreenVideoRef}
             navigatorProps={{
                 navigation: navigation,
@@ -167,4 +159,4 @@ function Profile ({ route, navigation }) {
   )
 }
 
-export default Profile
+export default FullscreenSizeVideo

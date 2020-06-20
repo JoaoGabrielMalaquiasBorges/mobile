@@ -5,11 +5,11 @@ import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { throwIfAudioIsDisabled } from 'expo-av/build/Audio/AudioAvailability';
 import * as Font from 'expo-font';
 import { ScreenOrientation  } from 'expo';
-import Icon from './CustomIcon';
-import videoStyles from '../style/index';
-import tweetObject from './Model'
-import { container, progressBar } from './TweetVideo/styles'
-import { startTimerAt } from './TweetVideo/Timer'
+import Icon from '../CustomIcon';
+import videoStyles from '../../style/index';
+import tweetObject from '../Model'
+import { container, progressBar } from './styles'
+import { startTimerAt } from './Timer'
 
 var globalFilledBarRef
 var globalProgressBarButtonRef
@@ -26,7 +26,7 @@ function isPortrait() {
     }
 }
 
-function TweetVideoProgressBar({ videoRef, width, videoBoxOffset }) {
+function ProgressBar({ videoRef, width, videoBoxOffset }) {
     const tweet = tweetObject
     const videoDuration = tweet.extended_entities.media[0].video_info.duration_millis
     const filledBarRef = React.createRef()
@@ -196,4 +196,4 @@ export function finishProgress() {
     });
 }
 
-export default TweetVideoProgressBar;
+export default ProgressBar;

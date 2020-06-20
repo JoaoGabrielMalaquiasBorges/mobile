@@ -5,17 +5,17 @@ import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { throwIfAudioIsDisabled } from 'expo-av/build/Audio/AudioAvailability';
 import * as Font from 'expo-font';
 import { ScreenOrientation } from 'expo';
-import Icon from './CustomIcon';
-import videoStyles from '../style/index';
+import Icon from '../CustomIcon';
+import videoStyles from '../../style/index';
 // import TweetVideoProgressBar from "./TweetVideoProgressBar";
 import { useFocusEffect } from '@react-navigation/native'
-import { generateThumbnail } from './TweetVideoThumbnail'
-import { controls } from './TweetVideo/styles'
-import { startTimer, stopTimer } from './TweetVideo/Timer'
+import { generateThumbnail } from '../TweetVideoThumbnail'
+import { controls } from './styles'
+import { startTimer, stopTimer } from './Timer'
 
-function TweetVideoControlBar({ videoRef, navigatorProps, controlsState}) {
+function Controls({ videoRef, navigatorProps, controlsState}) {
     Font.loadAsync({
-        'FontName': require("../../assets/fonts/icomoon.ttf")
+        'FontName': require("../../../assets/fonts/icomoon.ttf")
     });
 
     const controlBarRef = React.createRef();
@@ -62,7 +62,7 @@ function TweetVideoControlBar({ videoRef, navigatorProps, controlsState}) {
                     playbackStatus.positionMillis = 10704
                 }
                 // stop()
-                navigatorProps.navigation.navigate('Profile', {
+                navigatorProps.navigation.navigate('FullscreenSizeVideo', {
                     playbackStatus: playbackStatus,
                     routeKey: navigatorProps.route.key,
                     thumbnail: videoThumbnail
@@ -119,4 +119,4 @@ function TweetVideoControlBar({ videoRef, navigatorProps, controlsState}) {
     );
 }
 
-export default TweetVideoControlBar;
+export default Controls;

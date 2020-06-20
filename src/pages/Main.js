@@ -3,7 +3,6 @@ import { ScrollView, Dimensions, StyleSheet, Text, View, Image } from 'react-nat
 import {WebView} from 'react-native-webview';
 import HTML from 'react-native-render-html';
 import TweetVideo from './TweetVideo';
-import TweetVideoFunction from './TweetVideo/TweetVideoFunction';
 import * as Font from 'expo-font';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import Icon from './CustomIcon';
@@ -94,7 +93,7 @@ function Main({ route, navigation }) {
                 case "video":
                     return (
                         <View style={{marginBottom: 10}}>
-                            <TweetVideoFunction video={tweet.extended_entities.media[0]} navigation={navigation} route={route} width={Dimensions.get('window').width-42}/>
+                            <TweetVideo video={tweet.extended_entities.media[0]} navigation={navigation} route={route} width={Dimensions.get('window').width-42}/>
                         </View>
                     );
                     break;
