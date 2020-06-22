@@ -9,7 +9,7 @@ import Icon from '../CustomIcon';
 import videoStyles from '../../style/index';
 // import TweetVideoProgressBar from "./TweetVideoProgressBar";
 import { useFocusEffect } from '@react-navigation/native'
-import { generateThumbnail } from '../TweetVideoThumbnail'
+import { generateThumbnail } from './thumbnail'
 import { controls } from './styles'
 import { startTimer, stopTimer } from './Timer'
 

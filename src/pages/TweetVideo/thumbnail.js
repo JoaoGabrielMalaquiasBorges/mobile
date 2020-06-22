@@ -1,5 +1,5 @@
 import * as VideoThumbnails from 'expo-video-thumbnails'
-import tweetObject from './Model'
+import tweetObject from '../Model'
 
 const tweet = tweetObject
 var uri

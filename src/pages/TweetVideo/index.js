@@ -6,17 +6,16 @@ import { throwIfAudioIsDisabled } from 'expo-av/build/Audio/AudioAvailability';
 import * as Font from 'expo-font';
 import { ScreenOrientation  } from 'expo';
 import Icon from '../CustomIcon';
-import videoStyles from '../../style/index';
+import { video } from './styles'
 import Controls from "./Controls";
 import { testFunction, finishProgress } from './ProgressBar';
 import { useFocusEffect } from '@react-navigation/native'
 import runOnce from "../../../utils/once.js"
-import { container } from './styles'
 import Timer from './Timer'
 import ControlBar from "./ControlBar";
 
 function TweetVideo(props) {
-    const video = props.video;
+    const tweetVideo = props.video;
     const videoDuration = 10704;
     const videoRef = React.createRef();
 
@@ -37,7 +36,7 @@ function TweetVideo(props) {
         }, [props.route.params])
     );
 
-    function _onPlaybackStatusUpdate(playbackStatus) {
+    function onPlaybackStatusUpdate(playbackStatus) {
         if (playbackStatus.isPlaying) {
             currentVideoPosition = playbackStatus.positionMillis/videoDuration;
             testFunction(currentVideoPosition);
@@ -50,18 +49,18 @@ function TweetVideo(props) {
     
     return(
         <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
-            <View style={videoStyles.videoBox}>
+            <View style={video.container}>
                 <Video
                     resizeMode="cover"
                     ref={videoRef}
-                    source={/* require('../../assets/theCoralSong.mp4') */{ uri: video.video_info.variants[0].url }}
+                    source={/* require('../../assets/theCoralSong.mp4') */{ uri: tweetVideo.video_info.variants[0].url }}
                     shouldPlay={false}
                     isMuted={true}
-                    style={videoStyles.video}
-                    onPlaybackStatusUpdate={_onPlaybackStatusUpdate}
+                    style={video.videoFrame}
+                    onPlaybackStatusUpdate={onPlaybackStatusUpdate}
                 />
                 <TouchableWithoutFeedback>
-                    <View style={videoStyles.touchableArea} />
+                    <View style={video.touchableArea} />
                 </TouchableWithoutFeedback>
                 <ControlBar route={props.route} navigation={props.navigation} videoRef={videoRef}/>
             </View>

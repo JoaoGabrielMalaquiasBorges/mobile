@@ -8,7 +8,7 @@ import { ScreenOrientation  } from 'expo';
 import Icon from '../CustomIcon';
 import videoStyles from '../../style/index';
 import tweetObject from '../Model'
-import { container, progressBar } from './styles'
+import { progressBar } from './styles'
 import { startTimerAt } from './Timer'
 
 var globalFilledBarRef
@@ -53,7 +53,7 @@ function ProgressBar({ videoRef, width, videoBoxOffset }) {
         ? 0
         : (Dimensions.get('window').width*frac+videoBoxOffset)*Math.ceil(1-frac)
 
-    progressBarButtonOffset = videoStyles.progressControlButton.width/progressBarWidth
+    progressBarButtonOffset = progressBar.button.width/progressBarWidth
     newProgressBarButtonOffset = 16/progressBarWidth
 
     useEffect(() => {
@@ -61,12 +61,12 @@ function ProgressBar({ videoRef, width, videoBoxOffset }) {
                 if ( isPortrait() ) {
                     progressBarWidth = Dimensions.get('window').width*frac+int
                     _videoBoxOffset = 0;
-                    progressBarButtonOffset = videoStyles.progressControlButton.width/progressBarWidth;
+                    progressBarButtonOffset = progressBar.button.width/progressBarWidth;
                     newProgressBarButtonOffset = 16/progressBarWidth;
                 } else {
                     progressBarWidth = Dimensions.get('window').width*Math.floor(frac)+width.landscapeWidth
                     _videoBoxOffset = (Dimensions.get('window').width*frac+videoBoxOffset)*Math.ceil(1-frac)
-                    progressBarButtonOffset = videoStyles.progressControlButton.width/progressBarWidth;
+                    progressBarButtonOffset = progressBar.button.width/progressBarWidth;
                     newProgressBarButtonOffset = 16/progressBarWidth;
                 }
         });
@@ -105,8 +105,8 @@ function ProgressBar({ videoRef, width, videoBoxOffset }) {
     function setPlaybackPosition() {
         progressBarButtonRef.current.setNativeProps({
             style: {
-                height: videoStyles.progressControlButton.height,
-                width: videoStyles.progressControlButton.width
+                height: progressBar.button.height,
+                width: progressBar.button.width
             }
         });
 

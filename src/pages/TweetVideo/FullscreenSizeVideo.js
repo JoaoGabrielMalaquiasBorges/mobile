@@ -1,22 +1,22 @@
 import React, { useState, useEffect } from 'react'
 import { View, Dimensions, StatusBar, Text, Animated, Image } from 'react-native'
 import { Video } from 'expo-av'
-import Icon from './CustomIcon'
+import Icon from '../CustomIcon'
 import * as Font from 'expo-font'
-import tweetObject from './Model'
+import tweetObject from '../Model'
 import { CommonActions } from '@react-navigation/native'
-import Controls from "./TweetVideo/Controls"
-import ProgressBar from "./TweetVideo/ProgressBar"
-import { testFunction, finishProgress } from './TweetVideo/ProgressBar'
-import { container } from './TweetVideo/styles'
-import Timer, { start, stop } from './TweetVideo/Timer'
+import Controls from "./Controls"
+import ProgressBar from "./ProgressBar"
+import { testFunction, finishProgress } from './ProgressBar'
+import Timer, { start, stop } from './Timer'
+import ControlBar from './ControlBar'
 
 /* global alert */
 
 function FullscreenSizeVideo ({ route, navigation }) {
 
   Font.loadAsync({
-    FontName: require('../../assets/fonts/icomoon.ttf')
+    FontName: require('../../../assets/fonts/icomoon.ttf')
   })
 
   const tweet = tweetObject
@@ -115,32 +115,9 @@ function FullscreenSizeVideo ({ route, navigation }) {
             position: 'absolute',
             opacity: visibility.y
           }}
-          source={{
-            uri: notFullscreenSizeVideo.thumbnail
-          }}
+          source={{ uri: notFullscreenSizeVideo.thumbnail }}
         />
-        <View style={container}>
-          <ProgressBar
-            videoRef={fullscreenVideoRef}
-            width={{
-              portraitWidth: -20, // Dimensions.get('window').width-20
-              landscapeWidth: -20 // Dimensions.get('window').width-20
-            }}
-            videoBoxOffset={0}
-          />
-          <Controls
-            videoRef={fullscreenVideoRef}
-            navigatorProps={{
-                navigation: navigation,
-                route: route
-            }}
-            controlsState={{
-                playback: 'play',
-                volume: 'volume-off'
-            }}
-          />
-          <Timer navigation={navigation} route={route}/>
-        </View>
+        <ControlBar route={route} navigation={navigation} videoRef={fullscreenVideoRef}/>
       </View>
       <Icon
         name='play'

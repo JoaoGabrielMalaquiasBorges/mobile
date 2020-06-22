@@ -21,10 +21,18 @@ function ControlBar ({ route, navigation, videoRef }) {
             <ProgressBar
                 videoRef={videoRef}
                 width={{
-                    portraitWidth: controlBar.width.portrait,
-                    landscapeWidth: controlBar.width.landscape
+                    portraitWidth: route.name == 'Main'
+                        ? 0.95-42 // Dimensions.get('window').width*0.95-42
+                        : -20, // Dimensions.get('window').width-20
+                    landscapeWidth: route.name == 'Main'
+                        ? 424.45
+                        : -20 // Dimensions.get('window').width-20
                 }}
-                videoBoxOffset={controlBar.videoBoxOffset}
+                videoBoxOffset={
+                    route.name == 'Main'
+                        ? (-22)-444.45 // (Dimensions.get('window').width*0.95-22)-444.45
+                        : 0
+                }
             />
             <Controls
                 videoRef={videoRef}
