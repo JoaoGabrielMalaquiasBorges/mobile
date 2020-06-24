@@ -35,11 +35,9 @@ function ControlBar ({ route, navigation, videoRef }) {
                 }
             />
             <Controls
+                route={route}
+                navigation={navigation}
                 videoRef={videoRef}
-                navigatorProps={{
-                    navigation: navigation,
-                    route: route
-                }}
                 controlsState={{
                     playback: 'play',
                     volume: 'volume-off'

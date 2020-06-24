@@ -13,17 +13,23 @@ import { generateThumbnail } from './thumbnail'
 import { controls } from './styles'
 import { startTimer, stopTimer } from './Timer'
 
-function Controls({ videoRef, navigatorProps, controlsState}) {
+function Controls({ route, navigation, videoRef, controlsState}) {
     Font.loadAsync({
         'FontName': require("../../../assets/fonts/icomoon.ttf")
     });
 
     const controlBarRef = React.createRef();
     const [volumeControlButtonIcon, setVolumeControlButtonIcon] = useState(controlsState.volume);
-    const [playerControlButtonIcon, setPlayerControlButtonIcon] = useState(controlsState.playback);
+    const [playerControlButtonIcon, setPlayerControlButtonIcon] = useState(() => {
+        if (route.name == 'FullscreenSizeVideo') {
+            return route.params.playerControlButtonIcon
+        } else {
+            return controlsState.playback
+        }
+    });
     
     /* async function getThumbnail () {
-        if (navigatorProps.route.name == 'Main' && typeof navigatorProps.route.params == 'undefined') {
+        if (route.name == 'Main' && typeof route.params == 'undefined') {
             return await generateThumbnail()
         }
     }
@@ -33,17 +39,17 @@ function Controls({ videoRef, navigatorProps, controlsState}) {
     var controlBarVisibility = new Animated.Value(1);
     var videoThumbnail
 
-    /* if (navigatorProps.route.name == 'Main' && typeof navigatorProps.route.params == 'undefined') {
+    /* if (route.name == 'Main' && typeof route.params == 'undefined') {
         videoThumbnail = generateThumbnail()
         alert(JSON.stringify(videoThumbnail))
     } */
 
     /* useFocusEffect(
         React.useCallback(() => {
-            if (navigatorProps.route.name == 'Main' && typeof navigatorProps.route.params != 'undefined') {
+            if (route.name == 'Main' && typeof route.params != 'undefined') {
                // alert( JSON.stringify('hi') )
             }
-        }, [navigatorProps.route])
+        }, [route])
     ); */
 
     async function updateVolume() {
@@ -51,21 +57,22 @@ function Controls({ videoRef, navigatorProps, controlsState}) {
         if (volumeControlButtonIcon == 'volume-off') {
             // videoRef.current.setIsMutedAsync(false);
 
-            if (navigatorProps.route.name == 'Main') {
+            if (route.name == 'Main') {
                 videoThumbnail = await generateThumbnail()
             }
 
             videoRef.current.pauseAsync().then(playbackStatus => {
                 if (playerControlButtonIcon == 'pause' /* && playbackStatus.positionMillis != 10704 */) {
-                    setPlayerControlButtonIcon('play');
+                    // setPlayerControlButtonIcon('play');
                     // playbackStatus.shouldPlay = true;
                     playbackStatus.positionMillis = 10704
                 }
                 // stop()
-                navigatorProps.navigation.navigate('FullscreenSizeVideo', {
+                navigation.navigate('FullscreenSizeVideo', {
                     playbackStatus: playbackStatus,
-                    routeKey: navigatorProps.route.key,
-                    thumbnail: videoThumbnail
+                    routeKey: route.key,
+                    thumbnail: videoThumbnail,
+                    playerControlButtonIcon: playerControlButtonIcon
                 });
             });
 
