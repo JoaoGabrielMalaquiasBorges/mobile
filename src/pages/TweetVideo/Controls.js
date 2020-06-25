@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { View, Dimensions, Animated, TouchableWithoutFeedback, Image, Text } from 'react-native';
 import { Video } from 'expo-av';
 import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
@@ -12,8 +12,9 @@ import { useFocusEffect } from '@react-navigation/native'
 import { generateThumbnail } from './thumbnail'
 import { controls } from './styles'
 import { startTimer, stopTimer } from './Timer'
+import runOnce from '../../../utils/once'
 
-function Controls({ route, navigation, videoRef, controlsState}) {
+function Controls({ route, navigation, videoRef, controlsState }) {
     Font.loadAsync({
         'FontName': require("../../../assets/fonts/icomoon.ttf")
     });
@@ -43,15 +44,16 @@ function Controls({ route, navigation, videoRef, controlsState}) {
         videoThumbnail = generateThumbnail()
         alert(JSON.stringify(videoThumbnail))
     } */
+    const prevParams = route.params != undefined ? route.params.rate : undefined
+    var flag = false
+    useMemo(() => { flag = true }, [prevParams])
 
-    /* useFocusEffect(
-        React.useCallback(() => {
-            if (route.name == 'Main' && typeof route.params != 'undefined') {
-               // alert( JSON.stringify('hi') )
-            }
-        }, [route])
-    ); */
-
+    useEffect(() => {
+        if (route.name == 'Main' && route.params != undefined) {
+            flag == true ? alert('hi') : alert('ho')
+        }
+    }, [route.params])
+    
     async function updateVolume() {
 
         if (volumeControlButtonIcon == 'volume-off') {
