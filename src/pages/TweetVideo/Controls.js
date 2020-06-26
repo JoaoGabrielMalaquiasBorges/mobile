@@ -13,6 +13,7 @@ import { generateThumbnail } from './thumbnail'
 import { controls } from './styles'
 import { startTimer, stopTimer } from './Timer'
 import runOnce from '../../../utils/once'
+import Playback from './Playback'
 
 function Controls({ route, navigation, videoRef, controlsState }) {
     Font.loadAsync({
@@ -27,24 +28,13 @@ function Controls({ route, navigation, videoRef, controlsState }) {
         } else {
             return controlsState.playback
         }
-    });
-    
-    /* async function getThumbnail () {
-        if (route.name == 'Main' && typeof route.params == 'undefined') {
-            return await generateThumbnail()
-        }
-    }
-
-    const videoThumbnail = getThumbnail() */
+    })
 
     var controlBarVisibility = new Animated.Value(1);
     var videoThumbnail
 
-    /* if (route.name == 'Main' && typeof route.params == 'undefined') {
-        videoThumbnail = generateThumbnail()
-        alert(JSON.stringify(videoThumbnail))
-    } */
-    const prevParams = route.params != undefined ? route.params.rate : undefined
+
+    /* const prevParams = route.params != undefined ? route.params.rate : undefined
     var flag = false
     useMemo(() => { flag = true }, [prevParams])
 
@@ -52,7 +42,7 @@ function Controls({ route, navigation, videoRef, controlsState }) {
         if (route.name == 'Main' && route.params != undefined) {
             flag == true ? alert('hi') : alert('ho')
         }
-    }, [route.params])
+    }, [route.params]) */
     
     async function updateVolume() {
 
@@ -64,11 +54,11 @@ function Controls({ route, navigation, videoRef, controlsState }) {
             }
 
             videoRef.current.pauseAsync().then(playbackStatus => {
-                if (playerControlButtonIcon == 'pause' /* && playbackStatus.positionMillis != 10704 */) {
+                // if (playerControlButtonIcon == 'pause' /* && playbackStatus.positionMillis != 10704 */) {
                     // setPlayerControlButtonIcon('play');
                     // playbackStatus.shouldPlay = true;
                     playbackStatus.positionMillis = 10704
-                }
+                // }
                 // stop()
                 navigation.navigate('FullscreenSizeVideo', {
                     playbackStatus: playbackStatus,
@@ -110,13 +100,18 @@ function Controls({ route, navigation, videoRef, controlsState }) {
             ref={controlBarRef}
             style={controls.container}
         >
-            <Icon
+            <Playback
+                route={route}
+                navigation={navigation}
+                videoRef={videoRef}
+            />
+            {/* <Icon
                 name={playerControlButtonIcon}
                 size={18}
                 color="white"
                 style={{ height: 18 }}
                 onPress={updatePlaybackStatus}
-            />
+            /> */}
             <Icon
                 name={volumeControlButtonIcon}
                 size={20}
