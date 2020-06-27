@@ -11,7 +11,7 @@ import videoStyles from '../../style/index';
 import { useFocusEffect } from '@react-navigation/native'
 import { generateThumbnail } from './thumbnail'
 import { controls } from './styles'
-import { startTimer, stopTimer } from './Timer'
+import Timer, { startTimer } from './Timer'
 import runOnce from '../../../utils/once'
 import Playback from './Playback'
 
@@ -112,13 +112,21 @@ function Controls({ route, navigation, videoRef, controlsState }) {
                 style={{ height: 18 }}
                 onPress={updatePlaybackStatus}
             /> */}
-            <Icon
-                name={volumeControlButtonIcon}
-                size={20}
-                color="white"
-                style={{ height: 20 }}
-                onPress={updateVolume}
-            />
+            <View style={{ width: 180, flexDirection: 'row', justifyContent: 'space-between'}}>
+                <Timer navigation={navigation} route={route}/>
+                <Icon
+                    name={volumeControlButtonIcon}
+                    size={20}
+                    color="white"
+                    onPress={updateVolume}
+                />
+                <Icon
+                    name='skip'
+                    size={20}
+                    color="white"
+                    style={{ height: 20 }}
+                />
+            </View>
         </Animated.View>
     );
 }
