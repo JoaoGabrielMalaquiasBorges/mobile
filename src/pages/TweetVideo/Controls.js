@@ -14,6 +14,7 @@ import { controls } from './styles'
 import Timer, { startTimer } from './Timer'
 import runOnce from '../../../utils/once'
 import Playback from './Playback'
+import ScreenSize from './ScreenSize'
 
 function Controls({ route, navigation, videoRef, controlsState }) {
     Font.loadAsync({
@@ -112,7 +113,7 @@ function Controls({ route, navigation, videoRef, controlsState }) {
                 style={{ height: 18 }}
                 onPress={updatePlaybackStatus}
             /> */}
-            <View style={{ width: 180, flexDirection: 'row', justifyContent: 'space-between'}}>
+            <View style={{ width: 160, flexDirection: 'row', justifyContent: 'space-between'}}>
                 <Timer navigation={navigation} route={route}/>
                 <Icon
                     name={volumeControlButtonIcon}
@@ -120,12 +121,7 @@ function Controls({ route, navigation, videoRef, controlsState }) {
                     color="white"
                     onPress={updateVolume}
                 />
-                <Icon
-                    name='skip'
-                    size={20}
-                    color="white"
-                    style={{ height: 20 }}
-                />
+                <ScreenSize navigation={navigation} route={route} videoRef={videoRef}/>
             </View>
         </Animated.View>
     );
