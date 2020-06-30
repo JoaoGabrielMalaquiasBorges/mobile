@@ -24,7 +24,7 @@ function Playback ({ route, navigation, videoRef }) {
         }
     })
 
-    const prevParams = route.params != undefined ? route.params.rate : undefined
+    /* const prevParams = route.params != undefined ? route.params.rate : undefined
     var flag = false
     useMemo(() => { flag = true }, [prevParams])
 
@@ -32,7 +32,7 @@ function Playback ({ route, navigation, videoRef }) {
         if (route.name == 'Main' && route.params != undefined) {
             flag == true ? alert('hi') : alert('ho')
         }
-    }, [route.params])
+    }, [route.params]) */
 
     function updateVideoPlayback () {
         switch (buttonName) {

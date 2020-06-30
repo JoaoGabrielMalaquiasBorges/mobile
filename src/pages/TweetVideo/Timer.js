@@ -50,6 +50,7 @@ function Timer ({ route, navigation }) {
     useEffect(() => {
         clock.addListener('tick', handleTime)
         render.addListener('re-render', () => {
+            alert(minutes)
             setTime((minutes > 9 ? minutes : ' 0' + minutes) + ':' + (seconds > 9 ? seconds : '0' + seconds))
         })
         const unsubscribe = navigation.addListener('focus', () => {

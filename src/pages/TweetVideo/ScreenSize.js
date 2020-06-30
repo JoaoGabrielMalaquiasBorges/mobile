@@ -24,15 +24,11 @@ function ScreenSize ({ route, navigation, videoRef }) {
         }
     })
 
-    /* const prevParams = route.params != undefined ? route.params.rate : undefined
-    var flag = false
-    useMemo(() => { flag = true }, [prevParams])
-
     useEffect(() => {
         if (route.name == 'Main' && route.params != undefined) {
-            flag == true ? alert('hi') : alert('ho')
+            setButtonName('fillScreen')
         }
-    }, [route.params]) */
+    })
 
     async function fillScreen () {
         setButtonName('skip')
