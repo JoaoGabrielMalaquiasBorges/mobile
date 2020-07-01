@@ -31,8 +31,8 @@ export function stopTimer () {
 }
 
 function Timer ({ route, navigation }) {
-    const [time, setTime] = useState((minutes > 9 ? minutes : '0' + minutes) + ':' + (seconds > 9 ? seconds : '0' + seconds))
 
+    const [time, setTime] = useState((minutes > 9 ? minutes : '0' + minutes) + ':' + (seconds > 9 ? seconds : '0' + seconds))
     const clock = new EventEmitter()
 
     function handleTime () {
@@ -43,16 +43,25 @@ function Timer ({ route, navigation }) {
         setTime((minutes > 9 ? minutes : '0' + minutes) + ':' + (seconds > 9 ? seconds : '0' + seconds))
     }
 
+    function mainListener () {
+        setTime((minutes > 9 ? minutes : ' 0' + minutes) + ':' + (seconds > 9 ? seconds : '0' + seconds))
+    }
+
+    function fullscreenSizeVideoListener () {
+        setTime((minutes > 9 ? minutes : ' 0' + minutes) + ':' + (seconds > 9 ? seconds : '0' + seconds))
+    }
+
     if (minutes*60+seconds == Math.trunc(videoDuration/1000)) {
         stopTimer()
     }
 
     useEffect(() => {
         clock.addListener('tick', handleTime)
-        render.addListener('re-render', () => {
-            alert(minutes)
-            setTime((minutes > 9 ? minutes : ' 0' + minutes) + ':' + (seconds > 9 ? seconds : '0' + seconds))
-        })
+        if (route.name == 'Main') {
+            render.addListener('re-render', mainListener)
+        } else {
+            render.addListener('re-render', fullscreenSizeVideoListener)
+        }
         const unsubscribe = navigation.addListener('focus', () => {
             if (route.name == 'Main' && minutes*60+seconds == Math.trunc(videoDuration/1000)) {
                 setTime((minutes > 9 ? minutes : '0' + minutes) + ':' + (seconds > 9 ? seconds : '0' + seconds))
@@ -67,7 +76,11 @@ function Timer ({ route, navigation }) {
         return () => {
             unsubscribe()
             clock.removeAllListeners()
-            render.removeAllListeners()
+            if (route.name == 'Main') {
+                render.removeListener('re-render', mainListener)
+            } else {
+                render.removeListener('re-render', fullscreenSizeVideoListener)
+            }
         }
     });
 
@@ -90,6 +103,7 @@ function Timer ({ route, navigation }) {
             }</Text>
         </View>
     )
+
 }
 
 export default Timer;
