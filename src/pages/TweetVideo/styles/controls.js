@@ -4,6 +4,11 @@ const controls = {
         paddingHorizontal: 1,
         flexDirection: 'row',
         justifyContent: 'space-between',
+    },
+    subcontainer: {
+        width: 60,
+        flexDirection: 'row',
+        justifyContent: 'space-between'
     }
 }
 

@@ -82,7 +82,7 @@ function Timer ({ route, navigation }) {
                 render.removeListener('re-render', fullscreenSizeVideoListener)
             }
         }
-    });
+    })
 
     return (
         <View style={timer.container}>

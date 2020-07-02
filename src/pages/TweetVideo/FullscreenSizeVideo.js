@@ -10,6 +10,7 @@ import ProgressBar from "./ProgressBar"
 import { testFunction, finishProgress } from './ProgressBar'
 import Timer, { start, stop } from './Timer'
 import ControlBar from './ControlBar'
+import { enableReplay } from './Playback'
 
 /* global alert */
 
@@ -80,6 +81,7 @@ function FullscreenSizeVideo ({ route, navigation }) {
     } else {
       if (playbackStatus.didJustFinish) {
         finishProgress()
+        enableReplay(route)
       } else {
         if (shouldShowVideo && playbackStatus.positionMillis < videoDuration) {
           shouldShowVideo = false

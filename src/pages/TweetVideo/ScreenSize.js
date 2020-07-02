@@ -13,6 +13,7 @@ import { generateThumbnail } from './thumbnail'
 import { controls } from './styles'
 import { startTimer, stopTimer } from './Timer'
 import runOnce from '../../../utils/once'
+import tweetObject from '../Model'
 
 function ScreenSize ({ route, navigation, videoRef }) {
 
@@ -24,11 +25,14 @@ function ScreenSize ({ route, navigation, videoRef }) {
         }
     })
 
-    /* useEffect(() => {
+    const tweet = tweetObject
+    const videoDuration = tweet.extended_entities.media[0].video_info.duration_millis
+
+    useEffect(() => {
         if (route.name == 'Main' && route.params != undefined) {
             setButtonName('fillScreen')
         }
-    }) */
+    }, [route.params])
 
     async function fillScreen () {
         setButtonName('skip')
@@ -46,7 +50,11 @@ function ScreenSize ({ route, navigation, videoRef }) {
                 playbackStatus: playbackStatus,
                 routeKey: route.key,
                 thumbnail: videoThumbnail,
-                playbackButton: playbackStatus.isPlaying ? 'pause' : 'play'
+                playbackButton: playbackStatus.isPlaying
+                    ? 'pause'
+                    : playbackStatus.positionMillis == videoDuration
+                        ? 'play'
+                        : 'replay'
             })
         })
     }
@@ -56,7 +64,6 @@ function ScreenSize ({ route, navigation, videoRef }) {
             name={buttonName}
             size={20}
             color="white"
-            style={{ height: 20 }}
             onPress={fillScreen}
         />
     )

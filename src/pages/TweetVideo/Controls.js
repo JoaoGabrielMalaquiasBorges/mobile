@@ -22,14 +22,7 @@ function Controls({ route, navigation, videoRef, controlsState }) {
     });
 
     const controlBarRef = React.createRef();
-    const [volumeControlButtonIcon, setVolumeControlButtonIcon] = useState(controlsState.volume);
-    const [playerControlButtonIcon, setPlayerControlButtonIcon] = useState(() => {
-        if (route.name == 'FullscreenSizeVideo') {
-            return route.params.playerControlButtonIcon
-        } else {
-            return controlsState.playback
-        }
-    })
+    const [volumeControlButtonIcon, setVolumeControlButtonIcon] = useState(controlsState.volume)
 
     var controlBarVisibility = new Animated.Value(1);
     var videoThumbnail
@@ -50,49 +43,11 @@ function Controls({ route, navigation, videoRef, controlsState }) {
         if (volumeControlButtonIcon == 'volume-off') {
             // videoRef.current.setIsMutedAsync(false);
 
-            if (route.name == 'Main') {
-                videoThumbnail = await generateThumbnail()
-            }
-
-            videoRef.current.pauseAsync().then(playbackStatus => {
-                // if (playerControlButtonIcon == 'pause' /* && playbackStatus.positionMillis != 10704 */) {
-                    // setPlayerControlButtonIcon('play');
-                    // playbackStatus.shouldPlay = true;
-                    playbackStatus.positionMillis = 10704
-                // }
-                // stop()
-                navigation.navigate('FullscreenSizeVideo', {
-                    playbackStatus: playbackStatus,
-                    routeKey: route.key,
-                    thumbnail: videoThumbnail,
-                    playerControlButtonIcon: playerControlButtonIcon
-                });
-            });
 
             setVolumeControlButtonIcon('volume-high');
         } else {
             videoRef.current.setIsMutedAsync(true);
             setVolumeControlButtonIcon('volume-off');
-        }
-    }
-
-    function updatePlaybackStatus() {
-        switch (playerControlButtonIcon) {
-            case 'play':
-                videoRef.current.playAsync();
-                setPlayerControlButtonIcon('pause');
-                startTimer()
-                break;
-
-            case 'pause':
-                videoRef.current.pauseAsync();
-                setPlayerControlButtonIcon('play');
-                break;
-
-            case 'replay':
-                videoRef.current.replayAsync();
-                setPlayerControlButtonIcon('pause');
-                break;
         }
     }
 
@@ -106,15 +61,7 @@ function Controls({ route, navigation, videoRef, controlsState }) {
                 navigation={navigation}
                 videoRef={videoRef}
             />
-            {/* <Icon
-                name={playerControlButtonIcon}
-                size={18}
-                color="white"
-                style={{ height: 18 }}
-                onPress={updatePlaybackStatus}
-            /> */}
-            <View style={{ width: 160, flexDirection: 'row', justifyContent: 'space-between'}}>
-                <Timer navigation={navigation} route={route}/>
+            <View style={controls.subcontainer}>
                 <Icon
                     name={volumeControlButtonIcon}
                     size={20}
@@ -124,7 +71,7 @@ function Controls({ route, navigation, videoRef, controlsState }) {
                 <ScreenSize navigation={navigation} route={route} videoRef={videoRef}/>
             </View>
         </Animated.View>
-    );
+    )
 }
 
 export default Controls;

@@ -13,9 +13,19 @@ import { generateThumbnail } from './thumbnail'
 import { controls } from './styles'
 import { startTimer, stopTimer } from './Timer'
 import runOnce from '../../../utils/once'
+import EventEmitter from 'events'
+
+const render = new EventEmitter()
+
+export function enableReplay (route) {
+    if (route.name == 'Main') {
+        render.emit('re-renderMain')
+    } else {
+        render.emit('re-renderFullscreenSizeVideo')
+    }
+}
 
 function Playback ({ route, navigation, videoRef }) {
-
     const [buttonName, setButtonName] = useState(() => {
         if (route.name == 'FullscreenSizeVideo') {
             return route.params.playbackButton
@@ -24,15 +34,37 @@ function Playback ({ route, navigation, videoRef }) {
         }
     })
 
-    /* const prevParams = route.params != undefined ? route.params.rate : undefined
+    function mainListener () {
+        setButtonName('replay')
+    }
+
+    function fullscreenSizeVideoListener () {
+        setButtonName('replay')
+    }
+
+    const prevParams = route.params != undefined ? route.params.positionMillis : undefined
     var flag = false
     useMemo(() => { flag = true }, [prevParams])
 
     useEffect(() => {
+        if (route.name == 'Main') {
+            render.addListener('re-renderMain', mainListener)
+        } else {
+            render.addListener('re-renderFullscreenSizeVideo', fullscreenSizeVideoListener)
+        }
+
         if (route.name == 'Main' && route.params != undefined) {
             flag == true ? alert('hi') : alert('ho')
         }
-    }, [route.params]) */
+
+        return () => {
+            if (route.name == 'Main') {
+                render.removeListener('re-renderMain', mainListener)
+            } else {
+                render.removeListener('re-renderFullscreenSizeVideo', fullscreenSizeVideoListener)
+            }
+        }
+    }, [route.params])
 
     function updateVideoPlayback () {
         switch (buttonName) {
@@ -63,7 +95,6 @@ function Playback ({ route, navigation, videoRef }) {
             onPress={updateVideoPlayback}
         />
     )
-    
 }
 
 export default Playback

@@ -42,8 +42,8 @@ function ControlBar ({ route, navigation, videoRef }) {
                     playback: 'play',
                     volume: 'volume-off'
                 }}
-            />{/* 
-            <Timer navigation={navigation} route={route}/> */}
+            />
+            <Timer navigation={navigation} route={route}/>
         </View>
     )
 }

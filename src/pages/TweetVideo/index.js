@@ -11,7 +11,7 @@ import Controls from "./Controls";
 import { testFunction, finishProgress } from './ProgressBar';
 import { useFocusEffect } from '@react-navigation/native'
 import runOnce from "../../../utils/once.js"
-import Timer from './Timer'
+import { enableReplay } from './Playback'
 import ControlBar from "./ControlBar";
 
 function TweetVideo(props) {
@@ -27,11 +27,11 @@ function TweetVideo(props) {
             if (props.route.params != prevParams) {
                 prevParams = props.route.params
                 // alert(JSON.stringify(prevParams))
-                videoRef.current.setStatusAsync(props.route.params).then((playbackStatus) => {
+                videoRef.current.setStatusAsync(props.route.params)/* .then((playbackStatus) => {
                     if (playbackStatus.positionMillis == videoDuration) {
                         finishProgress()
                     }
-                })
+                }) */
             }
         }, [props.route.params])
     );
@@ -42,7 +42,8 @@ function TweetVideo(props) {
             testFunction(currentVideoPosition);
         } else {
             if (playbackStatus.didJustFinish) {
-                finishProgress();
+                finishProgress()
+                enableReplay(props.route)
             }
         }
     }
