@@ -48,7 +48,14 @@ function FullscreenSizeVideo ({ route, navigation }) {
     const unsubscribe = navigation.addListener('transitionStart', () => {
       fullscreenVideoRef.current.getStatusAsync().then(playbackStatus => {
         navigation.dispatch({
-          ...CommonActions.setParams(playbackStatus),
+          ...CommonActions.setParams({
+            playbackStatus: playbackStatus,
+            playbackButton: playbackStatus.isPlaying
+              ? 'pause'
+              : playbackStatus.positionMillis == videoDuration
+                  ? 'replay'
+                  : 'play'
+          }),
           source: notFullscreenSizeVideo.routeKey
         })
       })

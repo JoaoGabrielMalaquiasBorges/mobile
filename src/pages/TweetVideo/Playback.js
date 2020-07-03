@@ -11,7 +11,7 @@ import videoStyles from '../../style/index';
 import { useFocusEffect } from '@react-navigation/native'
 import { generateThumbnail } from './thumbnail'
 import { controls } from './styles'
-import { startTimer, stopTimer } from './Timer'
+import { startTimer, stopTimer, startTimerAt } from './Timer'
 import runOnce from '../../../utils/once'
 import EventEmitter from 'events'
 
@@ -42,10 +42,6 @@ function Playback ({ route, navigation, videoRef }) {
         setButtonName('replay')
     }
 
-    const prevParams = route.params != undefined ? route.params.positionMillis : undefined
-    var flag = false
-    useMemo(() => { flag = true }, [prevParams])
-
     useEffect(() => {
         if (route.name == 'Main') {
             render.addListener('re-renderMain', mainListener)
@@ -54,7 +50,7 @@ function Playback ({ route, navigation, videoRef }) {
         }
 
         if (route.name == 'Main' && route.params != undefined) {
-            flag == true ? alert('hi') : alert('ho')
+            setButtonName(route.params.playbackButton)
         }
 
         return () => {
@@ -80,7 +76,8 @@ function Playback ({ route, navigation, videoRef }) {
                 break;
 
             case 'replay':
-                videoRef.current.replayAsync()
+                videoRef.current.pauseAsync().then(() => videoRef.current.replayAsync())
+                startTimerAt(0)
                 setButtonName('pause')
                 break
         }

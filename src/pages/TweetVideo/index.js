@@ -27,11 +27,7 @@ function TweetVideo(props) {
             if (props.route.params != prevParams) {
                 prevParams = props.route.params
                 // alert(JSON.stringify(prevParams))
-                videoRef.current.setStatusAsync(props.route.params)/* .then((playbackStatus) => {
-                    if (playbackStatus.positionMillis == videoDuration) {
-                        finishProgress()
-                    }
-                }) */
+                videoRef.current.setStatusAsync(props.route.params.playbackStatus)
             }
         }, [props.route.params])
     );
