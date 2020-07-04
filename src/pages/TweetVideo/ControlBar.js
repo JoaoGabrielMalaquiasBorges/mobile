@@ -19,6 +19,7 @@ function ControlBar ({ route, navigation, videoRef }) {
     return (
         <View style={controlBar.container}>
             <ProgressBar
+                route={route}
                 videoRef={videoRef}
                 width={{
                     portraitWidth: route.name == 'Main'

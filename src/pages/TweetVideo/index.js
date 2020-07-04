@@ -11,7 +11,7 @@ import Controls from "./Controls";
 import { testFunction, finishProgress } from './ProgressBar';
 import { useFocusEffect } from '@react-navigation/native'
 import runOnce from "../../../utils/once.js"
-import { enableReplay } from './Playback'
+import { reRenderPlayback } from './Playback'
 import ControlBar from "./ControlBar";
 
 function TweetVideo(props) {
@@ -39,7 +39,7 @@ function TweetVideo(props) {
         } else {
             if (playbackStatus.didJustFinish) {
                 finishProgress()
-                enableReplay(props.route)
+                reRenderPlayback(props.route, 'replay')
             }
         }
     }

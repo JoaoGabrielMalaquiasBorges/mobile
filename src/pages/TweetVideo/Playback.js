@@ -16,12 +16,14 @@ import runOnce from '../../../utils/once'
 import EventEmitter from 'events'
 
 const render = new EventEmitter()
+var toName
 
-export function enableReplay (route) {
+export function reRenderPlayback (route, name) {
+    toName = name
     if (route.name == 'Main') {
-        render.emit('re-renderMain')
+        render.emit('fromMain')
     } else {
-        render.emit('re-renderFullscreenSizeVideo')
+        render.emit('fromFullscreenSizeVideo')
     }
 }
 
@@ -35,18 +37,18 @@ function Playback ({ route, navigation, videoRef }) {
     })
 
     function mainListener () {
-        setButtonName('replay')
+        setButtonName(toName)
     }
 
     function fullscreenSizeVideoListener () {
-        setButtonName('replay')
+        setButtonName(toName)
     }
 
     useEffect(() => {
         if (route.name == 'Main') {
-            render.addListener('re-renderMain', mainListener)
+            render.addListener('fromMain', mainListener)
         } else {
-            render.addListener('re-renderFullscreenSizeVideo', fullscreenSizeVideoListener)
+            render.addListener('fromFullscreenSizeVideo', fullscreenSizeVideoListener)
         }
 
         if (route.name == 'Main' && route.params != undefined) {
@@ -55,9 +57,9 @@ function Playback ({ route, navigation, videoRef }) {
 
         return () => {
             if (route.name == 'Main') {
-                render.removeListener('re-renderMain', mainListener)
+                render.removeListener('fromMain', mainListener)
             } else {
-                render.removeListener('re-renderFullscreenSizeVideo', fullscreenSizeVideoListener)
+                render.removeListener('fromFullscreenSizeVideo', fullscreenSizeVideoListener)
             }
         }
     }, [route.params])

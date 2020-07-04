@@ -10,6 +10,7 @@ import videoStyles from '../../style/index';
 import tweetObject from '../Model'
 import { progressBar } from './styles'
 import { startTimerAt } from './Timer'
+import { reRenderPlayback } from "./Playback"
 
 var globalFilledBarRef
 var globalProgressBarButtonRef
@@ -26,7 +27,7 @@ function isPortrait() {
     }
 }
 
-function ProgressBar({ videoRef, width, videoBoxOffset }) {
+function ProgressBar({ route, videoRef, width, videoBoxOffset }) {
     const tweet = tweetObject
     const videoDuration = tweet.extended_entities.media[0].video_info.duration_millis
     const filledBarRef = React.createRef()
@@ -122,7 +123,8 @@ function ProgressBar({ videoRef, width, videoBoxOffset }) {
             videoRef.current.pauseAsync().then(() => {
                 videoRef.current.playFromPositionAsync(position*videoDuration).then(() => {
                     shouldProgress = true;
-                    startTimerAt(position*videoDuration)                 
+                    startTimerAt(position*videoDuration)
+                    reRenderPlayback(route, 'pause')         
                 });
             });
         }
