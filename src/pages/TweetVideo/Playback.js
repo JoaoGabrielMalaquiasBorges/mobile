@@ -74,6 +74,7 @@ function Playback ({ route, navigation, videoRef }) {
 
             case 'pause':
                 videoRef.current.pauseAsync()
+                stopTimer()
                 setButtonName('play')
                 break;
 
