@@ -14,6 +14,7 @@ import { controls } from './styles'
 import Timer, { startTimer } from './Timer'
 import runOnce from '../../../utils/once'
 import Playback from './Playback'
+import Volume from './Volume'
 import ScreenSize from './ScreenSize'
 
 function Controls({ route, navigation, videoRef, controlsState }) {
@@ -22,10 +23,6 @@ function Controls({ route, navigation, videoRef, controlsState }) {
     });
 
     const controlBarRef = React.createRef();
-    const [volumeControlButtonIcon, setVolumeControlButtonIcon] = useState(controlsState.volume)
-
-    var controlBarVisibility = new Animated.Value(1);
-    var videoThumbnail
 
 
     /* const prevParams = route.params != undefined ? route.params.rate : undefined
@@ -37,19 +34,7 @@ function Controls({ route, navigation, videoRef, controlsState }) {
             flag == true ? alert('hi') : alert('ho')
         }
     }, [route.params]) */
-    
-    async function updateVolume() {
 
-        if (volumeControlButtonIcon == 'volume-off') {
-            // videoRef.current.setIsMutedAsync(false);
-
-
-            setVolumeControlButtonIcon('volume-high');
-        } else {
-            videoRef.current.setIsMutedAsync(true);
-            setVolumeControlButtonIcon('volume-off');
-        }
-    }
 
     return (
         <Animated.View
@@ -62,12 +47,7 @@ function Controls({ route, navigation, videoRef, controlsState }) {
                 videoRef={videoRef}
             />
             <View style={controls.subcontainer}>
-                <Icon
-                    name={volumeControlButtonIcon}
-                    size={20}
-                    color="white"
-                    onPress={updateVolume}
-                />
+                <Volume navigation={navigation} route={route} videoRef={videoRef}/>
                 <ScreenSize navigation={navigation} route={route} videoRef={videoRef}/>
             </View>
         </Animated.View>

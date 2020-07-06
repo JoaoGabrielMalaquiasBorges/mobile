@@ -15,48 +15,40 @@ import { startTimer, stopTimer } from './Timer'
 import runOnce from '../../../utils/once'
 import tweetObject from '../Model'
 
-function ScreenSize ({ route, navigation, videoRef }) {
-
+function Volume ({ route, navigation, videoRef }) {
     const [buttonName, setButtonName] = useState(() => {
         if (route.name == 'FullscreenSizeVideo') {
-            return 'skip'
+            return route.params.volumeButton
         } else {
-            return 'fillScreen'
+            return 'volume-off'
         }
     })
 
-    const tweet = tweetObject
-    const videoDuration = tweet.extended_entities.media[0].video_info.duration_millis
-
     useEffect(() => {
         if (route.name == 'Main' && route.params != undefined) {
-            setButtonName('fillScreen')
+            setButtonName(route.params.volumeButton)
         }
     }, [route.params])
 
-    async function fillScreen () {
-        setButtonName('skip')
-        var videoThumbnail = await generateThumbnail()
-
+    function muteUnmute (value) {
         videoRef.current.getStatusAsync().then(playbackStatus => {
-            // if (playerControlButtonIcon == 'pause' /* && playbackStatus.positionMillis != 10704 */) {
-                // setPlayerControlButtonIcon('play');
-                // playbackStatus.shouldPlay = true;
-                playbackStatus.positionMillis = 10704
-            // }
-            // stop()
-            videoRef.current.pauseAsync()
-            navigation.navigate('FullscreenSizeVideo', {
-                playbackStatus: playbackStatus,
-                routeKey: route.key,
-                thumbnail: videoThumbnail,
-                playbackButton: playbackStatus.isPlaying
-                    ? 'pause'
-                    : playbackStatus.positionMillis == videoDuration
-                        ? 'replay'
-                        : 'play'
-            })
+            if (playbackStatus.isPlaying) {
+                videoRef.current.pauseAsync()
+                videoRef.current.setStatusAsync({ isMuted: value == 'mute' ? true : false, shouldPlay: true })
+            } else {
+                videoRef.current.setStatusAsync({ isMuted: value == 'mute' ? true : false })
+            }
         })
+    }
+    
+    function updateVolume() {
+        if (buttonName == 'volume-off') {
+            muteUnmute('unmute')
+            setButtonName('volume-high');
+        } else {
+            muteUnmute('mute')
+            setButtonName('volume-off');
+        }
     }
 
     return (
@@ -64,10 +56,9 @@ function ScreenSize ({ route, navigation, videoRef }) {
             name={buttonName}
             size={20}
             color="white"
-            onPress={fillScreen}
+            onPress={updateVolume}
         />
     )
-    
 }
 
-export default ScreenSize
+export default Volume

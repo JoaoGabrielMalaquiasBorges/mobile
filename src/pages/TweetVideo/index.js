@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Dimensions, Animated,  TouchableWithoutFeedback, Image, Text  } from 'react-native';
-import { Video } from 'expo-av';
+import { Audio, Video } from 'expo-av';
 import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { throwIfAudioIsDisabled } from 'expo-av/build/Audio/AudioAvailability';
 import * as Font from 'expo-font';
@@ -13,6 +13,12 @@ import { useFocusEffect } from '@react-navigation/native'
 import runOnce from "../../../utils/once.js"
 import { reRenderPlayback } from './Playback'
 import ControlBar from "./ControlBar";
+
+/* Video.setAudioModeAsync({
+    shouldDuckAndroid: false,
+    interruptionModeAndroid: Audio.INTERRUPTION_MODE_ANDROID_DO_NOT_MIX
+}) */
+
 
 function TweetVideo(props) {
     const tweetVideo = props.video;

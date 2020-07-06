@@ -54,7 +54,8 @@ function ScreenSize ({ route, navigation, videoRef }) {
                     ? 'pause'
                     : playbackStatus.positionMillis == videoDuration
                         ? 'replay'
-                        : 'play'
+                        : 'play',
+                volumeButton: playbackStatus.isMuted ? 'volume-off' : 'volume-high'
             })
         })
     }

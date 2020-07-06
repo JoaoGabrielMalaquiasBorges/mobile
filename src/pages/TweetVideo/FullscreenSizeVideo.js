@@ -54,7 +54,8 @@ function FullscreenSizeVideo ({ route, navigation }) {
               ? 'pause'
               : playbackStatus.positionMillis == videoDuration
                   ? 'replay'
-                  : 'play'
+                  : 'play',
+            volumeButton: playbackStatus.isMuted ? 'volume-off' : 'volume-high'
           }),
           source: notFullscreenSizeVideo.routeKey
         })
