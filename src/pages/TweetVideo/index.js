@@ -1,18 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { View, Dimensions, Animated,  TouchableWithoutFeedback, Image, Text  } from 'react-native';
-import { Audio, Video } from 'expo-av';
-import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
-import { throwIfAudioIsDisabled } from 'expo-av/build/Audio/AudioAvailability';
-import * as Font from 'expo-font';
-import { ScreenOrientation  } from 'expo';
-import Icon from '../CustomIcon';
-import { video } from './styles'
-import Controls from "./Controls";
-import { testFunction, finishProgress } from './ProgressBar';
-import { useFocusEffect } from '@react-navigation/native'
-import runOnce from "../../../utils/once.js"
-import { reRenderPlayback } from './Playback'
+import { useFocusEffect } from '@react-navigation/native';
+import { Video } from 'expo-av';
+import React from 'react';
+import { TouchableWithoutFeedback, View } from 'react-native';
 import ControlBar from "./ControlBar";
+import { reRenderPlayback } from './ControlBar/Controls/Playback';
+import { finishProgress, testFunction } from './ControlBar/ProgressBar';
+import { video } from './styles';
 
 /* Video.setAudioModeAsync({
     shouldDuckAndroid: false,

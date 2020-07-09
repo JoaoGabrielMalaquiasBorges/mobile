@@ -1,16 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { View, Dimensions, Animated,  TouchableWithoutFeedback, Image, Text  } from 'react-native';
-import { Video } from 'expo-av';
-import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
-import { throwIfAudioIsDisabled } from 'expo-av/build/Audio/AudioAvailability';
-import * as Font from 'expo-font';
-import { ScreenOrientation  } from 'expo';
-import Icon from '../CustomIcon';
-import videoStyles from '../../style/index';
-import tweetObject from '../Model'
-import { progressBar } from './styles'
-import { startTimerAt } from './Timer'
-import { reRenderPlayback } from "./Controls/Playback"
+import { ScreenOrientation } from 'expo';
+import React, { useEffect } from 'react';
+import { Dimensions, View } from 'react-native';
+import tweetObject from '../../Model';
+import { reRenderPlayback } from "./Controls/Playback";
+import { progressBar } from './styles';
+import { startTimerAt } from './Timer';
 
 var globalFilledBarRef
 var globalProgressBarButtonRef

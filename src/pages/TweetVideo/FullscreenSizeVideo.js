@@ -1,16 +1,13 @@
-import React, { useState, useEffect } from 'react'
-import { View, Dimensions, StatusBar, Text, Animated, Image } from 'react-native'
-import { Video } from 'expo-av'
-import Icon from '../CustomIcon'
-import * as Font from 'expo-font'
-import tweetObject from '../Model'
 import { CommonActions } from '@react-navigation/native'
-import Controls from "./Controls"
-import ProgressBar from "./ProgressBar"
-import { testFunction, finishProgress } from './ProgressBar'
-import Timer, { start, stop } from './Timer'
+import { Video } from 'expo-av'
+import * as Font from 'expo-font'
+import React, { useEffect } from 'react'
+import { Animated, StatusBar, View } from 'react-native'
+import Icon from '../CustomIcon'
+import tweetObject from '../Model'
 import ControlBar from './ControlBar'
-import { reRenderPlayback } from './Playback'
+import { reRenderPlayback } from './ControlBar/Controls/Playback'
+import { finishProgress, testFunction } from './ControlBar/ProgressBar'
 
 /* global alert */
 

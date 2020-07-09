@@ -5,21 +5,21 @@ import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { throwIfAudioIsDisabled } from 'expo-av/build/Audio/AudioAvailability';
 import * as Font from 'expo-font';
 import { ScreenOrientation } from 'expo';
-import Icon from '../CustomIcon';
-import videoStyles from '../../style/index';
+import Icon from '../../CustomIcon';
+import videoStyles from '../../../style/index';
 // import TweetVideoProgressBar from "./TweetVideoProgressBar";
 import { useFocusEffect } from '@react-navigation/native'
-import { generateThumbnail } from './thumbnail'
+import { generateThumbnail } from '../thumbnail'
 import { controls } from './styles'
-import Timer, { startTimer } from './Timer'
-import runOnce from '../../../utils/once'
+import Timer, { startTimer } from '../Timer'
+import runOnce from '../../../../utils/once'
 import Playback from './Playback'
 import Volume from './Volume'
 import ScreenSize from './ScreenSize'
 
 function Controls({ route, navigation, videoRef, controlsState }) {
     Font.loadAsync({
-        'FontName': require("../../../assets/fonts/icomoon.ttf")
+        'FontName': require("../../../../assets/fonts/icomoon.ttf")
     });
 
     const controlBarRef = React.createRef();

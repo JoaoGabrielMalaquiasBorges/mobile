@@ -5,15 +5,15 @@ import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { throwIfAudioIsDisabled } from 'expo-av/build/Audio/AudioAvailability';
 import * as Font from 'expo-font';
 import { ScreenOrientation } from 'expo';
-import Icon from '../CustomIcon';
-import videoStyles from '../../style/index';
+import Icon from '../../CustomIcon';
+import videoStyles from '../../../style/index';
 // import TweetVideoProgressBar from "./TweetVideoProgressBar";
 import { useFocusEffect } from '@react-navigation/native'
-import { generateThumbnail } from './thumbnail'
-import { controls } from './styles'
-import { startTimer, stopTimer } from './Timer'
-import runOnce from '../../../utils/once'
-import tweetObject from '../Model'
+import { generateThumbnail } from '../thumbnail'
+import { controls } from '../styles'
+import { startTimer, stopTimer } from '../Timer'
+import runOnce from '../../../../utils/once'
+import tweetObject from '../../Model'
 
 function ScreenSize ({ route, navigation, videoRef }) {
 
