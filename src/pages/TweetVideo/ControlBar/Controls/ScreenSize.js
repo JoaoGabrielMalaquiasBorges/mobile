@@ -27,12 +27,6 @@ function ScreenSize ({ route, navigation, videoRef }) {
         var videoThumbnail = await generateThumbnail()
 
         videoRef.current.getStatusAsync().then(playbackStatus => {
-            // if (playerControlButtonIcon == 'pause' /* && playbackStatus.positionMillis != 10704 */) {
-                // setPlayerControlButtonIcon('play');
-                // playbackStatus.shouldPlay = true;
-                playbackStatus.positionMillis = 10704
-            // }
-            // stop()
             videoRef.current.pauseAsync()
             navigation.navigate('FullscreenSizeVideo', {
                 playbackStatus: playbackStatus,

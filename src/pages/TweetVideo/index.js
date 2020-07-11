@@ -1,7 +1,7 @@
+import React, { useEffect } from 'react';
+import { TouchableWithoutFeedback, View } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import { Video } from 'expo-av';
-import React from 'react';
-import { TouchableWithoutFeedback, View } from 'react-native';
 import ControlBar from "./ControlBar";
 import { reRenderPlayback } from './ControlBar/Controls/Playback';
 import { finishProgress, testFunction } from './ControlBar/ProgressBar';
@@ -17,19 +17,13 @@ function TweetVideo(props) {
     const tweetVideo = props.video;
     const videoDuration = 10704;
     const videoRef = React.createRef();
-
-    var prevParams
     var currentVideoPosition = 0
 
-    useFocusEffect(
-        React.useCallback(() => {
-            if (props.route.params != prevParams) {
-                prevParams = props.route.params
-                // alert(JSON.stringify(prevParams))
-                videoRef.current.setStatusAsync(props.route.params.playbackStatus)
-            }
-        }, [props.route.params])
-    );
+    useEffect(() => {
+        if (props.route.params != undefined) {
+            videoRef.current.setStatusAsync(props.route.params.playbackStatus)
+        }
+    }, [props.route.params])
 
     function onPlaybackStatusUpdate(playbackStatus) {
         if (playbackStatus.isPlaying) {
