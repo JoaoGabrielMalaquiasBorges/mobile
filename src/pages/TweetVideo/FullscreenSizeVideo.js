@@ -8,6 +8,7 @@ import tweetObject from '../Model'
 import ControlBar from './ControlBar'
 import { reRenderPlayback } from './ControlBar/Controls/Playback'
 import { finishProgress, testFunction } from './ControlBar/ProgressBar'
+import { fullscreenSizeVideo } from './styles';
 
 /* global alert */
 
@@ -99,7 +100,7 @@ function FullscreenSizeVideo ({ route, navigation }) {
   return (
     <>
       <StatusBar hidden />
-      <View>
+      <View style={fullscreenSizeVideo.container}>
         <Animated.View style={{ opacity: visibility.x }}>
           <Video
             ref={fullscreenVideoRef}
@@ -110,7 +111,7 @@ function FullscreenSizeVideo ({ route, navigation }) {
                 // 'http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4'
                 // 'https://www.w3schools.com/html/mov_bbb.mp4'
             }}
-            style={{ height: 250, width: 300 }}
+            style={fullscreenSizeVideo.videoFrame}
             onPlaybackStatusUpdate={onPlaybackStatusUpdate}
           />
         </Animated.View>
@@ -126,7 +127,7 @@ function FullscreenSizeVideo ({ route, navigation }) {
         />
         <ControlBar route={route} navigation={navigation} videoRef={fullscreenVideoRef}/>
       </View>
-      <Icon
+      {/* <Icon
         name='play'
         size={20}
         color='black'
@@ -138,7 +139,7 @@ function FullscreenSizeVideo ({ route, navigation }) {
             duration: 1
           }).start()
         }}
-      />
+      /> */}
     </>
   )
 }

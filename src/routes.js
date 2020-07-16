@@ -15,7 +15,7 @@ function Routes() {
                 }
             }}>
                 <Stack.Screen name="Main" component={Main} options={{ title: 'Insider Spider' }} />
-                <Stack.Screen name="FullscreenSizeVideo" component={FullscreenSizeVideo} />
+                <Stack.Screen name="FullscreenSizeVideo" component={FullscreenSizeVideo} options={{ headerShown: false }}/>
             </Stack.Navigator>
         </NavigationContainer>
     );
