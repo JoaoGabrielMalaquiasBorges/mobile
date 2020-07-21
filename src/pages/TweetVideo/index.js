@@ -17,10 +17,10 @@ function TweetVideo(props) {
     const tweetVideo = props.video;
     const videoDuration = 10704;
     const videoRef = React.createRef();
-    const controlBarRef = React.createRef();
+    const controlBarWrapper = React.createRef();
 
     var currentVideoPosition = 0
-    var controlBarVisibility = 1
+    var displayValue = 1
 
     useEffect(() => {
         if (props.route.params != undefined) {
@@ -52,15 +52,15 @@ function TweetVideo(props) {
                     style={video.videoFrame}
                     onPlaybackStatusUpdate={onPlaybackStatusUpdate}
                 />
-                <TouchableWithoutFeedback onPressIn={() => {
-                    controlBarVisibility = controlBarVisibility == 1 ? 0 : 1
-                    controlBarRef.current.setNativeProps({style: { zIndex: 2, opacity: controlBarVisibility }})
-                }}>
-                    <View style={{ ...video.touchableArea, zIndex: 1 }} />
-                </TouchableWithoutFeedback>
-                <View ref={controlBarRef} style={{ zIndex: 2, opacity: controlBarVisibility }}>
+                <View ref={controlBarWrapper} style={video.topLayer}>
                     <ControlBar route={props.route} navigation={props.navigation} videoRef={videoRef}/>
                 </View>
+                <TouchableWithoutFeedback onPressIn={() => {
+                    displayValue = displayValue == 1 ? 0 : 1
+                    controlBarWrapper.current.setNativeProps({style: { opacity: displayValue, zIndex: displayValue }})
+                }}>
+                    <View style={video.touchableArea} />
+                </TouchableWithoutFeedback>
             </View>
         </View>
     );
