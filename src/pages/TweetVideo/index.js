@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { TouchableWithoutFeedback, View } from 'react-native';
+import { View, Animated, TouchableWithoutFeedback } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import { Video } from 'expo-av';
 import ControlBar from "./ControlBar";
@@ -20,7 +20,7 @@ function TweetVideo(props) {
     const controlBarWrapper = React.createRef();
 
     var currentVideoPosition = 0
-    var displayValue = 1
+    var displayValue = new Animated.Value(1)
 
     useEffect(() => {
         if (props.route.params != undefined) {
@@ -52,12 +52,17 @@ function TweetVideo(props) {
                     style={video.videoFrame}
                     onPlaybackStatusUpdate={onPlaybackStatusUpdate}
                 />
-                <View ref={controlBarWrapper} style={video.topLayer}>
+                <Animated.View ref={controlBarWrapper} style={{ ...video.topLayer, opacity: displayValue }}>
                     <ControlBar route={props.route} navigation={props.navigation} videoRef={videoRef}/>
-                </View>
+                </Animated.View>
                 <TouchableWithoutFeedback onPressIn={() => {
-                    displayValue = displayValue == 1 ? 0 : 1
-                    controlBarWrapper.current.setNativeProps({style: { opacity: displayValue, zIndex: displayValue }})
+                    Animated.timing(displayValue, {
+                        toValue: 0,
+                        duration: 0
+                    }).start()
+                    // displayValue.setValue()
+                    // displayValue = displayValue == 1 ? 0 : 1
+                    // controlBarWrapper.current.setNativeProps({style: { opacity: displayValue, zIndex: displayValue }})
                 }}>
                     <View style={video.touchableArea} />
                 </TouchableWithoutFeedback>
