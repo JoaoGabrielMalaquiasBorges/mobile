@@ -18,8 +18,7 @@ const video = {
         position: 'absolute',
         bottom: 0,
         left: 0,
-        right: 0,
-        zIndex: 1
+        right: 0
     },
     touchableArea: {
         height: '100%',
