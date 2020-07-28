@@ -1,12 +1,11 @@
 import React, { useEffect } from 'react';
-import { View, Animated, TouchableWithoutFeedback } from 'react-native';
-import { useFocusEffect } from '@react-navigation/native';
+import { View, Animated, TouchableWithoutFeedback } from 'react-native'
 import { Video } from 'expo-av';
 import ControlBar from "./ControlBar";
+import InitialButton from './InitialButton'
 import { reRenderPlayback } from './ControlBar/Controls/Playback';
 import { finishProgress, testFunction } from './ControlBar/ProgressBar';
 import { video } from './styles';
-import Icon from '../CustomIcon';
 
 /* Video.setAudioModeAsync({
     shouldDuckAndroid: false,
@@ -18,10 +17,9 @@ function TweetVideo(props) {
     const tweetVideo = props.video;
     const videoDuration = 10704;
     const videoRef = React.createRef();
-    const controlBarWrapper = React.createRef();
 
     var currentVideoPosition = 0
-    var flag = 1
+    var flag = 0
     var displayValue = new Animated.Value(flag)
 
     useEffect(() => {
@@ -41,6 +39,14 @@ function TweetVideo(props) {
             }
         }
     }
+
+    function handleControlBar (duration, delay) {
+        Animated.timing(displayValue, {
+            toValue: (flag-1)*(-1),
+            duration: duration,
+            delay: delay
+        }).start(({ finished }) => { flag = (flag-1)*(-1) })
+    }
     
     return(
         <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
@@ -54,39 +60,12 @@ function TweetVideo(props) {
                     style={video.videoFrame}
                     onPlaybackStatusUpdate={onPlaybackStatusUpdate}
                 />
-                <Animated.View ref={controlBarWrapper} style={{ ...video.topLayer, opacity: displayValue, zIndex: displayValue }}>
+                <Animated.View style={{ ...video.controlBarWrapper, opacity: displayValue, zIndex: displayValue }}>
                     <ControlBar route={props.route} navigation={props.navigation} videoRef={videoRef}/>
                 </Animated.View>
-                <View style={{
-                    height: '100%',
-                    width: '100%',
-                    position: 'absolute',
-                    justifyContent: 'center',
-                    alignItems: 'center'
-                }}>
-                    <View style={{
-                        height: 50,
-                        width: 50,
-                        borderWidth: 3,
-                        borderRadius: 30,
-                        borderColor: 'white',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        backgroundColor: '#1DA1F2'
-                    }}>
-                        <Icon
-                            name='play'
-                            size={22}
-                            color='white'
-                            style={{ paddingLeft: 4 }}
-                        />
-                    </View>
-                </View>
+                <InitialButton videoRef={videoRef} handleControlBar={handleControlBar}/>
                 <TouchableWithoutFeedback onPressIn={() => {
-                    Animated.timing(displayValue, {
-                        toValue: (flag-1)*(-1),
-                        duration: 0
-                    }).start(({ finished }) => { flag = (flag-1)*(-1) })
+                    handleControlBar(0, 0)
                 }}>
                     <View style={video.touchableArea} />
                 </TouchableWithoutFeedback>

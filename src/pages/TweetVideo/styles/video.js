@@ -13,7 +13,7 @@ const video = {
         marginLeft: 'auto',
         marginRight: 'auto'
     },
-    topLayer: {
+    controlBarWrapper: {
         height: 62,
         position: 'absolute',
         bottom: 0,
