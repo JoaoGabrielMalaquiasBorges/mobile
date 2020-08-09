@@ -39,7 +39,7 @@ function Playback ({ route, navigation, videoRef }) {
             render.addListener('fromFullscreenSizeVideo', fullscreenSizeVideoListener)
         }
 
-        if (route.name == 'Main' && route.params != undefined) {
+        if (route.name == 'Main' && route.params != undefined) { // When going back from fullscreen mode
             setButtonName(route.params.playbackButton)
         }
 

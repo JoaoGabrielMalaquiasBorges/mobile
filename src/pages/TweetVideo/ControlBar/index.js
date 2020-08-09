@@ -1,13 +1,24 @@
 import React from 'react';
-import { View } from 'react-native';
+import { Animated } from 'react-native';
 import ProgressBar from "./ProgressBar";
 import Controls from "./Controls";
 import Timer from './Timer';
 import { controlBar } from './styles';
 
+var flag = 0
+var displayValue = new Animated.Value(flag)
+
+export function fadeControlBar (duration, delay) {
+    Animated.timing(displayValue, {
+        toValue: (flag-1)*(-1),
+        duration: duration,
+        delay: delay
+    }).start(({ finished }) => { flag = (flag-1)*(-1) })
+}
+
 function ControlBar ({ route, navigation, videoRef }) {
     return (
-        <View style={controlBar.container}>
+        <Animated.View style={{ ...controlBar.container, opacity: displayValue, zIndex: displayValue }}>
             <ProgressBar
                 route={route}
                 videoRef={videoRef}
@@ -35,7 +46,7 @@ function ControlBar ({ route, navigation, videoRef }) {
                 }}
             />
             <Timer navigation={navigation} route={route}/>
-        </View>
+        </Animated.View>
     )
 }
 

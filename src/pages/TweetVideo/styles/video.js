@@ -13,13 +13,6 @@ const video = {
         marginLeft: 'auto',
         marginRight: 'auto'
     },
-    controlBarWrapper: {
-        height: 62,
-        position: 'absolute',
-        bottom: 0,
-        left: 0,
-        right: 0
-    },
     touchableArea: {
         height: '100%',
         width: '100%',

@@ -1,11 +1,12 @@
 import React from 'react'
 import { View, TouchableWithoutFeedback } from 'react-native'
 import Icon from '../CustomIcon'
-import { initialButton } from './styles'
+import { fadeControlBar } from './ControlBar'
 import { startTimer } from './ControlBar/Timer'
 import { reRenderPlayback } from './ControlBar/Controls/Playback'
+import { initialButton } from './styles'
 
-function InitialButton ({ videoRef, handleControlBar }) {
+function InitialButton ({ videoRef, fadeControlBar }) {
     const containerOfInitialButton = React.createRef()
 
     return (
@@ -15,11 +16,11 @@ function InitialButton ({ videoRef, handleControlBar }) {
         >
             <TouchableWithoutFeedback onPressIn={() => {
                 containerOfInitialButton.current.setNativeProps({ style: { opacity: 0, position: 'relative', display: 'none' }})
-                handleControlBar(0, 0)
+                fadeControlBar(0, 0)
                 reRenderPlayback({ name: 'Main' }, 'pause')
                 startTimer()
                 videoRef.current.playAsync().then(() => {
-                    handleControlBar(4000, 1000)
+                    fadeControlBar(500, 1500)
                 })
             }}>
                 <View style={initialButton.button}>

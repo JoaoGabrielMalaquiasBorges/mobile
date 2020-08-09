@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react';
 import { View, Animated, TouchableWithoutFeedback } from 'react-native'
 import { Video } from 'expo-av';
-import ControlBar from "./ControlBar";
+import ControlBar, { fadeControlBar } from "./ControlBar";
 import InitialButton from './InitialButton'
 import { reRenderPlayback } from './ControlBar/Controls/Playback';
 import { finishProgress, testFunction } from './ControlBar/ProgressBar';
+import ExternalLink, { showExternalLink } from './ExternalLink'
 import { video } from './styles';
 
 /* Video.setAudioModeAsync({
@@ -19,8 +20,6 @@ function TweetVideo(props) {
     const videoRef = React.createRef();
 
     var currentVideoPosition = 0
-    var flag = 0
-    var displayValue = new Animated.Value(flag)
 
     useEffect(() => {
         if (props.route.params != undefined) {
@@ -36,16 +35,10 @@ function TweetVideo(props) {
             if (playbackStatus.didJustFinish) {
                 finishProgress()
                 reRenderPlayback(props.route, 'replay')
+                
+                showExternalLink()
             }
         }
-    }
-
-    function handleControlBar (duration, delay) {
-        Animated.timing(displayValue, {
-            toValue: (flag-1)*(-1),
-            duration: duration,
-            delay: delay
-        }).start(({ finished }) => { flag = (flag-1)*(-1) })
     }
     
     return(
@@ -60,15 +53,14 @@ function TweetVideo(props) {
                     style={video.videoFrame}
                     onPlaybackStatusUpdate={onPlaybackStatusUpdate}
                 />
-                <Animated.View style={{ ...video.controlBarWrapper, opacity: displayValue, zIndex: displayValue }}>
-                    <ControlBar route={props.route} navigation={props.navigation} videoRef={videoRef}/>
-                </Animated.View>
-                <InitialButton videoRef={videoRef} handleControlBar={handleControlBar}/>
+                <ControlBar route={props.route} navigation={props.navigation} videoRef={videoRef}/>
+                <InitialButton videoRef={videoRef} fadeControlBar={fadeControlBar}/>
                 <TouchableWithoutFeedback onPressIn={() => {
-                    handleControlBar(0, 0)
+                    fadeControlBar(0, 0)
                 }}>
                     <View style={video.touchableArea} />
                 </TouchableWithoutFeedback>
+                <ExternalLink/>
             </View>
         </View>
     );
