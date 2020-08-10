@@ -2,6 +2,7 @@ import EventEmitter from 'events';
 import React, { useEffect, useState } from 'react';
 import Icon from '../../../CustomIcon';
 import { startTimer, startTimerAt, stopTimer } from '../Timer';
+import { hideExternalLink } from '../../../TweetVideo/ExternalLink'
 
 const render = new EventEmitter()
 var toName
@@ -67,6 +68,7 @@ function Playback ({ route, navigation, videoRef }) {
                 break;
 
             case 'replay':
+                hideExternalLink()
                 videoRef.current.pauseAsync().then(() => videoRef.current.replayAsync())
                 startTimerAt(0)
                 setButtonName('pause')

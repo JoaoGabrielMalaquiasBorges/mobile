@@ -5,6 +5,7 @@ import tweetObject from '../../Model';
 import { reRenderPlayback } from "./Controls/Playback";
 import { progressBar } from './styles';
 import { startTimerAt } from './Timer';
+import { hideExternalLink } from '../../TweetVideo/ExternalLink'
 
 var globalFilledBarRef
 var globalProgressBarButtonRef
@@ -104,6 +105,8 @@ function ProgressBar({ route, videoRef, width, videoBoxOffset }) {
                 width: progressBar.button.width
             }
         });
+
+        hideExternalLink()
 
         if (position > 1-progressBarButtonOffset) {
             finishProgress();

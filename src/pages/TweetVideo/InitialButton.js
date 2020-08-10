@@ -16,11 +16,11 @@ function InitialButton ({ videoRef, fadeControlBar }) {
         >
             <TouchableWithoutFeedback onPressIn={() => {
                 containerOfInitialButton.current.setNativeProps({ style: { opacity: 0, position: 'relative', display: 'none' }})
-                fadeControlBar(0, 0)
+                fadeControlBar(0, 0, 0)
                 reRenderPlayback({ name: 'Main' }, 'pause')
                 startTimer()
                 videoRef.current.playAsync().then(() => {
-                    fadeControlBar(500, 1500)
+                    fadeControlBar(500, 1500, 0)
                 })
             }}>
                 <View style={initialButton.button}>

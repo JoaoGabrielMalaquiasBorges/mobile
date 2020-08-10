@@ -5,6 +5,7 @@ import ControlBar, { fadeControlBar } from "./ControlBar";
 import InitialButton from './InitialButton'
 import { reRenderPlayback } from './ControlBar/Controls/Playback';
 import { finishProgress, testFunction } from './ControlBar/ProgressBar';
+import TouchableArea from './TouchableArea'
 import ExternalLink, { showExternalLink } from './ExternalLink'
 import { video } from './styles';
 
@@ -35,7 +36,7 @@ function TweetVideo(props) {
             if (playbackStatus.didJustFinish) {
                 finishProgress()
                 reRenderPlayback(props.route, 'replay')
-                
+                fadeControlBar(0, 0, 1)
                 showExternalLink()
             }
         }
@@ -55,11 +56,7 @@ function TweetVideo(props) {
                 />
                 <ControlBar route={props.route} navigation={props.navigation} videoRef={videoRef}/>
                 <InitialButton videoRef={videoRef} fadeControlBar={fadeControlBar}/>
-                <TouchableWithoutFeedback onPressIn={() => {
-                    fadeControlBar(0, 0)
-                }}>
-                    <View style={video.touchableArea} />
-                </TouchableWithoutFeedback>
+                <TouchableArea/>
                 <ExternalLink/>
             </View>
         </View>

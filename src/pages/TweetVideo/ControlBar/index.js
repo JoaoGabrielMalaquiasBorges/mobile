@@ -8,9 +8,9 @@ import { controlBar } from './styles';
 var flag = 0
 var displayValue = new Animated.Value(flag)
 
-export function fadeControlBar (duration, delay) {
+export function fadeControlBar (duration, delay, value) {
     Animated.timing(displayValue, {
-        toValue: (flag-1)*(-1),
+        toValue: (flag-1)*(-1) || value,
         duration: duration,
         delay: delay
     }).start(({ finished }) => { flag = (flag-1)*(-1) })
