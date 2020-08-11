@@ -1,23 +1,44 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { View, Text, TouchableWithoutFeedback } from 'react-native'
 import * as Font from 'expo-font';
 import Icon from '../CustomIcon'
+import EventEmitter from 'events'
 import { externalLink } from './styles'
 
 
-const externalLinkRef = React.createRef();
+const emitter = new EventEmitter()
 
 export function showExternalLink () {
-    externalLinkRef.current.setNativeProps({ style: { position: 'absolute', display: 'flex' }})
+    emitter.emit('show')
 }
 
 export function hideExternalLink () {
-    externalLinkRef.current.setNativeProps({ style: { position: 'relative', display: 'none' }})
+    emitter.emit('hide')
 }
 
 function ExternalLink () {
     Font.loadAsync({
         'FontName': require("../../../assets/fonts/icomoon.ttf")
+    })
+
+    const externalLinkRef = React.createRef()
+
+    function showExternalLink () {
+        externalLinkRef.current.setNativeProps({ style: { position: 'absolute', display: 'flex' }})
+    }
+    
+    function hideExternalLink () {
+        externalLinkRef.current.setNativeProps({ style: { position: 'relative', display: 'none' }})
+    }
+
+    useEffect(() => {
+        emitter.addListener('show', showExternalLink)
+        emitter.addListener('hide', hideExternalLink)
+
+        return () => {
+            emitter.removeListener('show', showExternalLink)
+            emitter.removeListener('hide', hideExternalLink)
+        }
     })
 
     return (

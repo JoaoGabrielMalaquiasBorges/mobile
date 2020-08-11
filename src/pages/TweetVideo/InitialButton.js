@@ -6,7 +6,7 @@ import { startTimer } from './ControlBar/Timer'
 import { reRenderPlayback } from './ControlBar/Controls/Playback'
 import { initialButton } from './styles'
 
-function InitialButton ({ videoRef, fadeControlBar }) {
+function InitialButton ({ videoRef }) {
     const containerOfInitialButton = React.createRef()
 
     return (

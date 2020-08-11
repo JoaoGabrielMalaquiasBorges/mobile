@@ -6,7 +6,7 @@ import Volume from './Volume';
 import ScreenSize from './ScreenSize';
 import { controls } from './styles';
 
-function Controls({ route, navigation, videoRef, controlsState }) {
+function Controls({ route, navigation, videoRef, fadeControlBar }) {
     Font.loadAsync({
         'FontName': require("../../../../../assets/fonts/icomoon.ttf")
     });
@@ -34,6 +34,7 @@ function Controls({ route, navigation, videoRef, controlsState }) {
                 route={route}
                 navigation={navigation}
                 videoRef={videoRef}
+                fadeControlBar={fadeControlBar}
             />
             <View style={controls.subcontainer}>
                 <Volume navigation={navigation} route={route} videoRef={videoRef}/>

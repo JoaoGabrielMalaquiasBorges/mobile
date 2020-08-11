@@ -54,8 +54,8 @@ function TweetVideo(props) {
                     style={video.videoFrame}
                     onPlaybackStatusUpdate={onPlaybackStatusUpdate}
                 />
-                <ControlBar route={props.route} navigation={props.navigation} videoRef={videoRef}/>
-                <InitialButton videoRef={videoRef} fadeControlBar={fadeControlBar}/>
+                <ControlBar route={props.route} navigation={props.navigation} videoRef={videoRef} />
+                <InitialButton videoRef={videoRef} />
                 <TouchableArea/>
                 <ExternalLink/>
             </View>

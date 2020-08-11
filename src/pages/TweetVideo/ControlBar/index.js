@@ -13,7 +13,7 @@ export function fadeControlBar (duration, delay, value) {
         toValue: (flag-1)*(-1) || value,
         duration: duration,
         delay: delay
-    }).start(({ finished }) => { flag = (flag-1)*(-1) })
+    }).start(({ finished }) => { flag = (flag-1)*(-1) || value })
 }
 
 function ControlBar ({ route, navigation, videoRef }) {
@@ -40,10 +40,7 @@ function ControlBar ({ route, navigation, videoRef }) {
                 route={route}
                 navigation={navigation}
                 videoRef={videoRef}
-                controlsState={{
-                    playback: 'play',
-                    volume: 'volume-off'
-                }}
+                fadeControlBar={fadeControlBar}
             />
             <Timer navigation={navigation} route={route}/>
         </Animated.View>

@@ -16,7 +16,7 @@ export function reRenderPlayback (route, name) {
     }
 }
 
-function Playback ({ route, navigation, videoRef }) {
+function Playback ({ route, navigation, videoRef, fadeControlBar }) {
     const [buttonName, setButtonName] = useState(() => {
         if (route.name == 'FullscreenSizeVideo') {
             return route.params.playbackButton
@@ -72,6 +72,7 @@ function Playback ({ route, navigation, videoRef }) {
                 videoRef.current.pauseAsync().then(() => videoRef.current.replayAsync())
                 startTimerAt(0)
                 setButtonName('pause')
+                fadeControlBar(500, 1500, 0)
                 break
         }
     }

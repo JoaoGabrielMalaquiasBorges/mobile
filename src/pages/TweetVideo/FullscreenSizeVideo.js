@@ -5,7 +5,9 @@ import React, { useEffect } from 'react'
 import { Animated, StatusBar, View } from 'react-native'
 import Icon from '../CustomIcon'
 import tweetObject from '../Model'
-import ControlBar from './ControlBar'
+import ControlBar, { fadeControlBar } from './ControlBar'
+import TouchableArea from './TouchableArea'
+import ExternalLink, { showExternalLink } from './ExternalLink'
 import { reRenderPlayback } from './ControlBar/Controls/Playback'
 import { finishProgress, testFunction } from './ControlBar/ProgressBar'
 import { fullscreenSizeVideo } from './styles';
@@ -88,6 +90,8 @@ function FullscreenSizeVideo ({ route, navigation }) {
       if (playbackStatus.didJustFinish) {
         finishProgress()
         reRenderPlayback(route, 'replay')
+        fadeControlBar(0, 0, 1)
+        showExternalLink()
       } else {
         if (shouldShowVideo && playbackStatus.positionMillis < videoDuration) {
           shouldShowVideo = false
@@ -125,7 +129,9 @@ function FullscreenSizeVideo ({ route, navigation }) {
           }}
           source={{ uri: notFullscreenSizeVideo.thumbnail }}
         />
-        <ControlBar route={route} navigation={navigation} videoRef={fullscreenVideoRef}/>
+        <ControlBar route={route} navigation={navigation} videoRef={fullscreenVideoRef} />
+        <TouchableArea/>
+        <ExternalLink/>
       </View>
       {/* <Icon
         name='play'
