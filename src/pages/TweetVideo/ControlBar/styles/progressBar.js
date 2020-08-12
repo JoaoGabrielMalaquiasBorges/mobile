@@ -2,6 +2,7 @@ const progressBar = {
     container: {
         height: 12,
         width: '100%',
+        marginBottom: 15,
         justifyContent: 'center'
     },
     filled: {

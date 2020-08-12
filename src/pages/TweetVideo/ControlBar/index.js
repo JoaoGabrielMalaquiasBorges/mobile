@@ -4,6 +4,7 @@ import ProgressBar from "./ProgressBar";
 import Controls from "./Controls";
 import Timer from './Timer';
 import { controlBar } from './styles';
+import { LinearGradient } from 'expo-linear-gradient';
 
 var flag = 0
 var displayValue = new Animated.Value(flag)
@@ -18,31 +19,46 @@ export function fadeControlBar (duration, delay, value) {
 
 function ControlBar ({ route, navigation, videoRef }) {
     return (
-        <Animated.View style={{ ...controlBar.container, opacity: displayValue, zIndex: displayValue }}>
-            <ProgressBar
-                route={route}
-                videoRef={videoRef}
-                width={{
-                    portraitWidth: route.name == 'Main'
-                        ? 0.95-42 // Dimensions.get('window').width*0.95-42
-                        : -20, // Dimensions.get('window').width-20
-                    landscapeWidth: route.name == 'Main'
-                        ? 424.45
-                        : -20 // Dimensions.get('window').width-20
-                }}
-                videoBoxOffset={
-                    route.name == 'Main'
-                        ? (-22)-444.45 // (Dimensions.get('window').width*0.95-22)-444.45
-                        : 0
+        <Animated.View style={{
+            ... route.name == 'FullscreenSizeVideo'
+                    ? controlBar.fullscreenSize.container
+                    : controlBar.notFullscreenSize.container,
+            opacity: displayValue,
+            zIndex: displayValue
+        }}>
+            <LinearGradient
+                colors={['transparent', 'rgba(0,0,0,0.8)']}
+                style={
+                    route.name == 'FullscreenSizeVideo'
+                        ? controlBar.fullscreenSize.gradient
+                        : controlBar.notFullscreenSize.gradient
                 }
-            />
-            <Controls
-                route={route}
-                navigation={navigation}
-                videoRef={videoRef}
-                fadeControlBar={fadeControlBar}
-            />
-            <Timer navigation={navigation} route={route}/>
+            >
+                <ProgressBar
+                    route={route}
+                    videoRef={videoRef}
+                    width={{
+                        portraitWidth: route.name == 'Main'
+                            ? 0.95-42 // Dimensions.get('window').width*0.95-42
+                            : -20, // Dimensions.get('window').width-20
+                        landscapeWidth: route.name == 'Main'
+                            ? 424.45
+                            : -20 // Dimensions.get('window').width-20
+                    }}
+                    videoBoxOffset={
+                        route.name == 'Main'
+                            ? (-22)-444.45 // (Dimensions.get('window').width*0.95-22)-444.45
+                            : 0
+                    }
+                />
+                <Controls
+                    route={route}
+                    navigation={navigation}
+                    videoRef={videoRef}
+                    fadeControlBar={fadeControlBar}
+                />
+                <Timer navigation={navigation} route={route}/>
+            </LinearGradient>
         </Animated.View>
     )
 }

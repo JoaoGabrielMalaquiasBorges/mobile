@@ -43,6 +43,7 @@ function FullscreenSizeVideo ({ route, navigation }) {
 
     if (notFullscreenSizeVideo.playbackStatus.positionMillis == videoDuration) {
       finishProgress()
+      showExternalLink()
     }
 
     const unsubscribe = navigation.addListener('transitionStart', () => {
@@ -121,12 +122,7 @@ function FullscreenSizeVideo ({ route, navigation }) {
         </Animated.View>
         <Animated.Image
           resizeMode='contain'
-          style={{
-            height: 250,
-            width: 300,
-            position: 'absolute',
-            opacity: visibility.y
-          }}
+          style={{ ...fullscreenSizeVideo.videoFrame, position: 'absolute', opacity: visibility.y}}
           source={{ uri: notFullscreenSizeVideo.thumbnail }}
         />
         <ControlBar route={route} navigation={navigation} videoRef={fullscreenVideoRef} />

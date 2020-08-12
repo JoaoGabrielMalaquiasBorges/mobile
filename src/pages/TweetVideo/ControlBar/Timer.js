@@ -84,7 +84,7 @@ function Timer ({ route, navigation }) {
     })
 
     return (
-        <View style={timer.container}>
+        <View style={ route.name == 'FullscreenSizeVideo' ? timer.fullscreenSize.container : timer.notFullscreenSize.container }>
             <Text style={timer.text}>{time}</Text>
             <Text style={timer.text}> / </Text>
             <Text style={timer.text}>{

@@ -17,29 +17,34 @@ function ScreenSize ({ route, navigation, videoRef }) {
     const videoDuration = tweet.extended_entities.media[0].video_info.duration_millis
 
     useEffect(() => {
-        if (route.name == 'Main' && route.params != undefined) {
+        if (route.name == 'Main' && route.params != undefined) { // When going back
             setButtonName('fillScreen')
         }
     }, [route.params])
 
-    async function fillScreen () {
-        setButtonName('skip')
-        var videoThumbnail = await generateThumbnail()
-
-        videoRef.current.getStatusAsync().then(playbackStatus => {
-            videoRef.current.pauseAsync()
-            navigation.navigate('FullscreenSizeVideo', {
-                playbackStatus: playbackStatus,
-                routeKey: route.key,
-                thumbnail: videoThumbnail,
-                playbackButton: playbackStatus.isPlaying
-                    ? 'pause'
-                    : playbackStatus.positionMillis == videoDuration
-                        ? 'replay'
-                        : 'play',
-                volumeButton: playbackStatus.isMuted ? 'volume-off' : 'volume-high'
+    async function resizeVideo () {
+        if (buttonName == 'fillScreen') {
+            setButtonName('skip')
+            var videoThumbnail = await generateThumbnail()
+    
+            videoRef.current.getStatusAsync().then(playbackStatus => {
+                videoRef.current.pauseAsync()
+                navigation.navigate('FullscreenSizeVideo', {
+                    playbackStatus: playbackStatus,
+                    routeKey: route.key,
+                    thumbnail: videoThumbnail,
+                    playbackButton: playbackStatus.isPlaying
+                        ? 'pause'
+                        : playbackStatus.positionMillis == videoDuration
+                            ? 'replay'
+                            : 'play',
+                    volumeButton: playbackStatus.isMuted ? 'volume-off' : 'volume-high'
+                })
             })
-        })
+        } else {
+            navigation.goBack()
+        }
+        
     }
 
     return (
@@ -47,7 +52,7 @@ function ScreenSize ({ route, navigation, videoRef }) {
             name={buttonName}
             size={20}
             color="white"
-            onPress={fillScreen}
+            onPress={resizeVideo}
         />
     )
     

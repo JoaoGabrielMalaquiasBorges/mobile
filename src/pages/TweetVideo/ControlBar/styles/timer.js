@@ -1,9 +1,19 @@
 const timer = {
-    container: {
-        position: 'absolute',
-        right: 91,
-        bottom: 10,
-        flexDirection: 'row'
+    fullscreenSize: {
+        container: {
+            position: 'absolute',
+            right: 91,
+            bottom: 16,
+            flexDirection: 'row'
+        }
+    },
+    notFullscreenSize: {
+        container: {
+            position: 'absolute',
+            right: 91,
+            bottom: 11,
+            flexDirection: 'row'
+        }
     },
     text: {
         color: 'white',

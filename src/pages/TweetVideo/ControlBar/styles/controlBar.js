@@ -1,13 +1,33 @@
 const controlBar = {
-    container: {
-        height: 62,
-        position: 'absolute',
-        bottom: 0,
-        left: 0,
-        right: 0,
-        justifyContent: 'space-between',
-        paddingHorizontal: 10,
-        paddingBottom: 10
+    fullscreenSize: {
+        container: {
+            position: 'absolute',
+            bottom: 0,
+            left: 0,
+            right: 0
+        },
+        gradient: {
+            height: '100%',
+            width: '100%',
+            paddingHorizontal: 10,
+            paddingBottom: 15,
+            justifyContent: 'space-between'
+        }
+    },
+    notFullscreenSize: {
+        container: {
+            position: 'absolute',
+            bottom: 0,
+            left: 0,
+            right: 0
+        },
+        gradient: {
+            height: '100%',
+            width: '100%',
+            paddingHorizontal: 10,
+            paddingBottom: 10,
+            justifyContent: 'space-between'
+        }
     }
 }
 
