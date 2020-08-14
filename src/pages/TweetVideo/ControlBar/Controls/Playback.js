@@ -20,9 +20,9 @@ function Playback ({ route, navigation, videoRef, fadeControlBar }) {
     const [buttonName, setButtonName] = useState(() => {
         if (route.name == 'FullscreenSizeVideo') {
             return route.params.playbackButton
-        } else {
+        } /* else {
             return 'play'
-        }
+        } */
     })
 
     function mainListener () {

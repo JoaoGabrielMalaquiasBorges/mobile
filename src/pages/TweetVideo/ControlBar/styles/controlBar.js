@@ -10,8 +10,7 @@ const controlBar = {
             height: '100%',
             width: '100%',
             paddingHorizontal: 10,
-            paddingBottom: 15,
-            justifyContent: 'space-between'
+            paddingBottom: 15
         }
     },
     notFullscreenSize: {
@@ -25,8 +24,7 @@ const controlBar = {
             height: '100%',
             width: '100%',
             paddingHorizontal: 10,
-            paddingBottom: 10,
-            justifyContent: 'space-between'
+            paddingBottom: 10
         }
     }
 }

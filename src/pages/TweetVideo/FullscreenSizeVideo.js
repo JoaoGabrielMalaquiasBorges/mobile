@@ -31,7 +31,7 @@ function FullscreenSizeVideo ({ route, navigation }) {
   var currentVideoPosition = 0
 
   useEffect(() => {
-    fullscreenVideoRef.current.setStatusAsync({
+    /* fullscreenVideoRef.current.setStatusAsync({
       shouldPlay: notFullscreenSizeVideo.playbackStatus.shouldPlay,
       positionMillis: notFullscreenSizeVideo.playbackStatus.positionMillis,
       isMuted: notFullscreenSizeVideo.playbackStatus.isMuted
@@ -39,7 +39,12 @@ function FullscreenSizeVideo ({ route, navigation }) {
       if (showingThumbnail) {
         shouldShowVideo = true
       }
-    })
+    }) */
+
+    if (showingThumbnail) {
+      alert('hi')
+      shouldShowVideo = true
+    }
 
     if (notFullscreenSizeVideo.playbackStatus.positionMillis == videoDuration) {
       finishProgress()
@@ -73,7 +78,7 @@ function FullscreenSizeVideo ({ route, navigation }) {
     Animated.timing(visibility, {
       toValue: { x: 0, y: 1 },
       duration: 1
-    }).start(({ finished }) => { showingThumbnail = true })
+    }).start(({ finished }) => { shouldShowVideo = true })
   }
 
   function showVideo () {
@@ -112,10 +117,14 @@ function FullscreenSizeVideo ({ route, navigation }) {
             resizeMode='contain'
             source={{
               uri:
-                tweet.extended_entities.media[0].video_info.variants[0].url
+                // tweet.extended_entities.media[0].video_info.variants[0].url
+                'http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4'
                 // 'http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4'
                 // 'https://www.w3schools.com/html/mov_bbb.mp4'
             }}
+            shouldPlay={notFullscreenSizeVideo.playbackStatus.shouldPlay}
+            positionMillis={notFullscreenSizeVideo.playbackStatus.positionMillis}
+            isMuted={notFullscreenSizeVideo.playbackStatus.isMuted}
             style={fullscreenSizeVideo.videoFrame}
             onPlaybackStatusUpdate={onPlaybackStatusUpdate}
           />

@@ -606,7 +606,7 @@ const tweetObject = {
               9,
               16
             ],
-            "duration_millis": 10704,
+            "duration_millis": 27893, // 10704,
             "variants": [
               {
                 "bitrate": 320000,

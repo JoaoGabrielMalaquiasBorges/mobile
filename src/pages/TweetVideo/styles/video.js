@@ -9,7 +9,7 @@ const video = {
     videoFrame: {
         maxHeight: 250,
         maxWidth: '100%',
-        aspectRatio: 9/16,
+        aspectRatio: 16/9,
         marginLeft: 'auto',
         marginRight: 'auto'
     },

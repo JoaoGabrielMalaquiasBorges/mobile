@@ -16,8 +16,8 @@ import { video } from './styles';
 
 
 function TweetVideo(props) {
-    const tweetVideo = props.video;
-    const videoDuration = 10704;
+    const tweet = props.video;
+    const videoDuration = tweet.video_info.duration_millis
     const videoRef = React.createRef();
 
     var currentVideoPosition = 0
@@ -48,7 +48,7 @@ function TweetVideo(props) {
                 <Video
                     resizeMode="cover"
                     ref={videoRef}
-                    source={/* require('../../assets/theCoralSong.mp4') */{ uri: tweetVideo.video_info.variants[0].url }}
+                    source={/* require('../../assets/theCoralSong.mp4') */{ uri: 'http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4' /* tweetVideo.video_info.variants[0].url */ }}
                     shouldPlay={false}
                     isMuted={true}
                     style={video.videoFrame}
