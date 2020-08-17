@@ -38,7 +38,7 @@ function Controls({ route, navigation, videoRef, fadeControlBar }) {
             />
             <View style={controls.subcontainer}>
                 <Volume navigation={navigation} route={route} videoRef={videoRef}/>
-                <ScreenSize navigation={navigation} route={route} videoRef={videoRef}/>
+                <ScreenSize navigation={navigation} route={route} videoRef={videoRef} fadeControlBar={fadeControlBar}/>
             </View>
         </Animated.View>
     )

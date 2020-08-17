@@ -3,7 +3,7 @@ import Icon from '../../../CustomIcon';
 import tweetObject from '../../../Model';
 import { generateThumbnail } from '../../thumbnail';
 
-function ScreenSize ({ route, navigation, videoRef }) {
+function ScreenSize ({ route, navigation, videoRef, fadeControlBar }) {
 
     const [buttonName, setButtonName] = useState(() => {
         if (route.name == 'FullscreenSizeVideo') {
@@ -27,18 +27,20 @@ function ScreenSize ({ route, navigation, videoRef }) {
             setButtonName('skip')
             var videoThumbnail = await generateThumbnail()
     
-            videoRef.current.getStatusAsync().then(playbackStatus => {
-                videoRef.current.pauseAsync()
-                navigation.navigate('FullscreenSizeVideo', {
-                    playbackStatus: playbackStatus,
-                    routeKey: route.key,
-                    thumbnail: videoThumbnail,
-                    playbackButton: playbackStatus.isPlaying
-                        ? 'pause'
-                        : playbackStatus.positionMillis == videoDuration
-                            ? 'replay'
-                            : 'play',
-                    volumeButton: playbackStatus.isMuted ? 'volume-off' : 'volume-high'
+            videoRef.current.getStatusAsync().then(async playbackStatus => {
+                videoRef.current.pauseAsync().then(() => {
+                    navigation.navigate('FullscreenSizeVideo', {
+                        playbackStatus: playbackStatus,
+                        routeKey: route.key,
+                        thumbnail: videoThumbnail,
+                        playbackButton: playbackStatus.isPlaying
+                            ? 'pause'
+                            : playbackStatus.positionMillis == videoDuration
+                                ? 'replay'
+                                : 'play',
+                        volumeButton: playbackStatus.isMuted ? 'volume-off' : 'volume-high'
+                    })
+                    fadeControlBar(0, 0, 0)
                 })
             })
         } else {

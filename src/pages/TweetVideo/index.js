@@ -29,7 +29,7 @@ function TweetVideo(props) {
     }, [props.route.params])
 
     function onPlaybackStatusUpdate(playbackStatus) {
-        if (playbackStatus.isPlaying) {
+        if (playbackStatus.isPlaying && props.navigation.isFocused()) {
             currentVideoPosition = playbackStatus.positionMillis/videoDuration;
             testFunction(currentVideoPosition);
         } else {
@@ -39,6 +39,7 @@ function TweetVideo(props) {
                 fadeControlBar(0, 0, 1)
                 showExternalLink()
             }
+            // alert(props.route.name)
         }
     }
     

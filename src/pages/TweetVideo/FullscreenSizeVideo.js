@@ -26,25 +26,18 @@ function FullscreenSizeVideo ({ route, navigation }) {
   const fullscreenVideoRef = React.createRef()
 
   var visibility = new Animated.ValueXY({ x: 1, y: 0 })
-  var showingThumbnail = false
   var shouldShowVideo = false
   var currentVideoPosition = 0
 
   useEffect(() => {
-    /* fullscreenVideoRef.current.setStatusAsync({
-      shouldPlay: notFullscreenSizeVideo.playbackStatus.shouldPlay,
-      positionMillis: notFullscreenSizeVideo.playbackStatus.positionMillis,
-      isMuted: notFullscreenSizeVideo.playbackStatus.isMuted
+    fullscreenVideoRef.current.setStatusAsync({
+      shouldPlay: notFullscreenSizeVideo.playbackStatus.shouldPlay
     }).then(playbackStatus => {
-      if (showingThumbnail) {
-        shouldShowVideo = true
+      fadeControlBar(0, 0, 0)
+      if (playbackStatus.isPlaying) {
+        fadeControlBar(500, 1500, 0)
       }
-    }) */
-
-    if (showingThumbnail) {
-      alert('hi')
-      shouldShowVideo = true
-    }
+    })
 
     if (notFullscreenSizeVideo.playbackStatus.positionMillis == videoDuration) {
       finishProgress()
@@ -85,7 +78,7 @@ function FullscreenSizeVideo ({ route, navigation }) {
     Animated.timing(visibility, {
       toValue: { x: 1, y: 0 },
       duration: 1
-    }).start(({ finished }) => { showingThumbnail = false })
+    }).start()
   }
 
   function onPlaybackStatusUpdate (playbackStatus) {
@@ -122,9 +115,11 @@ function FullscreenSizeVideo ({ route, navigation }) {
                 // 'http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4'
                 // 'https://www.w3schools.com/html/mov_bbb.mp4'
             }}
-            shouldPlay={notFullscreenSizeVideo.playbackStatus.shouldPlay}
-            positionMillis={notFullscreenSizeVideo.playbackStatus.positionMillis}
-            isMuted={notFullscreenSizeVideo.playbackStatus.isMuted}
+            status={{
+              shouldPlay: false,
+              positionMillis: notFullscreenSizeVideo.playbackStatus.positionMillis,
+              isMuted: notFullscreenSizeVideo.playbackStatus.isMuted
+            }}
             style={fullscreenSizeVideo.videoFrame}
             onPlaybackStatusUpdate={onPlaybackStatusUpdate}
           />
