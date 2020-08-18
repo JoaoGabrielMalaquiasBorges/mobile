@@ -4,7 +4,7 @@ import { Video } from 'expo-av';
 import ControlBar, { fadeControlBar } from "./ControlBar";
 import InitialButton from './InitialButton'
 import { reRenderPlayback } from './ControlBar/Controls/Playback';
-import { finishProgress, testFunction } from './ControlBar/ProgressBar';
+import { updateProgressBar, finishProgress } from './ControlBar/ProgressBar'
 import TouchableArea from './TouchableArea'
 import ExternalLink, { showExternalLink } from './ExternalLink'
 import { video } from './styles';
@@ -20,8 +20,6 @@ function TweetVideo(props) {
     const videoDuration = tweet.video_info.duration_millis
     const videoRef = React.createRef();
 
-    var currentVideoPosition = 0
-
     useEffect(() => {
         if (props.route.params != undefined) {
             videoRef.current.setStatusAsync(props.route.params.playbackStatus)
@@ -29,17 +27,17 @@ function TweetVideo(props) {
     }, [props.route.params])
 
     function onPlaybackStatusUpdate(playbackStatus) {
-        if (playbackStatus.isPlaying && props.navigation.isFocused()) {
-            currentVideoPosition = playbackStatus.positionMillis/videoDuration;
-            testFunction(currentVideoPosition);
-        } else {
+        if (props.navigation.isFocused()) {
+            if (playbackStatus.isPlaying) {
+                updateProgressBar(playbackStatus.positionMillis/videoDuration)
+                return
+            }
             if (playbackStatus.didJustFinish) {
                 finishProgress()
                 reRenderPlayback(props.route, 'replay')
                 fadeControlBar(0, 0, 1)
                 showExternalLink()
             }
-            // alert(props.route.name)
         }
     }
     

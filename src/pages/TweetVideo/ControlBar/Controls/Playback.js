@@ -69,10 +69,12 @@ function Playback ({ route, navigation, videoRef, fadeControlBar }) {
 
             case 'replay':
                 hideExternalLink()
-                videoRef.current.pauseAsync().then(() => videoRef.current.replayAsync())
-                startTimerAt(0)
-                setButtonName('pause')
-                fadeControlBar(500, 1500, 0)
+                videoRef.current.pauseAsync().then(() => {
+                    videoRef.current.replayAsync()
+                    startTimerAt(0)
+                    setButtonName('pause')
+                    fadeControlBar(500, 1500, 0)
+                })
                 break
         }
     }

@@ -9,7 +9,7 @@ import ControlBar, { fadeControlBar } from './ControlBar'
 import TouchableArea from './TouchableArea'
 import ExternalLink, { showExternalLink } from './ExternalLink'
 import { reRenderPlayback } from './ControlBar/Controls/Playback'
-import { finishProgress, testFunction } from './ControlBar/ProgressBar'
+import { updateProgressBar, finishProgress } from './ControlBar/ProgressBar'
 import { fullscreenSizeVideo } from './styles';
 
 /* global alert */
@@ -26,8 +26,7 @@ function FullscreenSizeVideo ({ route, navigation }) {
   const fullscreenVideoRef = React.createRef()
 
   var visibility = new Animated.ValueXY({ x: 1, y: 0 })
-  var shouldShowVideo = false
-  var currentVideoPosition = 0
+  var showingThumbnail = false
 
   useEffect(() => {
     fullscreenVideoRef.current.setStatusAsync({
@@ -70,8 +69,8 @@ function FullscreenSizeVideo ({ route, navigation }) {
   if (notFullscreenSizeVideo.playbackStatus.positionMillis == videoDuration) {
     Animated.timing(visibility, {
       toValue: { x: 0, y: 1 },
-      duration: 1
-    }).start(({ finished }) => { shouldShowVideo = true })
+      duration: 0
+    }).start(() => { showingThumbnail = true })
   }
 
   function showVideo () {
@@ -82,20 +81,21 @@ function FullscreenSizeVideo ({ route, navigation }) {
   }
 
   function onPlaybackStatusUpdate (playbackStatus) {
-    if (playbackStatus.isPlaying) {
-        currentVideoPosition = playbackStatus.positionMillis/videoDuration
-        testFunction(currentVideoPosition)
-    } else {
+    if (navigation.isFocused()) {
+      if (playbackStatus.isPlaying) {
+        updateProgressBar(playbackStatus.positionMillis/videoDuration)
+        return
+      }
       if (playbackStatus.didJustFinish) {
         finishProgress()
         reRenderPlayback(route, 'replay')
         fadeControlBar(0, 0, 1)
         showExternalLink()
-      } else {
-        if (shouldShowVideo && playbackStatus.positionMillis < videoDuration) {
-          shouldShowVideo = false
-          showVideo()
-        }
+        return
+      }
+      if (showingThumbnail && playbackStatus.positionMillis < videoDuration) {
+        showingThumbnail = false
+        showVideo()
       }
     }
   }

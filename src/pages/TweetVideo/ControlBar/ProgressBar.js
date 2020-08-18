@@ -154,7 +154,7 @@ function ProgressBar({ route, videoRef, width, videoBoxOffset }) {
     );
 }
 
-export function testFunction(position) {
+export function updateProgressBar(position) {
     const filledBarRef = globalFilledBarRef
     const progressBarButtonRef = globalProgressBarButtonRef
 

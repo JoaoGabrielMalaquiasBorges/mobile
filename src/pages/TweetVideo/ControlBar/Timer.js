@@ -1,6 +1,6 @@
-import EventEmitter from 'events';
 import React, { useEffect, useState } from 'react';
 import { Text, View } from 'react-native';
+import EventEmitter from 'events';
 import tweetObject from '../../Model';
 import { timer } from './styles';
 
@@ -43,11 +43,15 @@ function Timer ({ route, navigation }) {
     }
 
     function mainListener () {
-        setTime((minutes > 9 ? minutes : ' 0' + minutes) + ':' + (seconds > 9 ? seconds : '0' + seconds))
+        if (route.name == 'Main') {
+            setTime((minutes > 9 ? minutes : ' 0' + minutes) + ':' + (seconds > 9 ? seconds : '0' + seconds))
+        }
     }
 
     function fullscreenSizeVideoListener () {
-        setTime((minutes > 9 ? minutes : ' 0' + minutes) + ':' + (seconds > 9 ? seconds : '0' + seconds))
+        if (route.name == 'FullscreenSizeVideo') {
+            setTime((minutes > 9 ? minutes : ' 0' + minutes) + ':' + (seconds > 9 ? seconds : '0' + seconds))
+        }
     }
 
     if (minutes*60+seconds == Math.trunc(videoDuration/1000)) {
@@ -56,22 +60,26 @@ function Timer ({ route, navigation }) {
 
     useEffect(() => {
         clock.addListener('tick', handleTime)
+
         if (route.name == 'Main') {
             render.addListener('re-render', mainListener)
         } else {
             render.addListener('re-render', fullscreenSizeVideoListener)
         }
+
         const unsubscribe = navigation.addListener('focus', () => {
             if (route.name == 'Main' && minutes*60+seconds == Math.trunc(videoDuration/1000)) {
                 setTime((minutes > 9 ? minutes : '0' + minutes) + ':' + (seconds > 9 ? seconds : '0' + seconds))
             }
         })
+
         if (navigation.isFocused() && shouldIncrement) {
             seconds++
             setTimeout(() => {
                 clock.emit('tick')
             }, 1000)
         }
+
         return () => {
             unsubscribe()
             clock.removeAllListeners()
