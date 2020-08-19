@@ -16,7 +16,7 @@ export function hideExternalLink () {
     emitter.emit('hide')
 }
 
-function ExternalLink () {
+function ExternalLink ( { route }) {
     Font.loadAsync({
         'FontName': require("../../../assets/fonts/icomoon.ttf")
     })
@@ -46,19 +46,25 @@ function ExternalLink () {
             ref={externalLinkRef}
             style={externalLink.container}
         >
-            <TouchableWithoutFeedback onPressIn={() => {
-                hideExternalLink()
-            }}>
-                <View style={externalLink.button}>
-                    <Text style={{ color: 'white' }}>View on Twitter</Text>
-                    <Icon
-                        name='external_link'
-                        size={20}
-                        color='white'
-                        style={{ marginTop: 2 }}
-                    />
-                </View>
-            </TouchableWithoutFeedback>
+            <View style={
+                route.name == 'FullscreenSizeVideo'
+                    ? externalLink.fullscreenSize.subcontainer
+                    : externalLink.notFullscreenSize.subcontainer
+            }>
+                <TouchableWithoutFeedback onPressIn={() => {
+                    hideExternalLink()
+                }}>
+                    <View style={externalLink.button}>
+                        <Text style={{ color: 'white' }}>View on Twitter</Text>
+                        <Icon
+                            name='external_link'
+                            size={20}
+                            color='white'
+                            style={{ marginTop: 2 }}
+                        />
+                    </View>
+                </TouchableWithoutFeedback>
+            </View>
         </View>
     )
 }

@@ -131,7 +131,7 @@ function FullscreenSizeVideo ({ route, navigation }) {
         />
         <ControlBar route={route} navigation={navigation} videoRef={fullscreenVideoRef} />
         <TouchableArea/>
-        <ExternalLink/>
+        <ExternalLink route={route} />
       </View>
       {/* <Icon
         name='play'

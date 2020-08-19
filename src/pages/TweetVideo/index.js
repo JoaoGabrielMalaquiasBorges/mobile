@@ -19,6 +19,7 @@ function TweetVideo(props) {
     const tweet = props.video;
     const videoDuration = tweet.video_info.duration_millis
     const videoRef = React.createRef();
+    const videoContainer = React.createRef()
 
     useEffect(() => {
         if (props.route.params != undefined) {
@@ -43,7 +44,7 @@ function TweetVideo(props) {
     
     return(
         <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
-            <View style={video.container}>
+            <View ref={videoContainer} style={video.container}>
                 <Video
                     resizeMode="cover"
                     ref={videoRef}
@@ -56,7 +57,7 @@ function TweetVideo(props) {
                 <ControlBar route={props.route} navigation={props.navigation} videoRef={videoRef} />
                 <InitialButton videoRef={videoRef} />
                 <TouchableArea/>
-                <ExternalLink/>
+                <ExternalLink route={props.route} />
             </View>
         </View>
     );

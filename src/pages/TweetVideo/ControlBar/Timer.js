@@ -21,8 +21,10 @@ export function startTimerAt (time) {
     shouldIncrement = false
     minutes = Math.trunc((time/1000)/60)
     seconds = Math.round(time/1000)%60
-    shouldIncrement = true
-    render.emit('re-render')
+    if (minutes*60+seconds < Math.trunc(videoDuration/1000)) {
+        shouldIncrement = true
+        render.emit('re-render')
+    }
 }
 
 export function stopTimer () {
@@ -30,7 +32,6 @@ export function stopTimer () {
 }
 
 function Timer ({ route, navigation }) {
-
     const [time, setTime] = useState((minutes > 9 ? minutes : '0' + minutes) + ':' + (seconds > 9 ? seconds : '0' + seconds))
     const clock = new EventEmitter()
 
