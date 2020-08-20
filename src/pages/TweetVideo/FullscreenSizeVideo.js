@@ -1,8 +1,8 @@
+import React, { useEffect } from 'react'
+import { Animated, StatusBar, View } from 'react-native'
 import { CommonActions } from '@react-navigation/native'
 import { Video } from 'expo-av'
 import * as Font from 'expo-font'
-import React, { useEffect } from 'react'
-import { Animated, StatusBar, View } from 'react-native'
 import Icon from '../CustomIcon'
 import tweetObject from '../Model'
 import ControlBar, { fadeControlBar } from './ControlBar'
@@ -33,7 +33,7 @@ function FullscreenSizeVideo ({ route, navigation }) {
       shouldPlay: notFullscreenSizeVideo.playbackStatus.shouldPlay
     }).then(playbackStatus => {
       fadeControlBar(0, 0, 0)
-      if (playbackStatus.isPlaying) {
+      if (playbackStatus.shouldPlay) {
         fadeControlBar(500, 1500, 0)
       }
     })
@@ -53,7 +53,8 @@ function FullscreenSizeVideo ({ route, navigation }) {
               : playbackStatus.positionMillis == videoDuration
                   ? 'replay'
                   : 'play',
-            volumeButton: playbackStatus.isMuted ? 'volume-off' : 'volume-high'
+            volumeButton: playbackStatus.isMuted ? 'volume-off' : 'volume-high',
+            thumbnail: notFullscreenSizeVideo.thumbnail,
           }),
           source: notFullscreenSizeVideo.routeKey
         })
@@ -76,7 +77,7 @@ function FullscreenSizeVideo ({ route, navigation }) {
   function showVideo () {
     Animated.timing(visibility, {
       toValue: { x: 1, y: 0 },
-      duration: 1
+      duration: 0
     }).start()
   }
 
