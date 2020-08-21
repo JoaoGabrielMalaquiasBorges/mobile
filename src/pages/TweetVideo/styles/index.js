@@ -1,7 +1,7 @@
-import video from './video'
+import tweetVideo from './tweetVideo'
 import fullscreenSizeVideo from './fullscreenSizeVideo'
 import initialButton from './initialButton'
 import touchableArea from './touchableArea'
 import externalLink from './externalLink'
 
-export { video, fullscreenSizeVideo, initialButton, touchableArea, externalLink }
+export { tweetVideo, fullscreenSizeVideo, initialButton, touchableArea, externalLink }

@@ -109,13 +109,10 @@ function FullscreenSizeVideo ({ route, navigation }) {
           <Video
             ref={fullscreenVideoRef}
             resizeMode='contain'
-            source={{
-              uri:
-                // tweet.extended_entities.media[0].video_info.variants[0].url
-                'http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4'
-                // 'http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4'
-                // 'https://www.w3schools.com/html/mov_bbb.mp4'
-            }}
+            source={
+              // require('../../assets/theCoralSong.mp4')
+              { uri: tweet.extended_entities.media[0].video_info.variants[0].url }
+            }
             status={{
               shouldPlay: false,
               positionMillis: notFullscreenSizeVideo.playbackStatus.positionMillis,

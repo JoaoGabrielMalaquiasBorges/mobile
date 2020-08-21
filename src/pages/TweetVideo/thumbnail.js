@@ -8,7 +8,7 @@ export async function generateThumbnail () {
   if (uri === undefined) {
     ({ uri } = await VideoThumbnails.getThumbnailAsync(
       tweet.extended_entities.media[0].video_info.variants[0].url,
-      { time: 10704 }
+      { time: tweet.extended_entities.media[0].video_info.duration_millis }
     ))
   }
   // alert(JSON.stringify(uri))

@@ -1,4 +1,4 @@
-const video = {
+const tweetVideo = {
     container: {
         width: 444.45,
         maxWidth: '100%',
@@ -6,7 +6,7 @@ const video = {
         backgroundColor: 'black',
         borderRadius: 5
     },
-    videoFrame: {
+    frame: {
         maxHeight: 250,
         maxWidth: '100%',
         aspectRatio: 16/9,
@@ -20,4 +20,4 @@ const video = {
     }
 }
 
-export default video
+export default tweetVideo

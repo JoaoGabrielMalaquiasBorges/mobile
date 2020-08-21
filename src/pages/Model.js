@@ -611,7 +611,10 @@ const tweetObject = {
               {
                 "bitrate": 320000,
                 "content_type": "video/mp4",
-                "url": "https://video.twimg.com/ext_tw_video/869317980307415040/pu/vid/180x320/FMei8yCw7yc_Z7e-.mp4"
+                "url":
+                  // "https://video.twimg.com/ext_tw_video/869317980307415040/pu/vid/180x320/FMei8yCw7yc_Z7e-.mp4"
+                  'http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4'
+                  // 'https://www.w3schools.com/html/mov_bbb.mp4'
               },
               {
                 "bitrate": 2176000,

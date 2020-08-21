@@ -72,7 +72,20 @@ function ProgressBar({ route, videoRef, width, videoBoxOffset }) {
     });
 
     function getPosition(e) {
-        shouldProgress = false;
+        shouldProgress = false
+    
+        if ( isPortrait() ) {
+            progressBarWidth = Dimensions.get('window').width*frac+int
+            _videoBoxOffset = 0;
+            progressBarButtonOffset = progressBar.button.width/progressBarWidth;
+            newProgressBarButtonOffset = 16/progressBarWidth;
+        } else {
+            progressBarWidth = Dimensions.get('window').width*Math.floor(frac)+width.landscapeWidth
+            _videoBoxOffset = (Dimensions.get('window').width*frac+videoBoxOffset)*Math.ceil(1-frac)
+            progressBarButtonOffset = progressBar.button.width/progressBarWidth;
+            newProgressBarButtonOffset = 16/progressBarWidth;
+        }
+    
         position =
             (e.nativeEvent.pageX-Dimensions.get('window').width*(1-frac)/2+int/2-_videoBoxOffset/2-8)
             /progressBarWidth;
