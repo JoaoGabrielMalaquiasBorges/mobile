@@ -5,6 +5,7 @@ import { Video } from 'expo-av'
 import * as Font from 'expo-font'
 import Icon from '../CustomIcon'
 import tweetObject from '../Model'
+import { handleUpdate } from '../TweetVideo'
 import ControlBar, { fadeControlBar } from './ControlBar'
 import TouchableArea from './TouchableArea'
 import ExternalLink, { showExternalLink } from './ExternalLink'
@@ -74,33 +75,6 @@ function FullscreenSizeVideo ({ route, navigation }) {
     }).start(() => { showingThumbnail = true })
   }
 
-  function showVideo () {
-    Animated.timing(visibility, {
-      toValue: { x: 1, y: 0 },
-      duration: 0
-    }).start()
-  }
-
-  function onPlaybackStatusUpdate (playbackStatus) {
-    if (navigation.isFocused()) {
-      if (playbackStatus.isPlaying) {
-        updateProgressBar(playbackStatus.positionMillis/videoDuration)
-        return
-      }
-      if (playbackStatus.didJustFinish) {
-        finishProgress()
-        reRenderPlayback(route, 'replay')
-        fadeControlBar(0, 0, 1)
-        showExternalLink()
-        return
-      }
-      if (showingThumbnail && playbackStatus.positionMillis < videoDuration) {
-        showingThumbnail = false
-        showVideo()
-      }
-    }
-  }
-
   return (
     <>
       <StatusBar hidden />
@@ -119,7 +93,16 @@ function FullscreenSizeVideo ({ route, navigation }) {
               isMuted: notFullscreenSizeVideo.playbackStatus.isMuted
             }}
             style={fullscreenSizeVideo.videoFrame}
-            onPlaybackStatusUpdate={onPlaybackStatusUpdate}
+            onPlaybackStatusUpdate={playbackStatus => {
+              handleUpdate(
+                route,
+                navigation,
+                playbackStatus,
+                videoDuration,
+                showingThumbnail,
+                visibility
+              )
+            }}
           />
         </Animated.View>
         <Animated.Image

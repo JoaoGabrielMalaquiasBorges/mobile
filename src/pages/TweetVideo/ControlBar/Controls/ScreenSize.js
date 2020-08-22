@@ -25,7 +25,7 @@ function ScreenSize ({ route, navigation, videoRef, fadeControlBar }) {
     async function resizeVideo () {
         if (buttonName == 'fillScreen') {
             setButtonName('skip')
-            var videoThumbnail = await generateThumbnail()
+            const videoThumbnail = await generateThumbnail()
     
             videoRef.current.getStatusAsync().then(playbackStatus => {
                 videoRef.current.pauseAsync().then(() => {

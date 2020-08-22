@@ -14,7 +14,7 @@ import { tweetVideo } from './styles';
     interruptionModeAndroid: Audio.INTERRUPTION_MODE_ANDROID_DO_NOT_MIX
 }) */
 
-export function showVideo (visibility) {
+function showVideo (visibility) {
     Animated.timing(visibility, {
       toValue: { x: 1, y: 0 },
       duration: 1
@@ -48,6 +48,7 @@ function TweetVideo({ route, navigation, video }) {
     var visibility
     var videoThumbnail
     var showingThumbnail
+
     if (route.params != undefined && route.params.playbackStatus.positionMillis == videoDuration) {
         visibility = new Animated.ValueXY({ x: 0, y: 1 })
         videoThumbnail = route.params.thumbnail
@@ -84,7 +85,14 @@ function TweetVideo({ route, navigation, video }) {
                         isMuted={true}
                         style={tweetVideo.frame}
                         onPlaybackStatusUpdate={playbackStatus => {
-                            handleUpdate(route, navigation, playbackStatus, videoDuration, showingThumbnail, visibility)
+                            handleUpdate(
+                                route,
+                                navigation,
+                                playbackStatus,
+                                videoDuration,
+                                showingThumbnail,
+                                visibility
+                            )
                         }}
                     />
                 </Animated.View>
