@@ -1,7 +1,6 @@
 import { ScreenOrientation } from 'expo';
 import React, { useEffect } from 'react';
 import { Dimensions, View } from 'react-native';
-import tweetObject from '../../Model';
 import { reRenderPlayback } from "./Controls/Playback";
 import { progressBar } from './styles';
 import { startTimerAt } from './Timer';
@@ -22,9 +21,8 @@ function isPortrait() {
     }
 }
 
-function ProgressBar({ route, videoRef, width, videoBoxOffset }) {
-    const tweet = tweetObject
-    const videoDuration = tweet.extended_entities.media[0].video_info.duration_millis
+function ProgressBar({ route, video, videoRef, width, videoBoxOffset }) {
+    const videoDuration = video.video_info.duration_millis
     const filledBarRef = React.createRef()
     const progressBarButtonRef = React.createRef()
 

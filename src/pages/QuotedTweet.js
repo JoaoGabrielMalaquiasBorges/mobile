@@ -11,27 +11,10 @@ import TweetText from './TweetText';
 import TweetImage from './TweetImage';
 import TweetGif from './TweetGif';
 
-function QuotedTweet(props) {
-
-    var tweet = props.tweet;
-
-    const [fontOfDisplayName, setFontOfDisplayName] = useState('');
-    const [fontOfUsername, setFontOfUsername] = useState('');
-    const [fontOfTweetTextContent, setFontOfTweetTextContent] = useState('');
-
-    async function loadFont() {
-        await Font.loadAsync({
-            'FontName': require("../../assets/fonts/icomoon.ttf"),
-            'Helvetica-Neue-Regular': require('../../assets/fonts/HelveticaNeueRegular.ttf'),
-            'Helvetica-Neue-Bold': require('../../assets/fonts/HelveticaNeueBold.ttf'),
-            'Helvetica-Neue-Light': require('../../assets/fonts/HelveticaNeueLight.ttf')
-        });
-        setFontOfDisplayName('Helvetica-Neue-Bold');
-        setFontOfUsername('Helvetica-Neue-Regular');
-        setFontOfTweetTextContent('Helvetica-Neue-Light');
-    }
-
-    loadFont();
+function QuotedTweet({ route, navigation, tweet }) {
+    const fontOfDisplayName = 'Helvetica-Neue-Bold'
+    const fontOfUsername = 'Helvetica-Neue-Regular'
+    const fontOfTweetTextContent = 'Helvetica-Neue-Light'
 
     var ImageSource = null;
     var ImageStyle = {width: 0, height: 0};
@@ -66,7 +49,7 @@ function QuotedTweet(props) {
                 case "video":
                     return (
                         <View>
-                            <TweetVideo  video={tweet.extended_entities.media[0]} width={Dimensions.get('window').width-64}/>
+                            <TweetVideo video={tweet.extended_entities.media[0]} navigation={navigation} route={route} width={Dimensions.get('window').width-42}/>
                         </View>
                     );
                     break;

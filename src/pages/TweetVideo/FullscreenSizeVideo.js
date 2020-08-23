@@ -16,13 +16,7 @@ import { fullscreenSizeVideo } from './styles';
 /* global alert */
 
 function FullscreenSizeVideo ({ route, navigation }) {
-
-  Font.loadAsync({
-    FontName: require('../../../assets/fonts/icomoon.ttf')
-  })
-
-  const tweet = tweetObject
-  const videoDuration = tweet.extended_entities.media[0].video_info.duration_millis
+  const videoDuration = route.params.video.video_info.duration_millis
   const notFullscreenSizeVideo = route.params
   const fullscreenVideoRef = React.createRef()
 
@@ -85,7 +79,7 @@ function FullscreenSizeVideo ({ route, navigation }) {
             resizeMode='contain'
             source={
               // require('../../assets/theCoralSong.mp4')
-              { uri: tweet.extended_entities.media[0].video_info.variants[0].url }
+              { uri: route.params.video.video_info.variants[0].url }
             }
             status={{
               shouldPlay: false,
@@ -110,7 +104,7 @@ function FullscreenSizeVideo ({ route, navigation }) {
           style={{ ...fullscreenSizeVideo.videoFrame, position: 'absolute', opacity: visibility.y}}
           source={{ uri: notFullscreenSizeVideo.thumbnail }}
         />
-        <ControlBar route={route} navigation={navigation} videoRef={fullscreenVideoRef} />
+        <ControlBar route={route} navigation={navigation} video={route.params.video} videoRef={fullscreenVideoRef} />
         <TouchableArea/>
         <ExternalLink route={route} />
       </View>

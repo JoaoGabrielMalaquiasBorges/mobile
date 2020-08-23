@@ -124,10 +124,10 @@ function Main({ route, navigation }) {
             );
         }
         else {
-            if ( !tweet.quoted_status ) {
+            if ( tweet.quoted_status ) {
                 quotedTweet.push(
                     <View key='quotedTweetFrame' style={{marginBottom: 10}}>
-                        <QuotedTweet tweet={tweet.quoted_status}/>
+                        <QuotedTweet tweet={tweet.quoted_status} route={route} navigation={navigation} />
                     </View>
                 );
             }
@@ -166,8 +166,8 @@ function Main({ route, navigation }) {
                         </View>
                         {replayInfo}
                         <View key="tweetContent">
-                            {haveText()}
-                            {haveMedia()}
+                            {haveText()}{/* 
+                            {haveMedia()} */}
                         </View>
                         {quotedTweet}
                         <View key="tweetFooter" style={{flexDirection: 'row', marginTop: 5, alignItems: 'center', justifyContent: 'space-between'}}>

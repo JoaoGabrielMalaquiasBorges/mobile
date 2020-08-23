@@ -3,8 +3,7 @@ import Icon from '../../../CustomIcon';
 import tweetObject from '../../../Model';
 import { generateThumbnail } from '../../thumbnail';
 
-function ScreenSize ({ route, navigation, videoRef, fadeControlBar }) {
-
+function ScreenSize ({ route, navigation, video, videoRef, fadeControlBar }) {
     const [buttonName, setButtonName] = useState(() => {
         if (route.name == 'FullscreenSizeVideo') {
             return 'skip'
@@ -13,8 +12,7 @@ function ScreenSize ({ route, navigation, videoRef, fadeControlBar }) {
         }
     })
 
-    const tweet = tweetObject
-    const videoDuration = tweet.extended_entities.media[0].video_info.duration_millis
+    const videoDuration = video.video_info.duration_millis
 
     useEffect(() => {
         if (route.name == 'Main' && route.params != undefined) { // When going back
@@ -30,6 +28,7 @@ function ScreenSize ({ route, navigation, videoRef, fadeControlBar }) {
             videoRef.current.getStatusAsync().then(playbackStatus => {
                 videoRef.current.pauseAsync().then(() => {
                     navigation.navigate('FullscreenSizeVideo', {
+                        video: video,
                         playbackStatus: playbackStatus,
                         routeKey: route.key,
                         thumbnail: videoThumbnail,

@@ -17,7 +17,7 @@ export function fadeControlBar (duration, delay, value) {
     }).start(({ finished }) => { flag = (flag-1)*(-1) || value })
 }
 
-function ControlBar ({ route, navigation, videoRef }) {
+function ControlBar ({ route, navigation, video, videoRef }) {
     return (
         <Animated.View style={{
             ... route.name == 'FullscreenSizeVideo'
@@ -36,6 +36,7 @@ function ControlBar ({ route, navigation, videoRef }) {
             >
                 <ProgressBar
                     route={route}
+                    video={video}
                     videoRef={videoRef}
                     width={{
                         portraitWidth: route.name == 'Main'
@@ -54,10 +55,11 @@ function ControlBar ({ route, navigation, videoRef }) {
                 <Controls
                     route={route}
                     navigation={navigation}
+                    video={video}
                     videoRef={videoRef}
                     fadeControlBar={fadeControlBar}
                 />
-                <Timer navigation={navigation} route={route}/>
+                <Timer navigation={navigation} route={route} video={video} />
             </LinearGradient>
         </Animated.View>
     )

@@ -1,16 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { Text, View } from 'react-native';
 import EventEmitter from 'events';
-import tweetObject from '../../Model';
 import { timer } from './styles';
 
-const tweet = tweetObject
-const videoDuration = tweet.extended_entities.media[0].video_info.duration_millis
 const render = new EventEmitter()
 
 var seconds = 0
 var minutes = 0
 var shouldIncrement = false
+var videoDuration
 
 export function startTimer () {
     shouldIncrement = true
@@ -31,7 +29,7 @@ export function stopTimer () {
     shouldIncrement = false
 }
 
-function Timer ({ route, navigation }) {
+function Timer ({ route, navigation, video }) {
     const [time, setTime] = useState((minutes > 9 ? minutes : '0' + minutes) + ':' + (seconds > 9 ? seconds : '0' + seconds))
     const clock = new EventEmitter()
 
@@ -54,6 +52,8 @@ function Timer ({ route, navigation }) {
             setTime((minutes > 9 ? minutes : ' 0' + minutes) + ':' + (seconds > 9 ? seconds : '0' + seconds))
         }
     }
+
+    videoDuration = video.video_info.duration_millis
 
     if (minutes*60+seconds == Math.trunc(videoDuration/1000)) {
         stopTimer()

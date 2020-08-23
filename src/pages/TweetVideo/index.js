@@ -100,7 +100,7 @@ function TweetVideo({ route, navigation, video }) {
                     style={{ height: '100%', width: '100%', position: 'absolute', opacity: visibility.y }}
                     source={{ uri: videoThumbnail }}
                 />
-                <ControlBar route={route} navigation={navigation} videoRef={videoRef} />
+                <ControlBar route={route} navigation={navigation} video={video} videoRef={videoRef} />
                 <InitialButton videoRef={videoRef} />
                 <TouchableArea/>
                 <ExternalLink route={route} />

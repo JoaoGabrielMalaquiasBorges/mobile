@@ -6,24 +6,8 @@ import Volume from './Volume';
 import ScreenSize from './ScreenSize';
 import { controls } from './styles';
 
-function Controls({ route, navigation, videoRef, fadeControlBar }) {
-    Font.loadAsync({
-        'FontName': require("../../../../../assets/fonts/icomoon.ttf")
-    });
-
-    const controlBarRef = React.createRef();
-
-
-    /* const prevParams = route.params != undefined ? route.params.rate : undefined
-    var flag = false
-    useMemo(() => { flag = true }, [prevParams])
-
-    useEffect(() => {
-        if (route.name == 'Main' && route.params != undefined) {
-            flag == true ? alert('hi') : alert('ho')
-        }
-    }, [route.params]) */
-
+function Controls({ route, navigation, video, videoRef, fadeControlBar }) {
+    const controlBarRef = React.createRef()
 
     return (
         <Animated.View
@@ -38,7 +22,13 @@ function Controls({ route, navigation, videoRef, fadeControlBar }) {
             />
             <View style={controls.subcontainer}>
                 <Volume navigation={navigation} route={route} videoRef={videoRef}/>
-                <ScreenSize navigation={navigation} route={route} videoRef={videoRef} fadeControlBar={fadeControlBar}/>
+                <ScreenSize
+                    navigation={navigation}
+                    route={route}
+                    video={video}
+                    videoRef={videoRef}
+                    fadeControlBar={fadeControlBar}
+                />
             </View>
         </Animated.View>
     )

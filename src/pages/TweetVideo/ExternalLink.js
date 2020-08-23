@@ -58,9 +58,9 @@ function ExternalLink ( { route }) {
                         <Text style={{ color: 'white' }}>View on Twitter</Text>
                         <Icon
                             name='external_link'
-                            size={20}
+                            size={16}
                             color='white'
-                            style={{ marginTop: 2 }}
+                            style={{ marginTop: 4 }}
                         />
                     </View>
                 </TouchableWithoutFeedback>
