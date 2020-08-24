@@ -97,8 +97,8 @@ const tweetObject = {
                 "resize": "fit"
               }
             }
-          },
-          {
+          }, */
+          /* {
             "id": 861627472244203520,
             "id_str": "861627472244203520",
             "indices": [
@@ -133,8 +133,8 @@ const tweetObject = {
                 "resize": "fit"
               }
             }
-          },
-          {
+          }, */
+          /* {
             "id": 861627474144149504,
             "id_str": "861627474144149504",
             "indices": [
@@ -169,8 +169,8 @@ const tweetObject = {
                 "resize": "fit"
               }
             }
-          },
-          {
+          }, */
+          /* {
             "id": 861627474760708096,
             "id_str": "861627474760708096",
             "indices": [
@@ -206,7 +206,7 @@ const tweetObject = {
               }
             }
           }, */
-          /* {
+          {
             "id": 870042654213459968,
             "id_str": "870042654213459968",
             "indices": [
@@ -254,8 +254,8 @@ const tweetObject = {
                 }
               ]
             }
-          }, */
-          {
+          },
+          /* {
             "id": 869317980307415040,
             "id_str": "869317980307415040",
             "indices": [
@@ -318,7 +318,7 @@ const tweetObject = {
                 }
               ]
             }
-          }
+          } */
         ]
       }
     },
@@ -373,7 +373,7 @@ const tweetObject = {
     },
      "extended_entities": {
       "media": [
-         /* {
+         {
           "id": 861627472244162561,
           "id_str": "861627472244162561",
           "indices": [
@@ -408,8 +408,8 @@ const tweetObject = {
               "resize": "fit"
             }
           }
-        }, */
-        /* {
+        },
+        {
           "id": 861627472244203520,
           "id_str": "861627472244203520",
           "indices": [
@@ -444,8 +444,8 @@ const tweetObject = {
               "resize": "fit"
             }
           }
-        }, */
-        /* {
+        },
+        {
           "id": 861627474144149504,
           "id_str": "861627474144149504",
           "indices": [
@@ -480,8 +480,8 @@ const tweetObject = {
               "resize": "fit"
             }
           }
-        }, */
-        /* {
+        },
+        {
           "id": 861627474760708096,
           "id_str": "861627474760708096",
           "indices": [
@@ -516,7 +516,7 @@ const tweetObject = {
               "resize": "fit"
             }
           }
-        }, */
+        },
         /* {
           "id": 870042654213459968,
           "id_str": "870042654213459968",
@@ -566,7 +566,7 @@ const tweetObject = {
             ]
           }
         }, */
-        {
+        /* {
           "id": 869317980307415040,
           "id_str": "869317980307415040",
           "indices": [
@@ -632,7 +632,7 @@ const tweetObject = {
               }
             ]
           }
-        }
+        } */
       ]
     }
 }

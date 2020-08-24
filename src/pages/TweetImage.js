@@ -16,7 +16,7 @@ function TweetImage(props) {
                     <Image
                         resizeMode="cover"
                         source={{uri: images[0].media_url}}
-                        style={{height: '100%', borderRadius: 5}}
+                        style={{height: '100%'}}
                     />
                 </View>
             );
@@ -28,7 +28,7 @@ function TweetImage(props) {
                             key='photo_1'
                             resizeMode="cover"
                             source={{uri: images[0].media_url}}
-                            style={{height: '100%', borderTopLeftRadius: 5, borderBottomLeftRadius: 5}}
+                            style={{height: '100%'}}
                         />
                     </View>
                     <View style={{width: '50%', aspectRatio: 1,  paddingLeft: 1}}>
@@ -36,7 +36,7 @@ function TweetImage(props) {
                             key='photo_2'
                             resizeMode="cover"
                             source={{uri: images[1].media_url}}
-                            style={{height: '100%', borderTopRightRadius: 5, borderBottomRightRadius: 5}}
+                            style={{height: '100%'}}
                         />
                     </View>
                 </View>
@@ -49,7 +49,7 @@ function TweetImage(props) {
                             key='photo_1'
                             resizeMode="cover"
                             source={{uri: images[0].media_url}}
-                            style={{aspectRatio: 1, borderTopLeftRadius: 5, borderBottomLeftRadius: 5}}
+                            style={{aspectRatio: 1}}
                         />
                     </View>
                     <View key='column_2' style={{width: '50%', paddingLeft: 1, flexDirection: 'column'}}>
@@ -58,7 +58,7 @@ function TweetImage(props) {
                                 key='photo_2'
                                 resizeMode="cover"
                                 source={{uri: images[1].media_url}}
-                                style={{height: '100%', borderTopRightRadius: 5}}
+                                style={{height: '100%'}}
                             />
                         </View>
                         <View style={{aspectRatio: 2, paddingTop: 1}}>
@@ -66,7 +66,7 @@ function TweetImage(props) {
                                 key='photo_3'
                                 resizeMode="cover"
                                 source={{uri: images[2].media_url}}
-                                style={{height: '100%', borderBottomRightRadius: 5}}
+                                style={{height: '100%'}}
                             />
                         </View>
                     </View>
@@ -81,7 +81,7 @@ function TweetImage(props) {
                                 key='photo_1'
                                 resizeMode="cover"
                                 source={{uri: images[0].media_url}}
-                                style={{height: '100%', borderTopLeftRadius: 5}}
+                                style={{height: '100%'}}
                             />
                         </View>
                         <View style={{width: '50%', aspectRatio: 2,  paddingLeft: 1, paddingBottom: 1}}>
@@ -89,7 +89,7 @@ function TweetImage(props) {
                                 key='photo_2'
                                 resizeMode="cover"
                                 source={{uri: images[1].media_url}}
-                                style={{height: '100%', borderTopRightRadius: 5}}
+                                style={{height: '100%'}}
                             />
                         </View>
                     </View>
@@ -99,7 +99,7 @@ function TweetImage(props) {
                                 key='photo_3'
                                 resizeMode="cover"
                                 source={{uri: images[2].media_url}}
-                                style={{height: '100%', borderBottomLeftRadius: 5}}
+                                style={{height: '100%'}}
                             />
                         </View>
                         <View style={{width: '50%', aspectRatio: 2,  paddingTop: 1, paddingLeft: 1}}>
@@ -107,7 +107,7 @@ function TweetImage(props) {
                                 key='photo_4'
                                 resizeMode="cover"
                                 source={{uri: images[3].media_url}}
-                                style={{height: '100%', borderBottomRightRadius: 5}}
+                                style={{height: '100%'}}
                             />
                         </View>
                     </View>

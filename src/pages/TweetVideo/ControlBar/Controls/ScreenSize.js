@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import Icon from '../../../CustomIcon';
-import tweetObject from '../../../Model';
+import Icon from '../../../CustomIcon'
 import { generateThumbnail } from '../../thumbnail';
 
 function ScreenSize ({ route, navigation, video, videoRef, fadeControlBar }) {
@@ -23,7 +22,7 @@ function ScreenSize ({ route, navigation, video, videoRef, fadeControlBar }) {
     async function resizeVideo () {
         if (buttonName == 'fillScreen') {
             setButtonName('skip')
-            const videoThumbnail = await generateThumbnail()
+            const videoThumbnail = await generateThumbnail(video)
     
             videoRef.current.getStatusAsync().then(playbackStatus => {
                 videoRef.current.pauseAsync().then(() => {

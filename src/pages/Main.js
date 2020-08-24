@@ -85,21 +85,41 @@ function Main({ route, navigation }) {
             switch ( tweet.extended_entities.media[0].type ) {
                 case "photo":
                     return (
-                        <View style={{marginBottom: 10}}>
+                        <View style={{
+                            marginBottom: 10,
+                            borderRadius: 10,
+                            overflow: 'hidden'
+                        }}>
                             <TweetImage images={tweet.extended_entities.media} width={Dimensions.get('window').width-42}/>
                         </View>
                     );
                     break;
                 case "video":
                     return (
-                        <View style={{marginBottom: 10}}>
+                        <View style={{
+                            width: '100%',
+                            maxWidth: 444.45,
+                            marginLeft: 'auto',
+                            marginRight: 'auto',
+                            marginBottom: 10,
+                            borderRadius: 10,
+                            overflow: 'hidden'
+                        }}>
                             <TweetVideo video={tweet.extended_entities.media[0]} navigation={navigation} route={route} width={Dimensions.get('window').width-42}/>
                         </View>
                     );
                     break;
                 case "animated_gif":
                     return (
-                        <View style={{marginBottom: 10}}>
+                        <View style={{
+                            width: '100%',
+                            maxWidth: tweet.extended_entities.media[0].sizes.large.w,
+                            marginLeft: 'auto',
+                            marginRight: 'auto',
+                            marginBottom: 10,
+                            borderRadius: 10,
+                            overflow: 'hidden'
+                        }}>
                             <TweetGif gif={tweet.extended_entities.media[0]}/>
                         </View>
                     );
@@ -144,7 +164,14 @@ function Main({ route, navigation }) {
         return (
             <ScrollView style={{backgroundColor: '#fff'}}>
                 <View style={styles.container}>
-                    <View key='tweetBox' style={{width: '95%', borderWidth: 1, borderStyle: 'solid', borderRadius: 5, borderColor: '#e1e8ed', padding: 10}}>
+                    <View key='tweetBox' style={{
+                        width: '95%',
+                        borderWidth: 1,
+                        borderStyle: 'solid',
+                        borderRadius: 5,
+                        borderColor: '#e1e8ed',
+                        padding: 10
+                    }}>
                         {retweetInfo}
                         <View key='tweetHeader' style={{flexDirection: 'row', justifyContent: 'space-between', marginBottom: 15}}>
                             <View key='userData' style={{flexDirection: 'row'}}>
@@ -165,9 +192,9 @@ function Main({ route, navigation }) {
                             />
                         </View>
                         {replayInfo}
+                        {haveText()}
                         <View key="tweetContent">
-                            {haveText()}{/* 
-                            {haveMedia()} */}
+                            {haveMedia()}
                         </View>
                         {quotedTweet}
                         <View key="tweetFooter" style={{flexDirection: 'row', marginTop: 5, alignItems: 'center', justifyContent: 'space-between'}}>

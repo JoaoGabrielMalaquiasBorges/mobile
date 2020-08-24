@@ -7,6 +7,7 @@ import * as Font from 'expo-font';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import Icon from './CustomIcon';
 import tweetObject from './Model';
+import TweetHeader from './TweetHeader'
 import TweetText from './TweetText';
 import TweetImage from './TweetImage';
 import TweetGif from './TweetGif';
@@ -48,14 +49,23 @@ function QuotedTweet({ route, navigation, tweet }) {
                     break;
                 case "video":
                     return (
-                        <View>
+                        <View style={{
+                            width: '100%',
+                            maxWidth: 444.45,
+                            marginLeft: 'auto',
+                            marginRight: 'auto'
+                        }}>
                             <TweetVideo video={tweet.extended_entities.media[0]} navigation={navigation} route={route} width={Dimensions.get('window').width-42}/>
                         </View>
                     );
                     break;
                 case "animated_gif":
                     return (
-                        <View>
+                        <View style={{
+                            width: tweet.extended_entities.media[0].sizes.large.w,
+                            marginLeft: 'auto',
+                            marginRight: 'auto'
+                        }}>
                             <TweetGif gif={tweet.extended_entities.media[0]}/>
                         </View>
                     );
@@ -66,29 +76,28 @@ function QuotedTweet({ route, navigation, tweet }) {
     }
 
     return(
-        <View key='tweetBox' style={{width: Dimensions.get('window').width-42, borderWidth: 1, borderStyle: 'solid', borderRadius: 5, borderColor: '#e1e8ed', padding: 10}}>
-            <View key='tweetHeader' style={{flexDirection: 'row', marginBottom: 15}}>
-                <Image
-                    source={{uri:  tweet.user.profile_image_url_https}}
-                    style={{width: 34, height: 34, borderRadius: 20, marginRight: 5}}
-                />
-                <View style={{width: Dimensions.get('window').width-103}}>
-                    <View>
-                        <Text numberOfLines={1} ellipsizeMode='clip' style={{fontFamily: fontOfDisplayName}}>
-                            {tweet.user.name + " "}
-                            <Image
-                                source={ImageSource}
-                                style={ImageStyle}
-                            />
-                        </Text>
-                    </View>
-                    <Text style={{fontFamily: fontOfUsername}}>
-                        {'@' + tweet.user.screen_name}
-                    </Text>
+        <View key='tweetBox' style={{
+            width: '100%',
+            borderWidth: 1,
+            borderStyle: 'solid',
+            borderRadius: 10,
+            borderColor: '#e1e8ed',
+            overflow: 'hidden'
+        }}>
+            <View style={{ padding: 10 }}>
+                <View key='tweetHeader' style={{flexDirection: 'row', marginBottom: 15}}>
+                    <Image
+                        source={{uri:  tweet.user.profile_image_url_https}}
+                        style={{width: 34, height: 34, borderRadius: 20, marginRight: 5}}
+                    />
+                    <TweetHeader
+                        tweet={tweet}
+                        fonts={{fontOfDisplayName: 'Helvetica-Neue-Bold', fontOfUsername: 'Helvetica-Neue-Regular'}}
+                    />
                 </View>
+                {haveText()}
             </View>
             <View key="tweetContent">
-                {haveText()}
                 {haveMedia()}
             </View>
         </View>

@@ -1,10 +1,6 @@
 const tweetVideo = {
     container: {
-        width: 444.45,
-        maxWidth: '100%',
-        overflow: 'hidden',
         backgroundColor: 'black',
-        borderRadius: 5
     },
     frame: {
         maxHeight: 250,

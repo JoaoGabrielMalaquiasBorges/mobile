@@ -71,7 +71,7 @@ function TweetVideo({ route, navigation, video }) {
     }, [route.params])
     
     return(
-        <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
+        <View /*  */>
             <View style={tweetVideo.container}>
                 <Animated.View style={{ opacity: visibility.x }}>
                     <Video
