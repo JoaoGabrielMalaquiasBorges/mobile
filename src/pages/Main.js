@@ -4,7 +4,7 @@ import {WebView} from 'react-native-webview';
 import HTML from 'react-native-render-html';
 import TweetVideo from './TweetVideo';
 import * as Font from 'expo-font';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons'
 import Icon from './CustomIcon';
 import tweetObject from './Model';
 import TweetText from './TweetText';
@@ -173,17 +173,12 @@ function Main({ route, navigation }) {
                         padding: 10
                     }}>
                         {retweetInfo}
-                        <View key='tweetHeader' style={{flexDirection: 'row', justifyContent: 'space-between', marginBottom: 15}}>
-                            <View key='userData' style={{flexDirection: 'row'}}>
-                                <Image
-                                    source={{uri:  tweet.user.profile_image_url_https}}
-                                    style={{width: 34, height: 34, borderRadius: 20, marginRight: 5}}
-                                />
-                                {/* <TweetHeader
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 15 }}>
+                            <TweetHeader
                                 tweet={tweet}
-                                fonts={{fontOfDisplayName: 'Helvetica-Neue-Bold', fontOfUsername: 'Helvetica-Neue-Regular'}}
-                                /> */}
-                            </View>
+                                elementsWidth={2+20+34+5+5+20}
+                                fonts={{fontOfDisplayName: 'Helvetica-Neue-Bold', fontOfUsername: 'Helvetica-Neue-Regular'}} 
+                            />
                             <MaterialCommunityIcons
                                 name="twitter"
                                 size={18}

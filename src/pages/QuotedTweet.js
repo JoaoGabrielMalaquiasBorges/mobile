@@ -10,7 +10,7 @@ import tweetObject from './Model';
 import TweetHeader from './TweetHeader'
 import TweetText from './TweetText';
 import TweetImage from './TweetImage';
-import TweetGif from './TweetGif';
+import TweetGif from './TweetGif'
 
 function QuotedTweet({ route, navigation, tweet }) {
     const fontOfDisplayName = 'Helvetica-Neue-Bold'
@@ -85,16 +85,11 @@ function QuotedTweet({ route, navigation, tweet }) {
             overflow: 'hidden'
         }}>
             <View style={{ padding: 10 }}>
-                <View key='tweetHeader' style={{flexDirection: 'row', marginBottom: 15}}>
-                    <Image
-                        source={{uri:  tweet.user.profile_image_url_https}}
-                        style={{width: 34, height: 34, borderRadius: 20, marginRight: 5}}
-                    />
-                    <TweetHeader
-                        tweet={tweet}
-                        fonts={{fontOfDisplayName: 'Helvetica-Neue-Bold', fontOfUsername: 'Helvetica-Neue-Regular'}}
-                    />
-                </View>
+                <TweetHeader
+                    tweet={tweet}
+                    elementsWidth={4+40+34+5}
+                    fonts={{fontOfDisplayName: 'Helvetica-Neue-Bold', fontOfUsername: 'Helvetica-Neue-Regular'}}
+                />
                 {haveText()}
             </View>
             <View key="tweetContent">
