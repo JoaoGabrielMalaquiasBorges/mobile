@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ScrollView, Dimensions, StyleSheet, Text, View, Image } from 'react-native';
+import { ScrollView, Dimensions, StyleSheet, Text, View, ActivityIndicator } from 'react-native';
 import {WebView} from 'react-native-webview';
 import HTML from 'react-native-render-html';
 import TweetVideo from './TweetVideo';
@@ -12,7 +12,9 @@ import TweetImage from './TweetImage';
 import TweetGif from './TweetGif';
 import QuotedTweet from './QuotedTweet';
 import TweetHeader from './TweetHeader';
-import { Linking, ScreenOrientation  } from 'expo';
+import { Linking } from 'expo'
+import { loadFonts } from '../tweetFonts'
+import { loader } from '../../assets/loader.js'
 
 function Main({ route, navigation }) {
     var tweet = tweetObject;
@@ -22,50 +24,17 @@ function Main({ route, navigation }) {
 
     const [readyForDisplay, setReadyForDisplay] = useState(false);
 
-    //const [windowWidth, updateWindowWidth] = useState('80%');
-    
-    /* var flag = true;
-    DeviceMotion.addListener((e) => {
-        if( e.orientation == -90 ) {
-            //updateWindowWidth('90%');
-            alert('hi');
-        }
-        else {
-            if ( flag ) {
-                alert('ho');
-                flag = !flag;
-            }
-            //updateWindowWidth('80%');
-        }
-    }); */
-
-    /* Dimensions.addEventListener("change", (e) => {
-        updateWindowWidth(e.window.width);
-    }); */
-    const [usernameLineWidth, updateUsernameLineWidth] = useState('80%');
-    
-    const [fontOfTweetText, setfontOfTweetText] = useState('');
-    
-
-    async function loadFont() {
-        await Font.loadAsync({
-            'FontName': require("../../assets/fonts/icomoon.ttf"),
-            'Helvetica-Neue-Regular': require('../../assets/fonts/HelveticaNeueRegular.ttf'),
-            'Helvetica-Neue-Bold': require('../../assets/fonts/HelveticaNeueBold.ttf'),
-            'Helvetica-Neue-Light': require('../../assets/fonts/HelveticaNeueLight.ttf')
-        });
-        /*
-        setfontOfTweetText('Helvetica-Neue-Light');*/
-        setReadyForDisplay(true);
-    }
-
     if ( !readyForDisplay ) {
-        loadFont();
+        loadFonts().then(() => setReadyForDisplay(true))
+        return (
+            <WebView
+                originWhitelist={['*']}
+                source={{
+                    html: loader()
+                }}
+            />
+        )
     }
-
-    
-
-    
 
     function haveText () {
         if ( tweet.text ) {
@@ -130,7 +99,7 @@ function Main({ route, navigation }) {
         else return null;
     }
     //alert('hi');
-    if ( readyForDisplay ) {
+    // if ( readyForDisplay ) {
         //alert('hi');
         if ( !tweet.retweeted_status ) {
             tweet = tweetObject.retweeted_status;
@@ -212,13 +181,13 @@ function Main({ route, navigation }) {
                 </View>
             </ScrollView>
         );
-    } else {
+    /* } else {
         return (
             <Text>
                 Waiting...
             </Text>
         )
-    }
+    } */
 
 }
 

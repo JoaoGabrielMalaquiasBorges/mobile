@@ -13,12 +13,9 @@ import TweetImage from './TweetImage';
 import TweetGif from './TweetGif'
 
 function QuotedTweet({ route, navigation, tweet }) {
-    const fontOfDisplayName = 'Helvetica-Neue-Bold'
-    const fontOfUsername = 'Helvetica-Neue-Regular'
-    const fontOfTweetTextContent = 'Helvetica-Neue-Light'
-
     var ImageSource = null;
     var ImageStyle = {width: 0, height: 0};
+
     if ( tweet.user.verified ) {
         ImageSource = require('../../assets/images/twitter_verified_icon.png');
         ImageStyle = {width: 13, height: 13};
@@ -27,7 +24,7 @@ function QuotedTweet({ route, navigation, tweet }) {
     function haveText () {
         if ( tweet.text ) {
             return (
-                <Text style={{marginBottom: 10, fontFamily: fontOfTweetTextContent}}>
+                <Text style={{marginBottom: 10, fontFamily: 'Helvetica-Neue-Light'}}>
                     <TweetText tweet={tweet}/>
                 </Text>
             );
