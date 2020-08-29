@@ -1,3 +1,3 @@
-/* import videoStyles from './videoStyles';
+import tweetMedia from './tweetMedia';
 
-export default videoStyles; */
+export { tweetMedia };

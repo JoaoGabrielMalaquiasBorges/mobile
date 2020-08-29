@@ -1,32 +1,41 @@
 import React from 'react'
+import { View } from 'react-native'
 import TweetImage from './TweetImage'
 import TweetVideo from './TweetVideo'
 import TweetGif from './TweetGif'
 
-function TweetMedia ({ route, navigation, media }) {
+function TweetMedia ({ route, navigation, media, style }) {
     switch (media[0].type) {
         case 'photo':
             return (
-                <TweetImage
-                    images={media}
-                    width={Dimensions.get('window').width-42}
-                />
+                <View style={style.photo.container}>
+                    <TweetImage
+                        images={media}
+                    /> 
+                </View>
             )
     
         case 'video':
             return (
-                <TweetVideo
-                    route={route}
-                    navigation={navigation}
-                    video={media[0]}
-                />
+                <View style={style.video.container}>
+                    <TweetVideo
+                        route={route}
+                        navigation={navigation}
+                        video={media[0]}
+                    />   
+                </View>
             )
     
         case 'animated_gif':
             return (
-                <TweetGif
-                    gif={media[0]}
-                />
+                <View style={{ ...style.gif.container, maxWidth: media[0].sizes.large.w }}>
+                    <TweetGif
+                        gif={media[0]}
+                    />  
+                </View>
+                
             )
     }
 }
+
+export default TweetMedia

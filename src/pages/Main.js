@@ -15,6 +15,8 @@ import TweetHeader from './TweetHeader';
 import { Linking } from 'expo'
 import { loadFonts } from '../tweetFonts'
 import { loader } from '../../assets/loader.js'
+import TweetMedia from './TweetMedia'
+import { tweetMedia } from '../style'
 
 function Main({ route, navigation }) {
     var tweet = tweetObject;
@@ -157,9 +159,15 @@ function Main({ route, navigation }) {
                         </View>
                         {replayInfo}
                         {haveText()}
-                        <View key="tweetContent">
+                        {/* <View key="tweetContent">
                             {haveMedia()}
-                        </View>
+                        </View> */}
+                        <TweetMedia
+                            route={route}
+                            navigation={navigation}
+                            media={tweet.extended_entities.media}
+                            style={tweetMedia}
+                        />
                         {quotedTweet}
                         <View key="tweetFooter" style={{flexDirection: 'row', marginTop: 5, alignItems: 'center', justifyContent: 'space-between'}}>
                             <View style={{flexDirection: 'row'}}>
@@ -197,7 +205,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginTop: 10,
         backgroundColor: '#fff'
-    },
+    }
 });
 
 export default React.memo(Main);
