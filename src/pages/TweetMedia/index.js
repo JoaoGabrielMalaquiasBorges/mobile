@@ -1,8 +1,8 @@
 import React from 'react'
 import { View } from 'react-native'
-import TweetImage from './TweetImage'
-import TweetVideo from './TweetVideo'
-import TweetGif from './TweetGif'
+import TweetImage from '../TweetImage'
+import TweetVideo from '../TweetVideo'
+import TweetGif from '../TweetGif'
 
 function TweetMedia ({ route, navigation, media, style }) {
     switch (media[0].type) {

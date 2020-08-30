@@ -1,16 +1,9 @@
-import React, { useState } from 'react';
-import { ScrollView, Dimensions, StyleSheet, Text, View, Image } from 'react-native';
-import {WebView} from 'react-native-webview';
-import HTML from 'react-native-render-html';
-import TweetVideo from './TweetVideo';
-import * as Font from 'expo-font';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-import Icon from './CustomIcon';
-import tweetObject from './Model';
+import React from 'react'
+import { Text, View, Image } from 'react-native'
 import TweetHeader from './TweetHeader'
 import TweetText from './TweetText';
-import TweetImage from './TweetImage';
-import TweetGif from './TweetGif'
+import TweetMedia from './TweetMedia'
+import { tweetMedia } from './styles'
 
 function QuotedTweet({ route, navigation, tweet }) {
     var ImageSource = null;
@@ -33,44 +26,7 @@ function QuotedTweet({ route, navigation, tweet }) {
             return(null);
         }
     }
-    
-    function haveMedia() {
-        if ( tweet.extended_entities ) {
-            switch ( tweet.extended_entities.media[0].type ) {
-                case "photo":
-                    return (
-                        <View>
-                            <TweetImage images={tweet.extended_entities.media} width={Dimensions.get('window').width-64}/>
-                        </View>
-                    );
-                    break;
-                case "video":
-                    return (
-                        <View style={{
-                            width: '100%',
-                            maxWidth: 444.45,
-                            marginLeft: 'auto',
-                            marginRight: 'auto'
-                        }}>
-                            <TweetVideo video={tweet.extended_entities.media[0]} navigation={navigation} route={route} width={Dimensions.get('window').width-42}/>
-                        </View>
-                    );
-                    break;
-                case "animated_gif":
-                    return (
-                        <View style={{
-                            width: tweet.extended_entities.media[0].sizes.large.w,
-                            marginLeft: 'auto',
-                            marginRight: 'auto'
-                        }}>
-                            <TweetGif gif={tweet.extended_entities.media[0]}/>
-                        </View>
-                    );
-                    break;
-                default: return null;
-            }
-        }
-    }
+
 
     return(
         <View key='tweetBox' style={{
@@ -89,9 +45,12 @@ function QuotedTweet({ route, navigation, tweet }) {
                 />
                 {haveText()}
             </View>
-            <View key="tweetContent">
-                {haveMedia()}
-            </View>
+            <TweetMedia
+                route={route}
+                navigation={navigation}
+                media={tweet.extended_entities.media}
+                style={tweetMedia}
+            />
         </View>
     );
 }
