@@ -1,11 +1,6 @@
-import React, { useState, useEffect, useMemo } from 'react';
-import { ScrollView, Dimensions, StyleSheet, Text, View, Image, } from 'react-native';
-import {WebView} from 'react-native-webview';
-import HTML from 'react-native-render-html';
-import TweetVideo from './TweetVideo';
-import * as Font from 'expo-font';
-import { MaterialCommunityIcons } from '@expo/vector-icons'
-import { Linking, ScreenOrientation } from 'expo';
+import React, { useState, useEffect } from 'react'
+import { View, Text, Image, Dimensions } from 'react-native'
+import { ScreenOrientation } from 'expo'
 
 function TweetHeader(props) {
     const [lineWidth, setLineWidth] = useState(Dimensions.get('window').width*0.95-props.elementsWidth)
@@ -33,14 +28,14 @@ function TweetHeader(props) {
                 style={{width: 34, height: 34, borderRadius: 20, marginRight: 5}}
             />
             <View>
-                <Text numberOfLines={1} ellipsizeMode='clip' style={{ width: lineWidth, fontFamily: props.fonts.fontOfDisplayName}}>
+                <Text numberOfLines={1} ellipsizeMode='clip' style={{ width: lineWidth, fontFamily: 'Helvetica-Neue-Bold' }}>
                     {props.tweet.user.name + " "}
                     <Image
                         source={ImageSource}
                         style={ImageStyle}
                     />
                 </Text>
-                <Text style={{fontFamily: props.fonts.fontOfUsername}}>
+                <Text style={{ fontFamily: 'Helvetica-Neue-Regular' }}>
                     {'@' + props.tweet.user.screen_name}
                 </Text>
             </View>

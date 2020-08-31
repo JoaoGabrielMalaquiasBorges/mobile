@@ -1,13 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { View, Image, Dimensions, useWindowDimensions } from 'react-native';
-import { Linking, ScreenOrientation  } from 'expo';
+import React from 'react'
+import { View, Image } from 'react-native'
 
 function TweetImage(props) {
-   // const window = useWindowDimensions().width;
-   
-    //const [windowDimensions, updateWindiwDimensions] = useState(Dimensions.get('window').width);
-    var images = props.images;
-    //var tweetImageContent = [];
+   var images = props.images
 
     switch ( images.length ) {
         case 1:

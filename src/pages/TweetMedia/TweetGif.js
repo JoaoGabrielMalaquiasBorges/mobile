@@ -1,14 +1,15 @@
 import React from 'react';
-import { StyleSheet, View, Text, TouchableWithoutFeedback } from 'react-native';
-import { Video } from 'expo-av';
-import { throwIfAudioIsDisabled } from 'expo-av/build/Audio/AudioAvailability';
+import { View, Text, TouchableWithoutFeedback } from 'react-native'
+import { Video } from 'expo-av'
 
 function TweetGif(props) {
     var gif = props.gif;
     let myRef = React.createRef();
+
     function play() {
         myRef.current.replayAsync();
     }
+
     return (
         <TouchableWithoutFeedback onPress={play}>
             <View>
