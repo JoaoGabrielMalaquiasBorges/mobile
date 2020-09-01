@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ScrollView, Dimensions, StyleSheet, Text, View, ActivityIndicator } from 'react-native';
+import { ScrollView, Dimensions, StyleSheet, Text, View, Image, Animated } from 'react-native';
 import {WebView} from 'react-native-webview';
 import HTML from 'react-native-render-html';
 import TweetVideo from './TweetVideo';
@@ -18,6 +18,7 @@ import { loader } from '../../assets/loader.js'
 import TweetMedia from './TweetMedia'
 import { tweetMedia } from '../style'
 import TweetContent from './TweetContent'
+import { PinchGestureHandler, State } from 'react-native-gesture-handler'
 
 function Main({ route, navigation }) {
     var tweet = tweetObject;
@@ -28,14 +29,50 @@ function Main({ route, navigation }) {
     const [readyForDisplay, setReadyForDisplay] = useState(false);
 
     if ( !readyForDisplay ) {
-        loadFonts().then(() => setReadyForDisplay(true))
+        // loadFonts().then(() => setReadyForDisplay(true))
+        var baseScale = new Animated.Value(1)
+        var pinchScale = new Animated.Value(1)
+        var scale = Animated.multiply(baseScale, pinchScale)
+        var lastScale = 1
+
         return (
-            <WebView
+            /* <WebView
                 originWhitelist={['*']}
                 source={{
                     html: loader()
                 }}
-            />
+            /> */
+            <PinchGestureHandler onGestureEvent={
+                Animated.event(
+                    [{ nativeEvent: { scale: pinchScale } }]
+                )
+            }
+            onHandlerStateChange={event => {
+                if (event.nativeEvent.oldState === State.ACTIVE) {
+                    lastScale *= event.nativeEvent.scale;
+                    baseScale.setValue(lastScale);
+                    pinchScale.setValue(1)
+                }
+            }}>
+                <Animated.View style={{ width: '100%', flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                    <Animated.Image
+                        source={{
+                        uri: 'https://miro.medium.com/max/1080/1*7SYuZvH2pZnM0H79V4ttPg.jpeg'
+                        }}
+                        style={[
+                            {
+                                width: '100%',
+                                height: 300
+                            },
+                            {
+                                transform: [{ scale: scale }]
+                            } 
+                        ]}
+                        resizeMode="contain"
+                    />
+                </Animated.View>
+            </PinchGestureHandler>
+            
         )
     }
 

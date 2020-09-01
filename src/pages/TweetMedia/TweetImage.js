@@ -1,19 +1,39 @@
 import React from 'react'
-import { View, Image } from 'react-native'
+import { View, Image, Animated } from 'react-native'
+import { PinchGestureHandler, State } from 'react-native-gesture-handler'
 
 function TweetImage(props) {
    var images = props.images
+   var myRef = React.createRef();
+   var pinchScale = new Animated.Value(1)
 
     switch ( images.length ) {
         case 1:
             return(
-                <View key='images_container' style={{width: '100%', aspectRatio: 2}}>
-                    <Image
-                        resizeMode="cover"
-                        source={{uri: images[0].media_url}}
-                        style={{height: '100%'}}
-                    />
-                </View>
+                <PinchGestureHandler /* {...gestureHandler} */ onGestureEvent={
+                    
+                        Animated.event(
+                            [{ nativeEvent: { scale: pinchScale } }]
+                        )
+                }
+                onHandlerStateChange={event => {
+                    if (event.nativeEvent.state === State.END) {
+                        myRef.current.setNativeProps({
+                            sytle: {
+                                width: JSON.stringify(pinchScale)*100 + '%'
+                            }
+                        })
+                    }
+                }}
+                >
+                    <Animated.View key='images_container'  ref={myRef} style={{width: '100%', aspectRatio: 2}}>
+                        <Animated.Image
+                            resizeMode="cover"
+                            source={{uri: images[0].media_url}}
+                            style={{ height: '100%', transform: [{ scale: pinchScale }] }}
+                        />
+                    </Animated.View>
+                </PinchGestureHandler>
             );
         case 2:
             return(
