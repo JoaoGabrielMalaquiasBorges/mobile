@@ -34,6 +34,8 @@ function Main({ route, navigation }) {
         var pinchScale = new Animated.Value(1)
         var scale = Animated.multiply(baseScale, pinchScale)
         var lastScale = 1
+        var focalX = new Animated.Value(0)
+        var adjustedFocal = new Animated.Value(0)
 
         return (
             /* <WebView
@@ -44,11 +46,14 @@ function Main({ route, navigation }) {
             /> */
             <PinchGestureHandler onGestureEvent={
                 Animated.event(
-                    [{ nativeEvent: { scale: pinchScale } }]
+                    [{ nativeEvent: { scale: pinchScale, focalX: focalX } }]
                 )
             }
             onHandlerStateChange={event => {
-                if (event.nativeEvent.oldState === State.ACTIVE) {
+                /* if (event.nativeEvent.state === State.BEGAN) {
+                    adjustedFocal.setValue((event.nativeEvent.focalX-Dimensions.get('window').width)/2)
+                }
+                 */if (event.nativeEvent.oldState === State.ACTIVE) {
                     lastScale *= event.nativeEvent.scale;
                     baseScale.setValue(lastScale);
                     pinchScale.setValue(1)
@@ -65,7 +70,7 @@ function Main({ route, navigation }) {
                                 height: 300
                             },
                             {
-                                transform: [{ scale: scale }]
+                                transform: [{ translateX: focalX }, { scale: scale }]
                             } 
                         ]}
                         resizeMode="contain"
