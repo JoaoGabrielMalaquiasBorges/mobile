@@ -34,8 +34,13 @@ function Main({ route, navigation }) {
         var pinchScale = new Animated.Value(1)
         var scale = Animated.multiply(baseScale, pinchScale)
         var lastScale = 1
-        var focalX = new Animated.Value(0)
         var adjustedFocal = new Animated.Value(0)
+        const windowWidth = Dimensions.get('window').width
+        var imageWidth =  windowWidth
+        var flag = true
+        var focalX
+        var proportion
+        var diff = 0
 
         return (
             /* <WebView
@@ -44,16 +49,35 @@ function Main({ route, navigation }) {
                     html: loader()
                 }}
             /> */
-            <PinchGestureHandler onGestureEvent={
-                Animated.event(
-                    [{ nativeEvent: { scale: pinchScale, focalX: focalX } }]
-                )
-            }
+            <PinchGestureHandler onGestureEvent={event => {
+                if (flag) {
+                    flag = false
+                    focalX = event.nativeEvent.focalX
+                    proportion = (focalX+diff)/imageWidth
+                }
+                pinchScale.setValue(event.nativeEvent.scale)
+                adjustedFocal.setValue((imageWidth * (event.nativeEvent.scale-1) * proportion * -1)/2)
+                /* Animated.event(
+                    [{ nativeEvent: { scale: pinchScale, focalX: adjustedFocal } }]
+                ) */
+            }}
             onHandlerStateChange={event => {
                 /* if (event.nativeEvent.state === State.BEGAN) {
-                    adjustedFocal.setValue((event.nativeEvent.focalX-Dimensions.get('window').width)/2)
-                }
-                 */if (event.nativeEvent.oldState === State.ACTIVE) {
+                    focalX = event.nativeEvent.focalX
+                } */
+                /* if (event.nativeEvent.state === State.ACTIVE) {
+                    const focalX = event.nativeEvent.focalX
+                    const proportion = focalX/windowWidth
+                    // alert(JSON.stringify(event.nativeEvent))
+                    if (focalX > windowWidth/2) {
+                        adjustedFocal.setValue()
+                    }
+                } */
+                if (event.nativeEvent.oldState === State.ACTIVE) {
+                    diff = imageWidth * (event.nativeEvent.scale-1)
+                    imageWidth = imageWidth + imageWidth * (event.nativeEvent.scale-1)
+                    // alert(imageWidth)
+                    flag = true
                     lastScale *= event.nativeEvent.scale;
                     baseScale.setValue(lastScale);
                     pinchScale.setValue(1)
@@ -70,7 +94,7 @@ function Main({ route, navigation }) {
                                 height: 300
                             },
                             {
-                                transform: [{ translateX: focalX }, { scale: scale }]
+                                transform: [{ translateX: adjustedFocal }, { scale: scale }]
                             } 
                         ]}
                         resizeMode="contain"
