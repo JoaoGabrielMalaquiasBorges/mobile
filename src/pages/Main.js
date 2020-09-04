@@ -37,7 +37,7 @@ function Main({ route, navigation }) {
         var adjustedFocal = new Animated.Value(0)
         const windowWidth = Dimensions.get('window').width
         var imageWidth =  windowWidth
-        var flag = true
+        var flag = false
         var focalX
         var proportion
         var diff = 0
@@ -50,13 +50,20 @@ function Main({ route, navigation }) {
                 }}
             /> */
             <PinchGestureHandler onGestureEvent={event => {
-                if (flag) {
-                    flag = false
-                    focalX = event.nativeEvent.focalX
-                    proportion = (focalX+diff)/imageWidth
+                if (flag && event.nativeEvent.focalX > windowWidth * 2/3) {
+                    diff = imageWidth - event.nativeEvent.focalX
                 }
                 pinchScale.setValue(event.nativeEvent.scale)
-                adjustedFocal.setValue((imageWidth * (event.nativeEvent.scale-1) * proportion * -1)/2)
+
+                if (event.nativeEvent.focalX > windowWidth * 2/3) {
+                    adjustedFocal.setValue((windowWidth * (event.nativeEvent.scale*lastScale-1) * -1)/2-diff)
+                }
+                
+                if (event.nativeEvent.focalX < windowWidth/3) {
+                    adjustedFocal.setValue(windowWidth * (event.nativeEvent.scale*lastScale-1) / 2)
+                }
+                
+                // alert((imageWidth * (event.nativeEvent.scale*lastScale-1) * proportion )/2)
                 /* Animated.event(
                     [{ nativeEvent: { scale: pinchScale, focalX: adjustedFocal } }]
                 ) */
@@ -76,11 +83,11 @@ function Main({ route, navigation }) {
                 if (event.nativeEvent.oldState === State.ACTIVE) {
                     diff = imageWidth * (event.nativeEvent.scale-1)
                     imageWidth = imageWidth + imageWidth * (event.nativeEvent.scale-1)
-                    // alert(imageWidth)
                     flag = true
                     lastScale *= event.nativeEvent.scale;
                     baseScale.setValue(lastScale);
                     pinchScale.setValue(1)
+                    // alert(lastScale)
                 }
             }}>
                 <Animated.View style={{ width: '100%', flex: 1, justifyContent: 'center', alignItems: 'center' }}>
