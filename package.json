@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@babel/runtime": "7.9.2",
+    "@dudigital/react-native-zoomable-view": "^1.0.15",
     "@expo/vector-icons": "^10.0.6",
     "@react-native-community/masked-view": "0.1.5",
     "@react-navigation/native": "^5.1.6",

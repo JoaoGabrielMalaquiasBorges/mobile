@@ -19,6 +19,7 @@ import TweetMedia from './TweetMedia'
 import { tweetMedia } from '../style'
 import TweetContent from './TweetContent'
 import { PinchGestureHandler, State } from 'react-native-gesture-handler'
+import ReactNativeZoomableView from '@dudigital/react-native-zoomable-view/src/ReactNativeZoomableView'
 
 function Main({ route, navigation }) {
     var tweet = tweetObject;
@@ -38,9 +39,11 @@ function Main({ route, navigation }) {
         const windowWidth = Dimensions.get('window').width
         var imageWidth =  windowWidth
         var flag = false
+        var flag2 = true
         var focalX
         var proportion
         var diff = 0
+        var offsetX = 0
 
         return (
             /* <WebView
@@ -49,65 +52,27 @@ function Main({ route, navigation }) {
                     html: loader()
                 }}
             /> */
-            <PinchGestureHandler onGestureEvent={event => {
-                if (flag && event.nativeEvent.focalX > windowWidth * 2/3) {
-                    diff = imageWidth - event.nativeEvent.focalX
-                }
-                pinchScale.setValue(event.nativeEvent.scale)
-
-                if (event.nativeEvent.focalX > windowWidth * 2/3) {
-                    adjustedFocal.setValue((windowWidth * (event.nativeEvent.scale*lastScale-1) * -1)/2-diff)
-                }
-                
-                if (event.nativeEvent.focalX < windowWidth/3) {
-                    adjustedFocal.setValue(windowWidth * (event.nativeEvent.scale*lastScale-1) / 2)
-                }
-                
-                // alert((imageWidth * (event.nativeEvent.scale*lastScale-1) * proportion )/2)
-                /* Animated.event(
-                    [{ nativeEvent: { scale: pinchScale, focalX: adjustedFocal } }]
-                ) */
-            }}
-            onHandlerStateChange={event => {
-                /* if (event.nativeEvent.state === State.BEGAN) {
-                    focalX = event.nativeEvent.focalX
-                } */
-                /* if (event.nativeEvent.state === State.ACTIVE) {
-                    const focalX = event.nativeEvent.focalX
-                    const proportion = focalX/windowWidth
-                    // alert(JSON.stringify(event.nativeEvent))
-                    if (focalX > windowWidth/2) {
-                        adjustedFocal.setValue()
-                    }
-                } */
-                if (event.nativeEvent.oldState === State.ACTIVE) {
-                    diff = imageWidth * (event.nativeEvent.scale-1)
-                    imageWidth = imageWidth + imageWidth * (event.nativeEvent.scale-1)
-                    flag = true
-                    lastScale *= event.nativeEvent.scale;
-                    baseScale.setValue(lastScale);
-                    pinchScale.setValue(1)
-                    // alert(lastScale)
-                }
-            }}>
-                <Animated.View style={{ width: '100%', flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                    <Animated.Image
+            <View style={{ flex: 1 }}>
+                <ReactNativeZoomableView
+                    maxZoom={1.5}
+                    minZoom={0.5}
+                    zoomStep={0.5}
+                    initialZoom={1}
+                    bindToBorders={true}
+                    style={{ height: 300, backgroundColor: 'black' }}
+                >
+                    <Image
                         source={{
-                        uri: 'https://miro.medium.com/max/1080/1*7SYuZvH2pZnM0H79V4ttPg.jpeg'
+                            uri: 'https://miro.medium.com/max/1080/1*7SYuZvH2pZnM0H79V4ttPg.jpeg'
                         }}
-                        style={[
-                            {
-                                width: '100%',
-                                height: 300
-                            },
-                            {
-                                transform: [{ translateX: adjustedFocal }, { scale: scale }]
-                            } 
-                        ]}
+                        style={{
+                            width: '100%',
+                            height: 300
+                        }}
                         resizeMode="contain"
                     />
-                </Animated.View>
-            </PinchGestureHandler>
+                </ReactNativeZoomableView>
+            </View>
             
         )
     }
