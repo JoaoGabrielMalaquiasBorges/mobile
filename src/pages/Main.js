@@ -20,6 +20,7 @@ import { tweetMedia } from '../style'
 import TweetContent from './TweetContent'
 import { PinchGestureHandler, State } from 'react-native-gesture-handler'
 import ReactNativeZoomableView from '@dudigital/react-native-zoomable-view/src/ReactNativeZoomableView'
+import ImageTransformer from 'react-native-image-transformer'
 
 function Main({ route, navigation }) {
     var tweet = tweetObject;
@@ -52,28 +53,24 @@ function Main({ route, navigation }) {
                     html: loader()
                 }}
             /> */
+
             <View style={{ flex: 1 }}>
-                <ReactNativeZoomableView
-                    maxZoom={1.5}
-                    minZoom={0.5}
-                    zoomStep={0.5}
-                    initialZoom={1}
-                    bindToBorders={true}
-                    style={{ height: 300, backgroundColor: 'black' }}
-                >
-                    <Image
-                        source={{
-                            uri: 'https://miro.medium.com/max/1080/1*7SYuZvH2pZnM0H79V4ttPg.jpeg'
-                        }}
-                        style={{
-                            width: '100%',
-                            height: 300
-                        }}
-                        resizeMode="contain"
-                    />
-                </ReactNativeZoomableView>
-            </View>
-            
+        <ReactNativeZoomableView
+          maxZoom={1.5}
+          minZoom={0.5}
+          zoomStep={0.5}
+          initialZoom={1}
+          bindToBorders={true}
+          style={{
+            padding: 10,
+            backgroundColor: 'red',
+          }}
+        >
+          <Image style={{ flex: 1, width: null, height: '100%' }}
+                 source={{ uri: 'https://miro.medium.com/max/1080/1*7SYuZvH2pZnM0H79V4ttPg.jpeg' }}
+                 resizeMode="contain" />
+        </ReactNativeZoomableView>
+      </View>
         )
     }
 
