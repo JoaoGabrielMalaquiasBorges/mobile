@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ScrollView, Dimensions, StyleSheet, Text, View, Image, Animated } from 'react-native';
+import { ScrollView, Dimensions, StyleSheet, Text, View, Image, Animated, Modal, StatusBar } from 'react-native';
 import {WebView} from 'react-native-webview';
 import HTML from 'react-native-render-html';
 import TweetVideo from './TweetVideo';
@@ -21,6 +21,7 @@ import TweetContent from './TweetContent'
 import { PinchGestureHandler, State } from 'react-native-gesture-handler'
 import ReactNativeZoomableView from '@dudigital/react-native-zoomable-view/src/ReactNativeZoomableView'
 import ImageTransformer from 'react-native-image-transformer'
+import { loaderImage } from '../../assets/loaderImage';
 
 function Main({ route, navigation }) {
     var tweet = tweetObject;
@@ -34,43 +35,31 @@ function Main({ route, navigation }) {
         // loadFonts().then(() => setReadyForDisplay(true))
         var baseScale = new Animated.Value(1)
         var pinchScale = new Animated.Value(1)
-        var scale = Animated.multiply(baseScale, pinchScale)
-        var lastScale = 1
-        var adjustedFocal = new Animated.Value(0)
+        var scalee = Animated.multiply(baseScale, pinchScale)
+        var X = new Animated.Value(0)
+        var Y = new Animated.Value(0)
         const windowWidth = Dimensions.get('window').width
-        var imageWidth =  windowWidth
-        var flag = false
-        var flag2 = true
-        var focalX
-        var proportion
-        var diff = 0
-        var offsetX = 0
 
         return (
-            /* <WebView
+            <WebView
                 originWhitelist={['*']}
                 source={{
-                    html: loader()
+                    html: `
+                        <div style="height: 100%; display: flex; align-items: center; justify-content: center">
+                            <img style="max-width: 100%; max-height: 100%" src="https://miro.medium.com/max/1080/1*7SYuZvH2pZnM0H79V4ttPg.jpeg"/>
+                        </div>
+                    `
+                }}
+            />
+            
+            /* <ImageTransformer
+                style={{ flex:1 }}
+                image={{
+                    uri: 'https://miro.medium.com/max/1080/1*7SYuZvH2pZnM0H79V4ttPg.jpeg',
+                    width: Dimensions.get('window').width,
+                    height: 200,
                 }}
             /> */
-
-            <View style={{ flex: 1 }}>
-        <ReactNativeZoomableView
-          maxZoom={1.5}
-          minZoom={0.5}
-          zoomStep={0.5}
-          initialZoom={1}
-          bindToBorders={true}
-          style={{
-            padding: 10,
-            backgroundColor: 'red',
-          }}
-        >
-          <Image style={{ flex: 1, width: null, height: '100%' }}
-                 source={{ uri: 'https://miro.medium.com/max/1080/1*7SYuZvH2pZnM0H79V4ttPg.jpeg' }}
-                 resizeMode="contain" />
-        </ReactNativeZoomableView>
-      </View>
         )
     }
 
