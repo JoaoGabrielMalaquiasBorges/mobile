@@ -10,6 +10,7 @@ function TweetMedia ({ route, navigation, media, style }) {
             return (
                 <View style={style.photo.container}>
                     <TweetImage
+                        navigation={navigation}
                         images={media}
                     /> 
                 </View>

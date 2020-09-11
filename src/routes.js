@@ -1,8 +1,9 @@
-import React from 'react';
+import React from 'react'
 import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import Main from './pages/Main';
-import FullscreenSizeVideo from './pages/TweetVideo/FullscreenSizeVideo';
+import { createStackNavigator } from '@react-navigation/stack'
+import Main from './pages/Main'
+import FullscreenSizeVideo from './pages/TweetVideo/FullscreenSizeVideo'
+import FullscreenSizeImage from './pages/TweetMedia/FullscreenSizeImage'
 
 const Stack = createStackNavigator();
 
@@ -16,6 +17,11 @@ function Routes() {
             }}>
                 <Stack.Screen name="Main" component={Main} options={{ title: 'Insider Spider' }} />
                 <Stack.Screen name="FullscreenSizeVideo" component={FullscreenSizeVideo} options={{ headerShown: false }}/>
+                <Stack.Screen
+                    name='FullscreenSizeImage'
+                    component={FullscreenSizeImage}
+                    options={{ headerShown: false }}
+                />
             </Stack.Navigator>
         </NavigationContainer>
     );

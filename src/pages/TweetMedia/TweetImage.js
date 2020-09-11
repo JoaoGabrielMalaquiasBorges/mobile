@@ -1,39 +1,23 @@
 import React from 'react'
-import { View, Image, Animated } from 'react-native'
-import { PinchGestureHandler, State } from 'react-native-gesture-handler'
+import { View, Image, TouchableWithoutFeedback } from 'react-native'
 
 function TweetImage(props) {
    var images = props.images
-   var myRef = React.createRef();
-   var pinchScale = new Animated.Value(1)
-
-    switch ( images.length ) {
+   
+   switch ( images.length ) {
         case 1:
             return(
-                <PinchGestureHandler /* {...gestureHandler} */ onGestureEvent={
-                    
-                        Animated.event(
-                            [{ nativeEvent: { scale: pinchScale } }]
-                        )
-                }
-                onHandlerStateChange={event => {
-                    if (event.nativeEvent.state === State.END) {
-                        myRef.current.setNativeProps({
-                            sytle: {
-                                width: JSON.stringify(pinchScale)*100 + '%'
-                            }
-                        })
-                    }
-                }}
-                >
-                    <Animated.View key='images_container'  ref={myRef} style={{width: '100%', aspectRatio: 2}}>
-                        <Animated.Image
+                <View key='images_container' style={{width: '100%', aspectRatio: 2}}>
+                    <TouchableWithoutFeedback onPressIn={() => {
+                        props.navigation.navigate('FullscreenSizeImage', { uri: images[0].media_url })}
+                    }>
+                        <Image
                             resizeMode="cover"
                             source={{uri: images[0].media_url}}
-                            style={{ height: '100%', transform: [{ scale: pinchScale }] }}
+                            style={{height: '100%'}}
                         />
-                    </Animated.View>
-                </PinchGestureHandler>
+                    </TouchableWithoutFeedback>
+                </View>
             );
         case 2:
             return(

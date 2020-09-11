@@ -21,7 +21,6 @@ import TweetContent from './TweetContent'
 import { PinchGestureHandler, State } from 'react-native-gesture-handler'
 import ReactNativeZoomableView from '@dudigital/react-native-zoomable-view/src/ReactNativeZoomableView'
 import ImageTransformer from 'react-native-image-transformer'
-import { loaderImage } from '../../assets/loaderImage';
 
 function Main({ route, navigation }) {
     var tweet = tweetObject;
@@ -32,34 +31,14 @@ function Main({ route, navigation }) {
     const [readyForDisplay, setReadyForDisplay] = useState(false);
 
     if ( !readyForDisplay ) {
-        // loadFonts().then(() => setReadyForDisplay(true))
-        var baseScale = new Animated.Value(1)
-        var pinchScale = new Animated.Value(1)
-        var scalee = Animated.multiply(baseScale, pinchScale)
-        var X = new Animated.Value(0)
-        var Y = new Animated.Value(0)
-        const windowWidth = Dimensions.get('window').width
-
+        loadFonts().then(() => setReadyForDisplay(true))
         return (
             <WebView
                 originWhitelist={['*']}
                 source={{
-                    html: `
-                        <div style="height: 100%; display: flex; align-items: center; justify-content: center">
-                            <img style="max-width: 100%; max-height: 100%" src="https://miro.medium.com/max/1080/1*7SYuZvH2pZnM0H79V4ttPg.jpeg"/>
-                        </div>
-                    `
+                    html: loader()
                 }}
             />
-            
-            /* <ImageTransformer
-                style={{ flex:1 }}
-                image={{
-                    uri: 'https://miro.medium.com/max/1080/1*7SYuZvH2pZnM0H79V4ttPg.jpeg',
-                    width: Dimensions.get('window').width,
-                    height: 200,
-                }}
-            /> */
         )
     }
 
