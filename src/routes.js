@@ -1,9 +1,12 @@
 import React from 'react'
+import { View, TouchableWithoutFeedback } from 'react-native'
+import Icon from './pages/CustomIcon'
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack'
 import Main from './pages/Main'
 import FullscreenSizeVideo from './pages/TweetVideo/FullscreenSizeVideo'
 import FullscreenSizeImage from './pages/TweetMedia/FullscreenSizeImage'
+import BackButton from './pages/BackButton'
 
 const Stack = createStackNavigator();
 
@@ -20,7 +23,11 @@ function Routes() {
                 <Stack.Screen
                     name='FullscreenSizeImage'
                     component={FullscreenSizeImage}
-                    options={{ headerShown: false }}
+                    options={{ header: ({ navigation }) => {
+                        return (
+                            <BackButton/>
+                        )
+                    }}}
                 />
             </Stack.Navigator>
         </NavigationContainer>

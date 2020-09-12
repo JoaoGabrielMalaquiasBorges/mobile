@@ -18,9 +18,6 @@ import { loader } from '../../assets/loader.js'
 import TweetMedia from './TweetMedia'
 import { tweetMedia } from '../style'
 import TweetContent from './TweetContent'
-import { PinchGestureHandler, State } from 'react-native-gesture-handler'
-import ReactNativeZoomableView from '@dudigital/react-native-zoomable-view/src/ReactNativeZoomableView'
-import ImageTransformer from 'react-native-image-transformer'
 
 function Main({ route, navigation }) {
     var tweet = tweetObject;
@@ -127,7 +124,8 @@ function Main({ route, navigation }) {
                         <View style={{flexDirection: 'row'}}>
                             <Icon name="tw_and_fb_icons-01" size={15} color="gray" style={{marginRight: 8}} />
                             <Icon name="tw_and_fb_icons-02" size={15} color="gray" style={{marginRight: 8}}/>
-                            <Icon name="tw_and_fb_icons-03" size={15} color="gray" />
+                            <Icon name="tw_and_fb_icons-03" size={15} color="gray" style={{marginRight: 8}}/>
+                            <Icon name="left_arrow" size={20} color="gray" style={{marginRight: 8}}/>
                         </View>
                         <View>
                             <Text style={{fontFamily: 'Helvetica-Neue-Bold'}}>

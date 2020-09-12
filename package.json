@@ -9,7 +9,6 @@
   },
   "dependencies": {
     "@babel/runtime": "7.9.2",
-    "@dudigital/react-native-zoomable-view": "^1.0.15",
     "@expo/vector-icons": "^10.0.6",
     "@react-native-community/masked-view": "0.1.5",
     "@react-navigation/native": "^5.1.6",
@@ -22,7 +21,6 @@
     "react-dom": "~16.9.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-36.0.0.tar.gz",
     "react-native-gesture-handler": "~1.5.0",
-    "react-native-image-transformer": "^1.5.1",
     "react-native-reanimated": "~1.4.0",
     "react-native-render-html": "^4.2.0",
     "react-native-safe-area-context": "0.6.0",
