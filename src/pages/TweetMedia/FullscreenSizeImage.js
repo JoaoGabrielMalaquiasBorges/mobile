@@ -1,6 +1,7 @@
 import React from 'react'
-import { StatusBar } from 'react-native'
+import { View, ScrollView, StatusBar } from 'react-native'
 import WebView from 'react-native-webview'
+import { PinchGestureHandler } from 'react-native-gesture-handler'
 
 function FullscreenSizeImage ({ route }) {
     var imageSource = route.params.uri
@@ -8,6 +9,8 @@ function FullscreenSizeImage ({ route }) {
     return (
         <>
         <StatusBar hidden />
+        <View onResponderTerminationRequest={() => true} style={{ height: '100%', width: '100%' }}>
+        
         <WebView
             originWhitelist={['*']}
             source={{
@@ -19,8 +22,9 @@ function FullscreenSizeImage ({ route }) {
             }}
             showsHorizontalScrollIndicator={false}
             showsVerticalScrollIndicator={false}
-            style={{ backgroundColor: 'black' }}
+            style={{ height: '100%', width: '100%', backgroundColor: 'black' }}
         />
+        </View>
         </>
     )
 }

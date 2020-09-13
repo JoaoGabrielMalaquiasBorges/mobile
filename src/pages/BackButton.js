@@ -1,11 +1,16 @@
 import React from 'react'
-import { View, TouchableWithoutFeedback } from 'react-native'
+import { View } from 'react-native'
 import { HeaderBackButton } from '@react-navigation/stack'
 import Icon from './CustomIcon'
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
 
 function BackButton () {
     return (
-        <View style={{ zIndex: 1 }}>
+        <View
+            style={{
+                position: 'absolute'
+            }}
+        >
             <TouchableWithoutFeedback onPress={e => alert('hiS')}>
                 <View
                     style={{
