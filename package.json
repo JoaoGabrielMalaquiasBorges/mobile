@@ -11,6 +11,7 @@
     "@babel/runtime": "7.9.2",
     "@expo/vector-icons": "^10.0.6",
     "@react-native-community/masked-view": "0.1.5",
+    "@react-native-community/viewpager": "^4.1.6",
     "@react-navigation/native": "^5.1.6",
     "@react-navigation/stack": "^5.2.11",
     "expo": "~36.0.0",

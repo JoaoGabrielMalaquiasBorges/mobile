@@ -1,17 +1,16 @@
 import React from 'react'
 import { View } from 'react-native'
-import { HeaderBackButton } from '@react-navigation/stack'
-import Icon from './CustomIcon'
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
+import Icon from './CustomIcon'
 
-function BackButton () {
+function BackButton ({ navigation }) {
     return (
         <View
             style={{
                 position: 'absolute'
             }}
         >
-            <TouchableWithoutFeedback onPress={e => alert('hiS')}>
+            <TouchableWithoutFeedback onPress={() => navigation.goBack()}>
                 <View
                     style={{
                         margin: 10,

@@ -24,9 +24,7 @@ function Routes() {
                     name='FullscreenSizeImage'
                     component={FullscreenSizeImage}
                     options={{ header: ({ navigation }) => {
-                        return (
-                            <BackButton/>
-                        )
+                        return (<BackButton navigation={navigation} />)
                     }}}
                 />
             </Stack.Navigator>
