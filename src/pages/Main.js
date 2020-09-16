@@ -125,7 +125,6 @@ function Main({ route, navigation }) {
                             <Icon name="tw_and_fb_icons-01" size={15} color="gray" style={{marginRight: 8}} />
                             <Icon name="tw_and_fb_icons-02" size={15} color="gray" style={{marginRight: 8}}/>
                             <Icon name="tw_and_fb_icons-03" size={15} color="gray" style={{marginRight: 8}}/>
-                            <Icon name="left_arrow" size={20} color="gray" style={{marginRight: 8}}/>
                         </View>
                         <View>
                             <Text style={{fontFamily: 'Helvetica-Neue-Bold'}}>
