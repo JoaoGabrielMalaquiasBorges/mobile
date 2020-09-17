@@ -2,9 +2,8 @@ import React from 'react'
 import { Text } from 'react-native'
 import TweetText from './TweetText'
 import TweetMedia from '../TweetMedia'
-import TweetLinkPreview from './TweetLinkPreview'
 
-function TweetContent ({ route, navigation, tweet, style }) {
+function TweetContent ({ route, navigation, tweet, style, linkPreview }) {
     var content = []
 
     if ( tweet.text ) {
@@ -16,9 +15,7 @@ function TweetContent ({ route, navigation, tweet, style }) {
     }
 
     if (tweet.entities.urls) {
-        content.push(
-            <TweetLinkPreview urls={tweet.entities.urls} style={style} />
-        )
+        content.push(linkPreview)
     }
 
     if ( tweet.extended_entities ) {

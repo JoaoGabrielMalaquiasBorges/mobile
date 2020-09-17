@@ -18,6 +18,9 @@ import { loader } from '../../assets/loader.js'
 import TweetMedia from './TweetMedia'
 import { tweetMedia } from '../style'
 import TweetContent from './TweetContent'
+import tweetLinkPreview from '../pages/TweetContent/TweetLinkPreview'
+
+var linkPreview = null
 
 function Main({ route, navigation }) {
     var tweet = tweetObject;
@@ -25,10 +28,15 @@ function Main({ route, navigation }) {
     var replayInfo = [];
     var retweetInfo = [];
 
-    const [readyForDisplay, setReadyForDisplay] = useState(false);
+    const [readyForDisplay, setReadyForDisplay] = useState(false)
 
     if ( !readyForDisplay ) {
-        loadFonts().then(() => setReadyForDisplay(true))
+        loadFonts().then(() => {
+            tweetLinkPreview(tweet.entities.urls, tweetMedia).then(response => {
+                linkPreview = response
+                setReadyForDisplay(true)
+            })
+        })
         return (
             <WebView
                 originWhitelist={['*']}
@@ -113,6 +121,7 @@ function Main({ route, navigation }) {
                         navigation={navigation}
                         tweet={tweet}
                         style={tweetMedia}
+                        linkPreview={linkPreview}
                     />
                     {
                         tweet.quoted_status

@@ -1,15 +1,15 @@
 import React, { useState } from 'react'
 import { View, Text, Image } from 'react-native'
+import Icon from '../CustomIcon'
 import axios from 'axios'
 import { parse } from 'node-html-parser'
 
-function TweetLinkPreview ({ urls, style }) {
-    const [content, setContent] = useState(null)
+function tweetLinkPreview (urls, style) {
     var url
     var title
     var image
 
-    if ( urls.length == 1) {
+    var promise = new Promise((resolve, reject) => {
         axios('https://blog.twitter.com/developer/en_us/topics/tools/2020/covid19_public_conversation_data.html')
         .then(response => {
             const html = parse(response.data)
@@ -32,25 +32,27 @@ function TweetLinkPreview ({ urls, style }) {
                 }
             })
             url = url.split('/', 3)
-            url = url[2]
-            setContent(
-                <View style={{ ...style.photo.container, borderWidth: 1, borderColor: 'lightgray' }}>
+            resolve(
+                <View key='linkPreview' style={{ ...style.photo.container, borderWidth: 1, borderColor: 'lightgray' }}>
                     <View style={{ flexDirection: 'row' }}>
                         <Image
                             source={{ uri: image }}
-                            style={{ height: 70, width: 70,marginRight: 10 }}
+                            style={{ height: 80, width: 80, marginRight: 10 }}
                         />
                         <View style={{ flex: 1, justifyContent: 'center' }}>
                             <Text style={{ fontFamily: 'Helvetica-Neue-Light' }}>{title}</Text>
-                            <Text style={{ color: 'gray', fontFamily: 'Helvetica-Neue-Light' }}>{url}</Text>
+                            <View style={{ flexDirection: 'row' }}>
+                                <Icon name='link' size={15} color='lightgray' />
+                                <Text style={{ color: 'gray', fontFamily: 'Helvetica-Neue-Light' }}>{url[2]}</Text>
+                            </View>
                         </View>
                     </View>
                 </View>
             )
         })
-        // .catch((error) => alert( error.response.request._response ) )
-    }
-    return content
+        .catch(() => reject(null))
+    })
+    return promise
 }
 
-export default TweetLinkPreview
+export default tweetLinkPreview
