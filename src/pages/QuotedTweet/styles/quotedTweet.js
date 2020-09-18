@@ -8,7 +8,12 @@ const quotedTweet = {
         overflow: 'hidden'
     },
     media: {
-        photo: null,
+        photo: {
+            container: {
+                width: 50,
+                height: 50
+            }
+        },
         video: {
             container: {
                 width: '100%',

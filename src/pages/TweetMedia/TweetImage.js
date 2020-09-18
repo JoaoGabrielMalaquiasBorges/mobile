@@ -7,7 +7,7 @@ function TweetImage(props) {
    switch ( images.length ) {
         case 1:
             return(
-                <View key='images_container' style={{width: '100%', aspectRatio: 2}}>
+                <View style={{width: '100%', aspectRatio: 2}}>
                     <TouchableWithoutFeedback onPressIn={() => {
                         props.navigation.navigate('FullscreenSizeImage', { images: images, index: 0 })}
                     }>

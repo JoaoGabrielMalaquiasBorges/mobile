@@ -20,22 +20,25 @@ import { tweetMedia } from '../style'
 import TweetContent from './TweetContent'
 import tweetLinkPreview from '../pages/TweetContent/TweetLinkPreview'
 
-var linkPreview = null
-
 function Main({ route, navigation }) {
     var tweet = tweetObject;
     var quotedTweet = [];
     var replayInfo = [];
     var retweetInfo = [];
 
-    const [readyForDisplay, setReadyForDisplay] = useState(false)
+    const [linkPreview, setLinkPreview] = useState(undefined)
+    var readyForDisplay = linkPreview !== undefined ? true : false
 
     if ( !readyForDisplay ) {
         loadFonts().then(() => {
-            tweetLinkPreview(tweet.entities.urls, tweetMedia).then(response => {
-                linkPreview = response
-                setReadyForDisplay(true)
-            })
+            if (!tweet.quoted_status && !tweet.extended_entities && tweet.entities.urls) {
+                tweetLinkPreview(tweet.entities.urls, tweetMedia)
+                .then(response => {
+                    setLinkPreview(response)
+                })
+            } else {
+                setLinkPreview(null)
+            }
         })
         return (
             <WebView
@@ -45,19 +48,6 @@ function Main({ route, navigation }) {
                 }}
             />
         )
-    }
-
-    function haveText () {
-        if ( tweet.text ) {
-            return (
-                <Text style={{fontFamily: 'Helvetica-Neue-Light', marginBottom: 10}}>
-                    <TweetText tweet={tweet}/>
-                </Text>
-            );
-        }
-        else {
-            return(null);
-        }
     }
 
     if ( !tweet.retweeted_status ) {

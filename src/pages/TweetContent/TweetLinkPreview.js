@@ -9,8 +9,8 @@ function tweetLinkPreview (urls, style) {
     var title
     var image
 
-    var promise = new Promise((resolve, reject) => {
-        axios('https://blog.twitter.com/developer/en_us/topics/tools/2020/covid19_public_conversation_data.html')
+    var promise = new Promise((resolve) => {
+        axios(urls[0].expanded_url)
         .then(response => {
             const html = parse(response.data)
             html.querySelector('head').querySelectorAll('meta').map(item => {
@@ -31,7 +31,17 @@ function tweetLinkPreview (urls, style) {
                         break
                 }
             })
+
+            if (!(url && title && image)) {
+                resolve(null)
+            }
+            
+            // removing protocol and 'www.' prefixes from url
             url = url.split('/', 3)
+            url = url[url.length-1]
+            url = url.split('www.')
+            url = url[url.length-1]
+
             resolve(
                 <View key='linkPreview' style={{ ...style.photo.container, borderWidth: 1, borderColor: 'lightgray' }}>
                     <View style={{ flexDirection: 'row' }}>
@@ -43,14 +53,14 @@ function tweetLinkPreview (urls, style) {
                             <Text style={{ fontFamily: 'Helvetica-Neue-Light' }}>{title}</Text>
                             <View style={{ flexDirection: 'row' }}>
                                 <Icon name='link' size={15} color='lightgray' />
-                                <Text style={{ color: 'gray', fontFamily: 'Helvetica-Neue-Light' }}>{url[2]}</Text>
+                                <Text style={{ color: 'gray', fontFamily: 'Helvetica-Neue-Light' }}>{url}</Text>
                             </View>
                         </View>
                     </View>
                 </View>
             )
         })
-        .catch(() => reject(null))
+        .catch(() => resolve(null) )
     })
     return promise
 }
