@@ -7,21 +7,34 @@ function TweetImage(props) {
    switch ( images.length ) {
         case 1:
             return(
-                <View style={{width: '100%', aspectRatio: 2}}>
+                /* <View style={{width: '100%', aspectRatio: 2}}>
                     <TouchableWithoutFeedback onPressIn={() => {
                         props.navigation.navigate('FullscreenSizeImage', { images: images, index: 0 })}
-                    }>
+                    }> */
                         <Image
-                            resizeMode="cover"
                             source={{uri: images[0].media_url}}
-                            style={{height: '100%'}}
+                            style={{ height: '100%' }}
                         />
-                    </TouchableWithoutFeedback>
-                </View>
+                    /* </TouchableWithoutFeedback>
+                </View> */
             );
         case 2:
             return(
-                <View key='images_container' style={{flexDirection: 'row'}}>
+                <View style={{ height: '100%', width: '100%', flexDirection: 'row' }}>
+                <Image
+                    key='photo_1'
+                    resizeMode="cover"
+                    source={{uri: images[0].media_url}}
+                    style={{height: '100%', width: '50%'}}
+                />
+                <Image
+                    key='photo_2'
+                    resizeMode="cover"
+                    source={{uri: images[1].media_url}}
+                    style={{height: '100%', width: '50%'}}
+                />
+                </View>
+                /* <View key='images_container' style={{ flexDirection: 'row'}}>
                     <View style={{width: '50%', aspectRatio: 1,  paddingRight: 1}}>
                         <TouchableWithoutFeedback onPressIn={() => {
                             props.navigation.navigate('FullscreenSizeImage', { images: images, index: 0 })}
@@ -34,7 +47,7 @@ function TweetImage(props) {
                             />
                         </TouchableWithoutFeedback>
                     </View>
-                    <View style={{width: '50%', aspectRatio: 1,  paddingLeft: 1}}>
+                     <View style={{width: '50%', aspectRatio: 1,  paddingLeft: 1}}>
                         <TouchableWithoutFeedback onPressIn={() => {
                             props.navigation.navigate('FullscreenSizeImage', { images: images, index: 1 })}
                         }>
@@ -46,11 +59,35 @@ function TweetImage(props) {
                             />
                         </TouchableWithoutFeedback>
                     </View>
-                </View>
+                </View> */
             );
         case 3:
-            return(
-                <View key='images_container' style={{flexDirection: 'row'}}>
+            return (
+                <View style={{ height: '100%', width: '100%', flexDirection: 'row' }}>
+                    <View style={{ height: '100%', width: '50%' }}>
+                        <Image
+                            key='photo_1'
+                            resizeMode="cover"
+                            source={{uri: images[0].media_url}}
+                            style={{height: '100%', width: '100%'}}
+                        />
+                    </View>
+                    <View style={{ height: '100%', width: '50%', flexDirection: 'column' }}>
+                        <Image
+                            key='photo_2'
+                            resizeMode="cover"
+                            source={{uri: images[1].media_url}}
+                            style={{height: '50%', width: '100%'}}
+                        />
+                        <Image
+                            key='photo_3'
+                            resizeMode="cover"
+                            source={{uri: images[2].media_url}}
+                            style={{height: '50%', width: '100%'}}
+                        />
+                    </View>
+                </View>
+                /* <View key='images_container' style={{flexDirection: 'row'}}>
                     <View key='column_1' style={{width: '50%', paddingRight: 1}}>
                         <TouchableWithoutFeedback onPressIn={() => {
                             props.navigation.navigate('FullscreenSizeImage', { images: images, index: 0 })}
@@ -89,11 +126,40 @@ function TweetImage(props) {
                             </TouchableWithoutFeedback>
                         </View>
                     </View>
-                </View>
+                </View> */
             );
         case 4:
-            return(
-                <View key='images_container' style={{flexDirection: 'column'}}>
+            return (
+                <View style={{ height: '100%', width: '100%', flexDirection: 'column' }}>
+                    <View style={{ height: '50%', width: '100%', flexDirection: 'row' }}>
+                        <Image
+                            resizeMode="cover"
+                            source={{uri: images[0].media_url}}
+                            style={{height: '100%', width: '50%'}}
+                        />
+                        <View style={{ height: '100%', width: 2 }}/>
+                        <Image
+                            resizeMode="cover"
+                            source={{uri: images[1].media_url}}
+                            style={{height: '100%', width: '50%'}}
+                        />
+                    </View>
+                    <View style={{ height: 2, width: '100%' }}/>
+                    <View style={{ height: '50%', width: '100%', flexDirection: 'row' }}>
+                        <Image
+                            resizeMode="cover"
+                            source={{uri: images[2].media_url}}
+                            style={{height: '100%', width: '50%'}}
+                        />
+                        <View style={{ height: '100%', width: 2 }}/>
+                        <Image
+                            resizeMode="cover"
+                            source={{uri: images[3].media_url}}
+                            style={{height: '100%', width: '50%'}}
+                        />
+                    </View>
+                </View>
+                /* <View key='images_container' style={{flexDirection: 'column'}}>
                     <View key='line_1' style={{flexDirection: 'row'}}>
                         <View style={{width: '50%', aspectRatio: 2,  paddingRight: 1, paddingBottom: 1}}>
                             <TouchableWithoutFeedback onPressIn={() => {
@@ -146,7 +212,7 @@ function TweetImage(props) {
                             </TouchableWithoutFeedback>
                         </View>
                     </View>
-                </View>
+                </View> */
             );
     }
 }

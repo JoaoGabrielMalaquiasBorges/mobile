@@ -3,7 +3,9 @@ const tweetMedia = {
         container: {
             marginBottom: 10,
             borderRadius: 10,
-            overflow: 'hidden'
+            overflow: 'hidden',
+            width: '100%',
+            aspectRatio: 2
         }
     },
     video: {
