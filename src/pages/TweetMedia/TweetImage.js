@@ -132,88 +132,58 @@ function TweetImage(props) {
             return (
                 <View style={{ height: '100%', width: '100%', flexDirection: 'column' }}>
                     <View style={{ height: '50%', width: '100%', flexDirection: 'row' }}>
-                        <Image
-                            resizeMode="cover"
-                            source={{uri: images[0].media_url}}
-                            style={{height: '100%', width: '50%'}}
-                        />
-                        <View style={{ height: '100%', width: 2 }}/>
-                        <Image
-                            resizeMode="cover"
-                            source={{uri: images[1].media_url}}
-                            style={{height: '100%', width: '50%'}}
-                        />
+                        <TouchableWithoutFeedback onPressIn={() => {
+                            if (props.containerWidth == '100%') {
+                                props.navigation.navigate('FullscreenSizeImage', { images: images, index: 0 })}
+                            }
+                        }>
+                            <Image
+                                resizeMode="cover"
+                                source={{uri: images[0].media_url}}
+                                style={{height: '100%', width: '50%'}}
+                            />
+                        </TouchableWithoutFeedback>
+                        <View style={{ width: '1%', minWidth: 1 }}/>
+                        <TouchableWithoutFeedback onPressIn={() => {
+                            if (props.containerWidth == '100%') {
+                                props.navigation.navigate('FullscreenSizeImage', { images: images, index: 1 })}
+                            }
+                        }>
+                            <Image
+                                resizeMode="cover"
+                                source={{uri: images[1].media_url}}
+                                style={{height: '100%', width: '50%'}}
+                            />
+                        </TouchableWithoutFeedback>
                     </View>
-                    <View style={{ height: 2, width: '100%' }}/>
+                    <View style={{ height: '2%', minHeight: 1 }}/>
                     <View style={{ height: '50%', width: '100%', flexDirection: 'row' }}>
-                        <Image
-                            resizeMode="cover"
-                            source={{uri: images[2].media_url}}
-                            style={{height: '100%', width: '50%'}}
-                        />
-                        <View style={{ height: '100%', width: 2 }}/>
-                        <Image
-                            resizeMode="cover"
-                            source={{uri: images[3].media_url}}
-                            style={{height: '100%', width: '50%'}}
-                        />
+                        <TouchableWithoutFeedback onPressIn={() => {
+                            if (props.containerWidth == '100%') {
+                                props.navigation.navigate('FullscreenSizeImage', { images: images, index: 2 })}
+                            }
+                        }>
+                            <Image
+                                resizeMode="cover"
+                                source={{uri: images[2].media_url}}
+                                style={{height: '100%', width: '50%'}}
+                            />
+                        </TouchableWithoutFeedback>
+                        <View style={{ width: '1%', minWidth: 1 }}/>
+                        <TouchableWithoutFeedback onPressIn={() => {
+                            if (props.containerWidth == '100%') {
+                                props.navigation.navigate('FullscreenSizeImage', { images: images, index: 3 })}
+                            }
+                        }>
+                            <Image
+                                resizeMode="cover"
+                                source={{uri: images[3].media_url}}
+                                style={{height: '100%', width: '50%'}}
+                            />
+                        </TouchableWithoutFeedback>
                     </View>
                 </View>
-                /* <View key='images_container' style={{flexDirection: 'column'}}>
-                    <View key='line_1' style={{flexDirection: 'row'}}>
-                        <View style={{width: '50%', aspectRatio: 2,  paddingRight: 1, paddingBottom: 1}}>
-                            <TouchableWithoutFeedback onPressIn={() => {
-                                props.navigation.navigate('FullscreenSizeImage', { images: images, index: 0 })}
-                            }>
-                                <Image
-                                    key='photo_1'
-                                    resizeMode="cover"
-                                    source={{uri: images[0].media_url}}
-                                    style={{height: '100%'}}
-                                />
-                            </TouchableWithoutFeedback>
-                        </View>
-                        <View style={{width: '50%', aspectRatio: 2,  paddingLeft: 1, paddingBottom: 1}}>
-                            <TouchableWithoutFeedback onPressIn={() => {
-                                props.navigation.navigate('FullscreenSizeImage', { images: images, index: 1 })}
-                            }>
-                                <Image
-                                    key='photo_2'
-                                    resizeMode="cover"
-                                    source={{uri: images[1].media_url}}
-                                    style={{height: '100%'}}
-                                />
-                            </TouchableWithoutFeedback>
-                        </View>
-                    </View>
-                    <View key='line_2' style={{flexDirection: 'row'}}>
-                        <View style={{width: '50%', aspectRatio: 2,  paddingTop: 1, paddingRight: 1}}>
-                            <TouchableWithoutFeedback onPressIn={() => {
-                                props.navigation.navigate('FullscreenSizeImage', { images: images, index: 2 })}
-                            }>
-                                <Image
-                                    key='photo_3'
-                                    resizeMode="cover"
-                                    source={{uri: images[2].media_url}}
-                                    style={{height: '100%'}}
-                                />
-                            </TouchableWithoutFeedback>
-                        </View>
-                        <View style={{width: '50%', aspectRatio: 2,  paddingTop: 1, paddingLeft: 1}}>
-                            <TouchableWithoutFeedback onPressIn={() => {
-                                props.navigation.navigate('FullscreenSizeImage', { images: images, index: 3 })}
-                            }>
-                                <Image
-                                    key='photo_4'
-                                    resizeMode="cover"
-                                    source={{uri: images[3].media_url}}
-                                    style={{height: '100%'}}
-                                />
-                            </TouchableWithoutFeedback>
-                        </View>
-                    </View>
-                </View> */
-            );
+            )
     }
 }
 

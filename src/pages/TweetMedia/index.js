@@ -12,6 +12,7 @@ function TweetMedia ({ route, navigation, media, style }) {
                     <TweetImage
                         navigation={navigation}
                         images={media}
+                        containerWidth={style.photo.container.width}
                     /> 
                 </View>
             )
