@@ -4,8 +4,8 @@ import TweetImage from './TweetImage'
 import TweetVideo from '../TweetVideo'
 import TweetGif from './TweetGif'
 
-function TweetMedia ({ route, navigation, media, style }) {
-    switch (media[0].type) {
+function TweetMedia ({ route, navigation, media, type, style }) {
+    switch (type) {
         case 'photo':
             return (
                 <View style={style.photo.container}>

@@ -5,7 +5,17 @@ import TweetContent from '../TweetContent'
 import { quotedTweet } from './styles'
 
 function QuotedTweet({ route, navigation, tweet }) {
-    return(
+    const content = 
+        <TweetContent
+            route={route}
+            navigation={navigation}
+            tweet={tweet}
+            mediaType='photo'
+            style={quotedTweet.media}
+        />
+        alert(content.key)
+
+    return (
         <View style={quotedTweet.container}>
             <View style={{ padding: 10 }}>
                 <TweetHeader
@@ -13,12 +23,15 @@ function QuotedTweet({ route, navigation, tweet }) {
                     elementsWidth={4+40+34+5}
                 />
             </View>
-            <TweetContent
-                route={route}
-                navigation={navigation}
-                tweet={tweet}
-                style={quotedTweet.media}
-            />
+            <View style={{ flexDirection: 'row-reverse', justifyContent: 'flex-end'}}>
+                <TweetContent
+                    route={route}
+                    navigation={navigation}
+                    tweet={tweet}
+                    mediaType='photo'
+                    style={quotedTweet.media}
+                />
+            </View>
         </View>
     );
 }
