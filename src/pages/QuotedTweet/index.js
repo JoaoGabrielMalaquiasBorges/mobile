@@ -1,19 +1,22 @@
 import React from 'react'
-import { View } from 'react-native'
+import { View, Text } from 'react-native'
 import TweetHeader from '../TweetHeader'
-import TweetContent from '../TweetContent'
+import tweetContent from '../TweetContent'
 import { quotedTweet } from './styles'
 
 function QuotedTweet({ route, navigation, tweet }) {
-    const content = 
-        <TweetContent
-            route={route}
-            navigation={navigation}
-            tweet={tweet}
-            mediaType='photo'
-            style={quotedTweet.media}
-        />
-        alert(content.key)
+    const content = tweetContent(route, navigation, tweet, 'photo', quotedTweet.media)
+    const content2 = content.map(element => {
+        if (element.key == 'text') {
+            element = 
+                <View style={{ flex: 1 }} >
+                    <Text numberOfLines={3} >
+                        {element}
+                    </Text>
+                </View>
+        }
+        return element
+    })
 
     return (
         <View style={quotedTweet.container}>
@@ -23,14 +26,10 @@ function QuotedTweet({ route, navigation, tweet }) {
                     elementsWidth={4+40+34+5}
                 />
             </View>
-            <View style={{ flexDirection: 'row-reverse', justifyContent: 'flex-end'}}>
-                <TweetContent
-                    route={route}
-                    navigation={navigation}
-                    tweet={tweet}
-                    mediaType='photo'
-                    style={quotedTweet.media}
-                />
+            <View style={{ flexDirection: 'row' }}>
+                {content2.pop()}
+                <View style={{ width: 5 }} />
+                {content2.pop()}
             </View>
         </View>
     );

@@ -17,7 +17,7 @@ import { loadFonts } from '../tweetFonts'
 import { loader } from '../../assets/loader.js'
 import TweetMedia from './TweetMedia'
 import { tweetMedia } from '../style'
-import TweetContent from './TweetContent'
+import tweetContent from './TweetContent'
 import tweetLinkPreview from '../pages/TweetContent/TweetLinkPreview'
 
 function Main({ route, navigation }) {
@@ -80,6 +80,8 @@ function Main({ route, navigation }) {
         }
     }
 
+    const content = tweetContent(route, navigation, tweet, null, tweetMedia, linkPreview)
+
     return (
         <ScrollView style={{backgroundColor: '#fff'}}>
             <View style={styles.container}>
@@ -106,13 +108,14 @@ function Main({ route, navigation }) {
                         />
                     </View>
                     {replayInfo}
-                    <TweetContent
+                    {/* <TweetContent
                         route={route}
                         navigation={navigation}
                         tweet={tweet}
                         style={tweetMedia}
                         linkPreview={linkPreview}
-                    />
+                    /> */}
+                    {content}
                     {
                         tweet.quoted_status
                             ? quotedTweet

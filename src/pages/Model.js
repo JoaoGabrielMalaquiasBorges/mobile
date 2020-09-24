@@ -38,7 +38,7 @@ const tweetObject = {
     place: {   
     },
     "quoted_status": {
-      "text": "original message",
+      "text": "original messageeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
       "user": {
         "id": 2244994945,
         "name": "ImNotARealTwitterAccount",
