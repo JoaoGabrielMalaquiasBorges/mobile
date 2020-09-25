@@ -65,7 +65,12 @@ function Main({ route, navigation }) {
         if ( tweet.quoted_status ) {
             quotedTweet.push(
                 <View key='quotedTweetFrame' style={{marginBottom: 10}}>
-                    <QuotedTweet tweet={tweet.quoted_status} route={route} navigation={navigation} />
+                    <QuotedTweet
+                        route={route}
+                        navigation={navigation}
+                        tweet={tweet.quoted_status}
+                        version={tweet.extended_entities ? 'shrunked' : 'expanded'}
+                    />
                 </View>
             );
         }
