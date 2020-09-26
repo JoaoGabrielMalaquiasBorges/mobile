@@ -3,29 +3,29 @@ import { Text } from 'react-native'
 import TweetText from './TweetText'
 import TweetMedia from '../TweetMedia'
 
-function tweetContent (route, navigation, tweet, mediaType, style, linkPreview) {
+function tweetContent (route, navigation, text, entities, extended_entities, mediaType, style, linkPreview) {
     var content = []
 
-    if ( tweet.text ) {
+    if ( text ) {
         content.push(
             <Text key='text' style={{marginBottom: 10, fontFamily: 'Helvetica-Neue-Light'}}>
-                <TweetText tweet={tweet}/>
+                <TweetText text={text} entities={entities} />
             </Text>
         )
     }
 
-    if (tweet.entities.urls.length != 0) {
+    if (linkPreview) {
         content.push(linkPreview)
     }
 
-    if ( tweet.extended_entities ) {
+    if ( extended_entities ) {
         content.push(
             <TweetMedia
                 key='media'
                 route={route}
                 navigation={navigation}
-                media={tweet.extended_entities.media}
-                type={mediaType? mediaType : tweet.extended_entities.media[0].type}
+                media={extended_entities.media}
+                type={mediaType? mediaType : extended_entities.media[0].type}
                 style={style}
             />
         )

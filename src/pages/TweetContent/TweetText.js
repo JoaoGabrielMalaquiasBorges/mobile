@@ -1,9 +1,7 @@
 import React from 'react';
 import { Text } from 'react-native';
 
-function TweetText(props) {
-
-    var tweet = props.tweet;
+function TweetText({ text, entities }) {
 
     var tweetText = '';
     var tweetTextComponent= [];
@@ -12,20 +10,20 @@ function TweetText(props) {
     var aux2 = [];
     var finalIndexes = [];
 
-    if ( !tweet.truncated ) {
-        tweetText = tweet.text;
-        var hashtags = tweet.entities.hashtags;
-        var urls = tweet.entities.urls;
-        var user_mentions = tweet.entities.user_mentions;
-        var symbols = tweet.entities.symbols;
-    }
+    // if ( !tweet.truncated ) {
+        tweetText = text;
+        var hashtags = entities.hashtags;
+        var urls = entities.urls;
+        var user_mentions = entities.user_mentions;
+        var symbols = entities.symbols;
+    /* }
     else {
         tweetText = tweet.extended_tweet;
         var hashtags = tweet.extended_tweet.entities.hashtags;
         var urls = tweet.extended_tweet.entities.urls;
         var user_mentions = tweet.extended_tweet.entities.user_mentions;
         var symbols = tweet.extended_tweet.entities.symbols;
-    }
+    } */
 
     if ( hashtags.length > 0 ) {
         hashtags.forEach(element => {
@@ -78,7 +76,7 @@ function TweetText(props) {
         }
     }
     else {
-        tweetTextComponent.push(tweet.text);
+        tweetTextComponent.push(text);
     }
     
     return (tweetTextComponent);

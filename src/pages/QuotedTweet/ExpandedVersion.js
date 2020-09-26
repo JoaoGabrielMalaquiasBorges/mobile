@@ -3,8 +3,8 @@ import { View, Text } from 'react-native'
 import tweetContent from '../TweetContent'
 import { expandedVersion } from './styles'
 
-function Expanded ({ route, navigation, tweet }) {
-    const content = tweetContent(route, navigation, tweet, null, expandedVersion.media)
+function ExpandedVersion ({ route, navigation, text, entities, extended_entities }) {
+    const content = tweetContent(route, navigation, text, entities, extended_entities, null, expandedVersion.media)
     const treatedContent = content.map(element => {
         if (element.key == 'text') {
             element = 
@@ -19,4 +19,4 @@ function Expanded ({ route, navigation, tweet }) {
     return treatedContent
 }
 
-export default Expanded
+export default ExpandedVersion

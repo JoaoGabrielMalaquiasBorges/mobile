@@ -31,7 +31,7 @@ function Main({ route, navigation }) {
 
     if ( !readyForDisplay ) {
         loadFonts().then(() => {
-            if (!tweet.quoted_status && !tweet.extended_entities && tweet.entities.urls) {
+            if (!tweet.quoted_status && !tweet.extended_entities && tweet.entities.urls.length > 0) {
                 tweetLinkPreview(tweet.entities.urls, tweetMedia)
                 .then(response => {
                     setLinkPreview(response)
@@ -85,7 +85,16 @@ function Main({ route, navigation }) {
         }
     }
 
-    const content = tweetContent(route, navigation, tweet, null, tweetMedia, linkPreview)
+    const content = tweetContent(
+        route,
+        navigation,
+        tweet.text,
+        tweet.entities,
+        tweet.extended_entities,
+        null,
+        tweetMedia,
+        linkPreview
+    )
 
     return (
         <ScrollView style={{backgroundColor: '#fff'}}>
@@ -113,13 +122,6 @@ function Main({ route, navigation }) {
                         />
                     </View>
                     {replayInfo}
-                    {/* <TweetContent
-                        route={route}
-                        navigation={navigation}
-                        tweet={tweet}
-                        style={tweetMedia}
-                        linkPreview={linkPreview}
-                    /> */}
                     {content}
                     {
                         tweet.quoted_status
@@ -146,15 +148,7 @@ function Main({ route, navigation }) {
                 </View>
             </View>
         </ScrollView>
-    );
-    /* } else {
-        return (
-            <Text>
-                Waiting...
-            </Text>
-        )
-    } */
-
+    )
 }
 
 const styles = StyleSheet.create({

@@ -1,11 +1,10 @@
 import React from 'react'
 import { View, Text } from 'react-native'
-import TweetHeader from '../TweetHeader'
 import tweetContent from '../TweetContent'
 import { shrunkedVersion } from './styles'
 
-function Shrunked ({ route, navigation, tweet }) {
-    const content = tweetContent(route, navigation, tweet, 'photo', shrunkedVersion.media)
+function ShrunkedVersion ({ route, navigation, text, entities, extended_entities }) {
+    const content = tweetContent(route, navigation, text, entities, extended_entities, 'photo', shrunkedVersion.media)
     const treatedContent = content.map(element => {
         if (element.key == 'text') {
             element = 
@@ -31,4 +30,4 @@ function Shrunked ({ route, navigation, tweet }) {
     )
 }
 
-export default Shrunked
+export default ShrunkedVersion

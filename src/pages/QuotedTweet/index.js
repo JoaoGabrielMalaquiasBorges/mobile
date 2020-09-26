@@ -1,8 +1,8 @@
 import React from 'react'
 import { View } from 'react-native'
 import TweetHeader from '../TweetHeader'
-import Expanded from './ExpandedVersion'
-import Shrunked from './ShrunkedVersion'
+import ExpandedVersion from './ExpandedVersion'
+import ShrunkedVersion from './ShrunkedVersion'
 import { quotedTweet } from './styles'
 
 function QuotedTweet({ route, navigation, tweet, version }) {
@@ -17,10 +17,22 @@ function QuotedTweet({ route, navigation, tweet, version }) {
             {
                 version == 'expanded'
                 ? (
-                    <Expanded route={route} navigation={navigation} tweet={tweet} />
+                    <ExpandedVersion
+                        route={route}
+                        navigation={navigation}
+                        text={tweet.text}
+                        entities={tweet.entities}
+                        extended_entities={tweet.extended_entities}
+                    />
                 )
                 : (
-                    <Shrunked route={route} navigation={navigation} tweet={tweet} />
+                    <ShrunkedVersion
+                        route={route}
+                        navigation={navigation}
+                        text={tweet.text}
+                        entities={tweet.entities}
+                        extended_entities={tweet.extended_entities}
+                    />
                 )
             }
         </View>
