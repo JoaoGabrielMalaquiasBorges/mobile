@@ -1,7 +1,10 @@
 const expandedVersion = {
     media: {
         photo: {
-            container: null
+            container: {
+                width: '100%',
+                aspectRatio: 2
+            }
         },
         video: {
             container: {
