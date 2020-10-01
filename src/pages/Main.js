@@ -92,9 +92,19 @@ function Main({ route, navigation }) {
         tweet.entities,
         tweet.extended_entities,
         null,
-        tweetMedia,
+        tweetMedia.media,
         linkPreview
     )
+
+    const treatedContent = content.map(element => {
+        if (element.key != 'text' && element.key != 'linkPreview') {
+            element = 
+                <View key={element.key} style={tweetMedia.media[`${element.props.media[0].type}`].container}>
+                    {element}
+                </View>
+        }
+        return element
+    })
 
     return (
         <ScrollView style={{backgroundColor: '#fff'}}>
@@ -122,7 +132,7 @@ function Main({ route, navigation }) {
                         />
                     </View>
                     {replayInfo}
-                    {content}
+                    {treatedContent}
                     {
                         tweet.quoted_status
                             ? quotedTweet

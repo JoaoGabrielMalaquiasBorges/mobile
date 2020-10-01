@@ -43,7 +43,7 @@ function tweetLinkPreview (urls, style) {
             url = url[url.length-1]
 
             resolve(
-                <View key='linkPreview' style={{ ...style.photo.container, borderWidth: 1, borderColor: 'lightgray' }}>
+                <View style={{ marginBottom: 10, borderWidth: 1, borderColor: 'lightgray', borderRadius: 10, overflow: 'hidden' }}>
                     <View style={{ flexDirection: 'row' }}>
                         <Image
                             source={{ uri: image }}

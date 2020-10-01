@@ -14,9 +14,8 @@ function ShrunkedVersion ({ route, navigation, text, entities, extended_entities
                     </Text>
                 </View>
         } else {
-            // alert(element.props.media[0].type)
             element = 
-                <View key={element.key} style={{ marginRight: 5 }}>
+                <View key={element.key} style={{ ...shrunkedVersion.media.photo.container, marginRight: 5 }}>
                     {element}
                 </View>
         }

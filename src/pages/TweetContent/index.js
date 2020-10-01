@@ -1,5 +1,5 @@
 import React from 'react'
-import { Text } from 'react-native'
+import { View, Text } from 'react-native'
 import TweetText from './TweetText'
 import TweetMedia from '../TweetMedia'
 
@@ -15,7 +15,9 @@ function tweetContent (route, navigation, text, entities, extended_entities, med
     }
 
     if (linkPreview) {
-        content.push(linkPreview)
+        content.push(
+            <View key='linkPreview'>{linkPreview}</View>
+        )
     }
 
     if ( extended_entities ) {

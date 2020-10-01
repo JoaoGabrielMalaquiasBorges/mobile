@@ -5,6 +5,7 @@ import { expandedVersion } from './styles'
 
 function ExpandedVersion ({ route, navigation, text, entities, extended_entities }) {
     const content = tweetContent(route, navigation, text, entities, extended_entities, null, expandedVersion.media)
+
     const treatedContent = content.map(element => {
         if (element.key == 'text') {
             element = 
@@ -13,9 +14,15 @@ function ExpandedVersion ({ route, navigation, text, entities, extended_entities
                         {element}
                     </Text>
                 </View>
+        } else {
+            element = 
+            <View key={element.key} style={expandedVersion.media[`${element.props.media[0].type}`].container}>
+                {element}
+            </View>
         }
         return element
     })
+
     return treatedContent
 }
 
