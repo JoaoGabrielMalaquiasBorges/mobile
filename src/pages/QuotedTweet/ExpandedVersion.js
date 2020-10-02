@@ -4,7 +4,7 @@ import tweetContent from '../TweetContent'
 import { expandedVersion } from './styles'
 
 function ExpandedVersion ({ route, navigation, text, entities, extended_entities }) {
-    const content = tweetContent(route, navigation, text, entities, extended_entities, null, expandedVersion.media)
+    const content = tweetContent(route, navigation, text, entities, extended_entities)
 
     const treatedContent = content.map(element => {
         if (element.key == 'text') {

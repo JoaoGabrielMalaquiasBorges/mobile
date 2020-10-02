@@ -2,11 +2,11 @@ const tweetMedia = {
     media: {
         photo: {
             container: {
-                marginBottom: 10,
+                width: '100%',
+                aspectRatio: 2,
                 borderRadius: 10,
                 overflow: 'hidden',
-                width: '100%',
-                aspectRatio: 2
+                marginBottom: 10
             }
         },
         video: {
@@ -20,15 +20,13 @@ const tweetMedia = {
                 overflow: 'hidden'
             }
         },
-        gif: {
+        animated_gif: {
             container: {
-                width: '100%',
-                // maxWidth: tweet.extended_entities.media[0].sizes.large.w,
+                borderRadius: 10,
+                overflow: 'hidden',
                 marginLeft: 'auto',
                 marginRight: 'auto',
-                marginBottom: 10,
-                borderRadius: 10,
-                overflow: 'hidden'
+                marginBottom: 10
             }
         }
     }

@@ -1,17 +1,15 @@
 import React from 'react'
-import { View } from 'react-native'
 import TweetImage from './TweetImage'
 import TweetVideo from '../TweetVideo'
 import TweetGif from './TweetGif'
 
-function TweetMedia ({ route, navigation, media, type, style }) {
+function TweetMedia ({ route, navigation, media, type }) {
     switch (type) {
         case 'photo':
             return (
                 <TweetImage
                     navigation={navigation}
                     images={media}
-                    containerWidth={style.photo.container.width}
                 />
             )
     
@@ -26,12 +24,9 @@ function TweetMedia ({ route, navigation, media, type, style }) {
     
         case 'animated_gif':
             return (
-                // <View style={{ ...style.gif.container, maxWidth: media[0].sizes.large.w }}>
-                    <TweetGif
-                        gif={media[0]}
-                    />  
-                // </View>
-                
+                <TweetGif
+                    gif={media[0]}
+                />
             )
     }
 }

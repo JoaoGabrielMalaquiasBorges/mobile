@@ -12,6 +12,7 @@ import TweetImage from './TweetMedia/TweetImage';
 import TweetGif from './TweetMedia/TweetGif';
 import QuotedTweet from './QuotedTweet';
 import TweetHeader from './TweetHeader';
+import TweetFooter from './TweetFooter';
 import { Linking } from 'expo'
 import { loadFonts } from '../tweetFonts'
 import { loader } from '../../assets/loader.js'
@@ -92,12 +93,11 @@ function Main({ route, navigation }) {
         tweet.entities,
         tweet.extended_entities,
         null,
-        tweetMedia.media,
         linkPreview
     )
 
     const treatedContent = content.map(element => {
-        if (element.key != 'text' && element.key != 'linkPreview') {
+        if (element.key == 'media') {
             element = 
                 <View key={element.key} style={tweetMedia.media[`${element.props.media[0].type}`].container}>
                     {element}
@@ -139,22 +139,7 @@ function Main({ route, navigation }) {
                             : null
                     }{/* 
                     {quotedTweet} */}
-                    <View key="tweetFooter" style={{flexDirection: 'row', marginTop: 5, alignItems: 'center', justifyContent: 'space-between'}}>
-                        <View style={{flexDirection: 'row'}}>
-                            <Icon name="tw_and_fb_icons-01" size={15} color="gray" style={{marginRight: 8}} />
-                            <Icon name="tw_and_fb_icons-02" size={15} color="gray" style={{marginRight: 8}}/>
-                            <Icon name="tw_and_fb_icons-03" size={15} color="gray" style={{marginRight: 8}}/>
-                        </View>
-                        <View>
-                            <Text style={{fontFamily: 'Helvetica-Neue-Bold'}}>
-                                {
-                                    tweet.created_at.substring(8, 11) +
-                                    tweet.created_at.substring(4, 8) +
-                                    tweet.created_at.substr(26)
-                                }
-                            </Text>
-                        </View>
-                    </View>
+                    <TweetFooter created_at={tweet.created_at} />
                 </View>
             </View>
         </ScrollView>

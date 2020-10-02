@@ -14,7 +14,7 @@ const expandedVersion = {
                 marginRight: 'auto'
             }
         },
-        gif: {
+        animated_gif: {
             container: {
                 marginLeft: 'auto',
                 marginRight: 'auto'

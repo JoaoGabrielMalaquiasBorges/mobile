@@ -3,7 +3,7 @@ import { View, Text } from 'react-native'
 import TweetText from './TweetText'
 import TweetMedia from '../TweetMedia'
 
-function tweetContent (route, navigation, text, entities, extended_entities, mediaType, style, linkPreview) {
+function tweetContent (route, navigation, text, entities, extended_entities, mediaType, linkPreview) {
     var content = []
 
     if ( text ) {
@@ -28,7 +28,6 @@ function tweetContent (route, navigation, text, entities, extended_entities, med
                 navigation={navigation}
                 media={extended_entities.media}
                 type={mediaType? mediaType : extended_entities.media[0].type}
-                style={style}
             />
         )
     }

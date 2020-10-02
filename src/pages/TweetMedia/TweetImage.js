@@ -9,9 +9,7 @@ function TweetImage(props) {
             return (
                 
                 <TouchableWithoutFeedback onPressIn={() => {
-                    if (props.containerWidth == '100%') {
-                        props.navigation.navigate('FullscreenSizeImage', { images: images, index: 0 })}
-                    }
+                    props.navigation.navigate('FullscreenSizeImage', { images: images, index: 0 })}
                 }>
                     <Image
                         source={{uri: images[0].media_url}}
@@ -25,9 +23,7 @@ function TweetImage(props) {
             return (
                 <View style={{ height: '100%', width: '100%', flexDirection: 'row' }}>
                     <TouchableWithoutFeedback onPressIn={() => {
-                        if (props.containerWidth == '100%') {
-                            props.navigation.navigate('FullscreenSizeImage', { images: images, index: 0 })}
-                        }
+                        props.navigation.navigate('FullscreenSizeImage', { images: images, index: 0 })}
                     }>
                         <Image
                             resizeMode="cover"
@@ -37,9 +33,7 @@ function TweetImage(props) {
                     </TouchableWithoutFeedback>
                     <View style={{ width: '1%', minWidth: 1 }}/>
                     <TouchableWithoutFeedback onPressIn={() => {
-                        if (props.containerWidth == '100%') {
-                            props.navigation.navigate('FullscreenSizeImage', { images: images, index: 1 })}
-                        }
+                        props.navigation.navigate('FullscreenSizeImage', { images: images, index: 1 })}
                     }>
                         <Image
                             resizeMode="cover"
@@ -55,9 +49,7 @@ function TweetImage(props) {
                 <View style={{ height: '100%', width: '100%', flexDirection: 'row' }}>
                     <View style={{ height: '100%', width: '50%' }}>
                         <TouchableWithoutFeedback onPressIn={() => {
-                            if (props.containerWidth == '100%') {
-                                props.navigation.navigate('FullscreenSizeImage', { images: images, index: 0 })}
-                            }
+                            props.navigation.navigate('FullscreenSizeImage', { images: images, index: 0 })}
                         }>
                             <Image
                                 resizeMode="cover"
@@ -69,9 +61,7 @@ function TweetImage(props) {
                     <View style={{ width: '1%', minWidth: 1 }}/>
                     <View style={{ height: '100%', width: '50%', flexDirection: 'column' }}>
                         <TouchableWithoutFeedback onPressIn={() => {
-                            if (props.containerWidth == '100%') {
-                                props.navigation.navigate('FullscreenSizeImage', { images: images, index: 1 })}
-                            }
+                            props.navigation.navigate('FullscreenSizeImage', { images: images, index: 1 })}
                         }>
                             <Image
                                 resizeMode="cover"
@@ -81,9 +71,7 @@ function TweetImage(props) {
                         </TouchableWithoutFeedback>
                         <View style={{ height: '2%', minHeight: 1 }}/>
                         <TouchableWithoutFeedback onPressIn={() => {
-                            if (props.containerWidth == '100%') {
-                                props.navigation.navigate('FullscreenSizeImage', { images: images, index: 2 })}
-                            }
+                            props.navigation.navigate('FullscreenSizeImage', { images: images, index: 2 })}
                         }>
                             <Image
                                 resizeMode="cover"
@@ -100,9 +88,7 @@ function TweetImage(props) {
                 <View style={{ height: '100%', width: '100%', flexDirection: 'column' }}>
                     <View style={{ height: '50%', width: '100%', flexDirection: 'row' }}>
                         <TouchableWithoutFeedback onPressIn={() => {
-                            if (props.containerWidth == '100%') {
-                                props.navigation.navigate('FullscreenSizeImage', { images: images, index: 0 })}
-                            }
+                            props.navigation.navigate('FullscreenSizeImage', { images: images, index: 0 })}
                         }>
                             <Image
                                 resizeMode="cover"
@@ -112,9 +98,7 @@ function TweetImage(props) {
                         </TouchableWithoutFeedback>
                         <View style={{ width: '1%', minWidth: 1 }}/>
                         <TouchableWithoutFeedback onPressIn={() => {
-                            if (props.containerWidth == '100%') {
-                                props.navigation.navigate('FullscreenSizeImage', { images: images, index: 1 })}
-                            }
+                            props.navigation.navigate('FullscreenSizeImage', { images: images, index: 1 })}
                         }>
                             <Image
                                 resizeMode="cover"
@@ -126,9 +110,7 @@ function TweetImage(props) {
                     <View style={{ height: '2%', minHeight: 1 }}/>
                     <View style={{ height: '50%', width: '100%', flexDirection: 'row' }}>
                         <TouchableWithoutFeedback onPressIn={() => {
-                            if (props.containerWidth == '100%') {
-                                props.navigation.navigate('FullscreenSizeImage', { images: images, index: 2 })}
-                            }
+                            props.navigation.navigate('FullscreenSizeImage', { images: images, index: 2 })}
                         }>
                             <Image
                                 resizeMode="cover"
@@ -138,9 +120,7 @@ function TweetImage(props) {
                         </TouchableWithoutFeedback>
                         <View style={{ width: '1%', minWidth: 1 }}/>
                         <TouchableWithoutFeedback onPressIn={() => {
-                            if (props.containerWidth == '100%') {
-                                props.navigation.navigate('FullscreenSizeImage', { images: images, index: 3 })}
-                            }
+                            props.navigation.navigate('FullscreenSizeImage', { images: images, index: 3 })}
                         }>
                             <Image
                                 resizeMode="cover"

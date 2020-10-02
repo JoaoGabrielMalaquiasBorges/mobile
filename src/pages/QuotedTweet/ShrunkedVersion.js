@@ -4,7 +4,7 @@ import tweetContent from '../TweetContent'
 import { shrunkedVersion } from './styles'
 
 function ShrunkedVersion ({ route, navigation, text, entities, extended_entities }) {
-    const content = tweetContent(route, navigation, text, entities, extended_entities, 'photo', shrunkedVersion.media)
+    const content = tweetContent(route, navigation, text, entities, extended_entities, 'photo')
     const treatedContent = content.map(element => {
         if (element.key == 'text') {
             element = 

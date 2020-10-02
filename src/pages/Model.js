@@ -371,9 +371,9 @@ const tweetObject = {
         }
       ]
     },
-    /* "extended_entities": {
+    "extended_entities": {
       "media": [
-        {
+        /* {
           "id": 861627472244162561,
           "id_str": "861627472244162561",
           "indices": [
@@ -517,7 +517,7 @@ const tweetObject = {
             }
           }
         }, */
-        /* {
+        {
           "id": 870042654213459968,
           "id_str": "870042654213459968",
           "indices": [
@@ -565,7 +565,7 @@ const tweetObject = {
               }
             ]
           }
-        }, */
+        },
         /* {
           "id": 869317980307415040,
           "id_str": "869317980307415040",
@@ -633,8 +633,8 @@ const tweetObject = {
             ]
           }
         } */
-      /* ]
-    } */
+      ]
+    }
 }
 
 export default tweetObject;
