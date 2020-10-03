@@ -124,12 +124,12 @@ function Main({ route, navigation }) {
                             elementsWidth={2+20+34+5+5+20}
                             fonts={{fontOfDisplayName: 'Helvetica-Neue-Bold', fontOfUsername: 'Helvetica-Neue-Regular'}} 
                         />
-                        <MaterialCommunityIcons
+                        {/* <MaterialCommunityIcons
                             name="twitter"
                             size={18}
                             color="#1DA1F2"
                             onPress={()=>{Linking.openURL('twitter://post?message=hello&in_reply_to_status_id=20');}} 
-                        />
+                        /> */}
                     </View>
                     {replayInfo}
                     {treatedContent}
@@ -137,8 +137,7 @@ function Main({ route, navigation }) {
                         tweet.quoted_status
                             ? quotedTweet
                             : null
-                    }{/* 
-                    {quotedTweet} */}
+                    }
                     <TweetFooter created_at={tweet.created_at} />
                 </View>
             </View>

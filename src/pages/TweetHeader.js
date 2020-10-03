@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { View, Text, Image, Dimensions } from 'react-native'
 import { ScreenOrientation } from 'expo'
+import { MaterialCommunityIcons } from '@expo/vector-icons'
 
 function TweetHeader(props) {
     const [lineWidth, setLineWidth] = useState(Dimensions.get('window').width*0.95-props.elementsWidth)
@@ -22,23 +23,29 @@ function TweetHeader(props) {
     }
 
     return (
-        <View style={{flexDirection: 'row' }}>
+        <View style={{ flex: 1, flexDirection: 'row' }}>
             <Image
                 source={{uri:  props.tweet.user.profile_image_url_https}}
-                style={{width: 34, height: 34, borderRadius: 20, marginRight: 5}}
+                style={{width: 36, height: 36, borderRadius: 20, marginRight: 5}}
             />
-            <View>
-                <Text numberOfLines={1} ellipsizeMode='clip' style={{ width: lineWidth, fontFamily: 'Helvetica-Neue-Bold' }}>
+            <View style={{ flex: 1 }}>
+                <Text numberOfLines={1} style={{ fontFamily: 'FreeSansBold' }}>
                     {props.tweet.user.name + " "}
-                    <Image
+                    {/* <Image
                         source={ImageSource}
                         style={ImageStyle}
-                    />
+                    /> */}
                 </Text>
-                <Text style={{ fontFamily: 'Helvetica-Neue-Regular' }}>
+                <Text style={{ fontSize: 12, fontFamily: 'FreeSans', color: 'gray' }}>
                     {'@' + props.tweet.user.screen_name}
                 </Text>
             </View>
+            <MaterialCommunityIcons
+                name="twitter"
+                size={18}
+                color="#1DA1F2"
+                onPress={()=>{Linking.openURL('twitter://post?message=hello&in_reply_to_status_id=20');}} 
+            />
         </View>
     )
 }
