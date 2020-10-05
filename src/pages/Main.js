@@ -117,20 +117,23 @@ function Main({ route, navigation }) {
                     borderColor: '#e1e8ed',
                     padding: 10
                 }}>
-                    {retweetInfo}
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 15 }}>
-                        <TweetHeader
-                            tweet={tweet}
-                            elementsWidth={2+20+34+5+5+20}
-                            fonts={{fontOfDisplayName: 'Helvetica-Neue-Bold', fontOfUsername: 'Helvetica-Neue-Regular'}} 
-                        />
+                    {retweetInfo}{/* 
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 15 }}> */}
+                        <View style={{ flexDirection: 'row' }}>
+                            <TweetHeader
+                                tweet={tweet}
+                                elementsWidth={2+20+34+5+5+20}
+                                fonts={{fontOfDisplayName: 'Helvetica-Neue-Bold', fontOfUsername: 'Helvetica-Neue-Regular'}} 
+                            />
+                            <Icon name='bird_icon' size={16} color='transparent' /* style={{ marginLeft: 4.875 }} */ />
+                        </View>
                         {/* <MaterialCommunityIcons
                             name="twitter"
                             size={18}
                             color="#1DA1F2"
                             onPress={()=>{Linking.openURL('twitter://post?message=hello&in_reply_to_status_id=20');}} 
-                        /> */}
-                    </View>
+                        /> */}{/* 
+                    </View> */}
                     {replayInfo}
                     {treatedContent}
                     {
