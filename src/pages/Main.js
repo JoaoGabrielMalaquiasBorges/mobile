@@ -11,7 +11,7 @@ import TweetText from './TweetContent/TweetText';
 import TweetImage from './TweetMedia/TweetImage';
 import TweetGif from './TweetMedia/TweetGif';
 import QuotedTweet from './QuotedTweet';
-import TweetHeader from './TweetHeader';
+import tweetHeader from './TweetHeader';
 import TweetFooter from './TweetFooter';
 import { Linking } from 'expo'
 import { loadFonts } from '../tweetFonts'
@@ -86,6 +86,26 @@ function Main({ route, navigation }) {
         }
     }
 
+    const header = tweetHeader(tweet)
+
+    const treatedHeader = header.map(element => {
+        if (element.key == 'profile_image') {
+            element = (
+                <View key={element.key} style={{width: 40, height: 40, marginRight: 5 }}>
+                    {element}
+                </View>
+            )
+        } else {
+            element =  (
+                <View key={element.key} style={{ flex: 1, justifyContent: 'center' }}>
+                    {element}
+                </View>
+            )
+        }
+
+        return element
+    })
+
     const content = tweetContent(
         route,
         navigation,
@@ -98,10 +118,11 @@ function Main({ route, navigation }) {
 
     const treatedContent = content.map(element => {
         if (element.key == 'media') {
-            element = 
+            element = (
                 <View key={element.key} style={tweetMedia.media[`${element.props.media[0].type}`].container}>
                     {element}
                 </View>
+            )
         }
         return element
     })
@@ -113,26 +134,18 @@ function Main({ route, navigation }) {
                     width: '95%',
                     borderWidth: 1,
                     borderStyle: 'solid',
-                    borderRadius: 5,
+                    borderRadius: 10,
                     borderColor: '#e1e8ed',
                     padding: 10
                 }}>
                     {retweetInfo}{/* 
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 15 }}> */}
-                        <View style={{ flexDirection: 'row' }}>
-                            <TweetHeader
-                                tweet={tweet}
-                                elementsWidth={2+20+34+5+5+20}
-                                fonts={{fontOfDisplayName: 'Helvetica-Neue-Bold', fontOfUsername: 'Helvetica-Neue-Regular'}} 
-                            />
-                            <Icon name='bird_icon' size={16} color='transparent' /* style={{ marginLeft: 4.875 }} */ />
-                        </View>
-                        {/* <MaterialCommunityIcons
-                            name="twitter"
-                            size={18}
-                            color="#1DA1F2"
-                            onPress={()=>{Linking.openURL('twitter://post?message=hello&in_reply_to_status_id=20');}} 
-                        /> */}{/* 
+                        <View style={{ flexDirection: 'row', marginBottom: 15 }}>
+                            <View style={{ flex: 1, flexDirection: 'row' }}>
+                                {treatedHeader}
+                            </View>
+                            <Icon name='bird_icon' size={16} color='#1DA1F2' style={{ marginLeft: 5, marginTop: 1 }} />
+                        </View>{/* 
                     </View> */}
                     {replayInfo}
                     {treatedContent}

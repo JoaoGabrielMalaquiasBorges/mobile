@@ -1,53 +1,56 @@
-import React, { useState, useEffect } from 'react'
-import { View, Text, Image, Dimensions } from 'react-native'
-import { ScreenOrientation } from 'expo'
-import Icon from './CustomIcon';
+import React from 'react'
+import { View, Text, Image } from 'react-native'
+import Icon from '../pages/CustomIcon'
 
-function TweetHeader(props) {
-    const [lineWidth, setLineWidth] = useState(Dimensions.get('window').width*0.95-82.5)
+function tweetHeader (tweet) {
+    var header = []
 
-    useEffect(() => {
-        const subscription = ScreenOrientation.addOrientationChangeListener(e => {
-            setLineWidth(Dimensions.get('window').width*0.95-82.5)
-        })
-        return () => {
-            ScreenOrientation.removeOrientationChangeListener(subscription)
-        }
-    })
+    header.push(
+        <Image
+            key='profile_image'
+            source={{uri:  tweet.user.profile_image_url_https}}
+            style={{ width: '100%', height: '100%', borderRadius: 20 }}
+        />
+    )
 
-    var ImageSource = null;
-    var ImageStyle = {width: 0, height: 0};
-    if ( props.tweet.user.verified ) {
-        ImageSource = require('../../assets/images/twitter_verified_icon.png');
-        ImageStyle = {width: 13, height: 13};
-    }
+    header.push(
+        <>
+            <Text numberOfLines={1} style={{ fontFamily: 'FreeSansBold' }}>
+                {tweet.user.name}
+                {/* <Image
+                    source={ImageSource}
+                    style={ImageStyle}
+                /> */}
+            </Text>
+            <Text style={{ fontSize: 12, fontFamily: 'FreeSans', color: 'gray' }}>
+                {'@' + tweet.user.screen_name}
+            </Text>
+            <Icon name='verified_icon' size={16} color='#1DA1F2' />
+        </>
+    )
 
-    return (
-        <View style={{ flexDirection: 'row' }}>
-            <Image
-                source={{uri:  props.tweet.user.profile_image_url_https}}
-                style={{width: 36, height: 36, borderRadius: 20, marginRight: 5}}
-            />
-            <View style={{ width: lineWidth }}>
+    return header /* (
+        <View style={{ flex: 1, flexDirection: 'row' }}>
+            <View style={{width: 40, height: 40, marginRight: 5 }}>
+                <Image
+                    source={{uri:  tweet.user.profile_image_url_https}}
+                    style={{ width: '100%', height: '100%', borderRadius: 20 }}
+                />
+            </View>
+            <View style={{ flex: 1, justifyContent: 'center' }}>
                 <Text numberOfLines={1} style={{ fontFamily: 'FreeSansBold' }}>
-                    {props.tweet.user.name + " "}
-                    {/* <Image
+                    {tweet.user.name + " "}
+                    <Image
                         source={ImageSource}
                         style={ImageStyle}
-                    /> */}
+                    />
                 </Text>
                 <Text style={{ fontSize: 12, fontFamily: 'FreeSans', color: 'gray' }}>
-                    {'@' + props.tweet.user.screen_name}
+                    {'@' + tweet.user.screen_name}
                 </Text>
             </View>
-            {/* <MaterialCommunityIcons
-                name="twitter"
-                size={18}
-                color="#1DA1F2"
-                onPress={()=>{Linking.openURL('twitter://post?message=hello&in_reply_to_status_id=20');}} 
-            /> */}
         </View>
-    )
+    ) */
 }
 
-export default TweetHeader;
+export default tweetHeader
