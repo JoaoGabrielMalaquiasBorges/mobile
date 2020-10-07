@@ -13,6 +13,10 @@ function tweetHeader (tweet) {
         />
     )
 
+    /* if ( tweet.user.verified ) {
+        
+    } */
+
     header.push(
         <>
             <Text numberOfLines={1} style={{ fontFamily: 'FreeSansBold' }}>
@@ -22,10 +26,10 @@ function tweetHeader (tweet) {
                     style={ImageStyle}
                 /> */}
             </Text>
-            <Text style={{ fontSize: 12, fontFamily: 'FreeSans', color: 'gray' }}>
-                {'@' + tweet.user.screen_name}
-            </Text>
-            <Icon name='verified_icon' size={16} color='#1DA1F2' />
+            <Text style={{ fontFamily: 'FreeSans', color: 'gray' }}>
+                {tweet.user.screen_name}
+            </Text>{/* 
+            <Icon name='verified_icon' size={16} color='#1DA1F2' /> */}
         </>
     )
 

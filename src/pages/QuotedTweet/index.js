@@ -17,22 +17,18 @@ function QuotedTweet({ route, navigation, tweet, version }) {
                 </View>
             )
         } else {
-            // alert(element.props.children[0])
             element =  (
-                <View key={element.key} style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}>
+                <View key={element.key} style={{ flex: 1, flexDirection: 'row' }}>
                     <Text numberOfLines={1} style={{ fontSize: 13 }}>
                         {element.props.children[0]}
                     </Text>
-                    {/* <Text numberOfLines={1} ellipsizeMode='clip'>
-                        <Icon name='verified_icon' size={12} color='#1DA1F2' />
-                    </Text> */}
-                    <View style={{ flex: 1, flexDirection: 'row', marginLeft: 2.5 }}>
-                        <Text numberOfLines={1} ellipsizeMode='clip'>
-                            <Icon name='verified_icon' size={12} color='#1DA1F2' />
+                    <View style={{ marginLeft: 2.5, flex: 1, flexDirection: 'row' }}>
+                        <Text numberOfLines={1} ellipsizeMode='clip' style={{ fontSize: 13 }}>
+                            <Icon name='verified_icon' color='#1DA1F2' />
+                            <View style={{ height: 5, width: 5 }} />
                             {element.props.children[1]}
                         </Text>
                     </View>
-                    
                 </View>
             )
         }

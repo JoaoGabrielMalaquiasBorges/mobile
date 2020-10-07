@@ -41,7 +41,7 @@ const tweetObject = {
       "text": "original messageeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
       "user": {
         "id": 2244994945,
-        "name": "ImNotARealTwitterAccountttttttttttttttttttt",
+        "name": "ImNotARealTwitterAccounl",
         "screen_name": "ImNotARealUser",
         "location": "Internet",
         "url": "https:\/\/dev.twitter.com\/",

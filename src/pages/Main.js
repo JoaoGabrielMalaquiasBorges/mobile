@@ -98,7 +98,16 @@ function Main({ route, navigation }) {
         } else {
             element =  (
                 <View key={element.key} style={{ flex: 1, justifyContent: 'center' }}>
-                    {element}
+                    <View style={{ flex: 1, flexDirection: 'row' }}>
+                        <Text numberOfLines={1} style={{ fontSize: 13 }}>
+                            {element.props.children[0]}
+                            <Icon name='verified_icon' color='#1DA1F2' />
+                        </Text>
+                        {/* <Text numberOfLines={1} ellipsizeMode='clip'>
+                            <Icon name='verified_icon' color='#1DA1F2' />
+                        </Text> */}
+                    </View>
+                    {element.props.children[1]}
                 </View>
             )
         }
@@ -144,7 +153,7 @@ function Main({ route, navigation }) {
                             <View style={{ flex: 1, flexDirection: 'row' }}>
                                 {treatedHeader}
                             </View>
-                            <Icon name='bird_icon' size={16} color='#1DA1F2' style={{ marginLeft: 5, marginTop: 1 }} />
+                            <Icon name='bird_icon' size={16} color='#1DA1F2' style={{ marginLeft: 5 }} />
                         </View>{/* 
                     </View> */}
                     {replayInfo}
