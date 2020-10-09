@@ -21,15 +21,11 @@ function tweetHeader (tweet) {
         <>
             <Text numberOfLines={1} style={{ fontFamily: 'FreeSansBold' }}>
                 {tweet.user.name}
-                {/* <Image
-                    source={ImageSource}
-                    style={ImageStyle}
-                /> */}
             </Text>
             <Text style={{ fontFamily: 'FreeSans', color: 'gray' }}>
                 {tweet.user.screen_name}
-            </Text>{/* 
-            <Icon name='verified_icon' size={16} color='#1DA1F2' /> */}
+            </Text>
+            <Icon name='verified_icon' color='#1DA1F2' />
         </>
     )
 

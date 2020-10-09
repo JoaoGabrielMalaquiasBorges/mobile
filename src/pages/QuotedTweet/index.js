@@ -24,7 +24,7 @@ function QuotedTweet({ route, navigation, tweet, version }) {
                     </Text>
                     <View style={{ marginLeft: 2.5, flex: 1, flexDirection: 'row' }}>
                         <Text numberOfLines={1} ellipsizeMode='clip' style={{ fontSize: 13 }}>
-                            <Icon name='verified_icon' color='#1DA1F2' />
+                            {element.props.children[2]}
                             <View style={{ height: 5, width: 5 }} />
                             {element.props.children[1]}
                         </Text>

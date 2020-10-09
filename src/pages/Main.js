@@ -99,15 +99,19 @@ function Main({ route, navigation }) {
             element =  (
                 <View key={element.key} style={{ flex: 1, justifyContent: 'center' }}>
                     <View style={{ flex: 1, flexDirection: 'row' }}>
-                        <Text numberOfLines={1} style={{ fontSize: 13 }}>
+                        <Text numberOfLines={1} style={{ fontSize: 14 }}>
                             {element.props.children[0]}
-                            <Icon name='verified_icon' color='#1DA1F2' />
                         </Text>
-                        {/* <Text numberOfLines={1} ellipsizeMode='clip'>
-                            <Icon name='verified_icon' color='#1DA1F2' />
-                        </Text> */}
+                        <View style={{ marginLeft: 2.5, flex: 1, justifyContent: 'center' }}>
+                            <Text numberOfLines={1} ellipsizeMode='clip'>
+                                {element.props.children[2]}
+                            </Text>
+                        </View>
+                        
                     </View>
-                    {element.props.children[1]}
+                    <Text style={{ fontSize: 12 }}>
+                        {element.props.children[1]}
+                    </Text>
                 </View>
             )
         }

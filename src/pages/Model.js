@@ -6,7 +6,7 @@ const tweetObject = {
     in_reply_to_screen_name: "cobradomilorde",
     user: {
       id: 2244994945,
-      name: "Twitter Devvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv",
+      name: "Twitter Devvvvvvvvvvvvvvvvvvvvv",
       screen_name: "TwitterDev",
       verified: true,
       profile_image_url_https: 'https://abs.twimg.com/sticky/default_profile_images/default_profile_normal.png',
