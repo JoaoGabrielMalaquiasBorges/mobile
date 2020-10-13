@@ -86,7 +86,7 @@ function Main({ route, navigation }) {
         }
     }
 
-    const header = tweetHeader(tweet)
+    const header = tweetHeader(tweet) 
 
     const treatedHeader = header.map(element => {
         if (element.key == 'profile_image') {
